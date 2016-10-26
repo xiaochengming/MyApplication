@@ -124,6 +124,7 @@
         <activity android:name=".activity.ItemActivity" />
         <activity android:name=".activity.FuWuItemActivity" />
         <activity android:name=".activity.MyOrderActivity"></activity>
+        <activity android:name=".activity.PayItemActivity" />
     </application>
 
 </manifest>

@@ -454,7 +454,7 @@ public class AllOrderFragment extends Fragment implements RefreshListView.OnRefr
 
 
             }
-            Log.d("requestCode+resultCode", "我执行了");
+            changeLayout();
             orderApater.notifyDataSetChanged();
         }
 
@@ -475,6 +475,7 @@ public class AllOrderFragment extends Fragment implements RefreshListView.OnRefr
 
                 }
             }
+            changeLayout();
             orderApater.notifyDataSetChanged();
         }
 
@@ -562,6 +563,7 @@ public class AllOrderFragment extends Fragment implements RefreshListView.OnRefr
                             changeLayout();
                             listView.setAdapter(orderApater);
                         } else {
+                            changeLayout();
                             orderApater.notifyDataSetChanged();
                         }
 
@@ -595,6 +597,7 @@ public class AllOrderFragment extends Fragment implements RefreshListView.OnRefr
     @Override
     public void onRefresh() {
         //刷新
+        pageNo=1;
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
