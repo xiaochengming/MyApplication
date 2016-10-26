@@ -192,7 +192,7 @@
                 </RelativeLayout>
             </LinearLayout>
 
-            <ListView
+            <com.example.administrator.myapplication.widget.NoScrollListview
                 android:id="@+id/lv_tiezi_pinglun"
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
@@ -208,8 +208,8 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/mi_while_blue"
         android:orientation="horizontal"
-        android:visibility="gone">
-
+        >
+<!--android:visibility="gone"-->
         <EditText
             android:id="@+id/et_fasong_pinglun"
             android:layout_width="wrap_content"
