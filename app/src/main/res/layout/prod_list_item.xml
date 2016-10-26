@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:layout_gravity="center_vertical"
+    android:background="#ffffff">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:padding="15dp">
+
+        <ImageView
+            android:id="@+id/prod_list_item_iv"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/img_border"
+            android:padding="5dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_launcher" />
+
+        <RelativeLayout
+            android:id="@+id/prod_list_item_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/prod_list_item_iv"
+            android:layout_toRightOf="@id/prod_list_item_iv"
+            android:paddingLeft="7dp">
+
+            <TextView
+                android:id="@+id/prod_list_item_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:minLines="1"
+                android:text="商品信息"
+                android:textColor="#444"
+                android:textSize="14sp"
+
+                />
+
+            <TextView
+                android:id="@+id/prod_list_item_tv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/prod_list_item_tv"
+                android:layout_marginTop="2dp"
+                android:singleLine="true"
+                android:text="￥71.00"
+                android:textColor="@android:color/holo_red_light"
+                android:textSize="16sp"
+
+                />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/prod_list_item_tv4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/prod_list_item_iv"
+
+            android:layout_alignEnd="@+id/prod_list_item_right"
+            android:text="温馨提示"
+            android:textColor="@color/border_clo"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/prod_list_item_tv3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="简介:"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:layout_alignTop="@+id/prod_list_item_right"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+    <View
+        style="@style/bg_line"
+        android:layout_alignParentBottom="true" />
+</RelativeLayout>

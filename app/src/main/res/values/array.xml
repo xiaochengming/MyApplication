@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="workerType">
+        <item>保洁服务</item>
+        <item>家居保养</item>
+        <item>家电清洗</item>
+        <item>保姆月嫂</item>
+        <item>搬家服务</item>
+        <item>居家换新</item>
+        <item>维修服务</item>
+    </array>
+    <declare-styleable name="TitleBar">
+        <attr name="titleBarTitle" format="string" />
+        <attr name="titleBarLeftImage" format="reference" />
+        <attr name="titleBarRightImage" format="reference" />
+        <attr name="titleBarBackground" format="reference|color" />
+        <!-- 字体的颜色 -->
+        <attr name="titleBarColor" format="color" />
+    </declare-styleable>
+    <string-array name="provinces">
+        <item>上海</item>
+        <item>北京</item>
+        <item>广州</item>
+        <item>深圳</item>
+        <item>杭州</item>
+        <item>成都</item>
+        <item>长沙</item>
+        <item>东莞</item>
+        <item>惠州</item>
+        <item>苏州</item>
+        <item>昆山</item>
+        <item>昆明</item>
+        <item>南昌</item>
+        <item>南通</item>
+        <item>三亚</item>
+        <item>泉州</item>
+        <item>赣州</item>
+        <item>西安</item>
+        <item>烟台</item>
+        <item>盐城</item>
+        <item>无锡</item>
+        <item>中山</item>
+        <item>珠海</item>
+        <item>扬州</item>
+        <item>徐州</item>
+        <item>武汉</item>
+        <item>丽江</item>
+    </string-array>
+</resources>

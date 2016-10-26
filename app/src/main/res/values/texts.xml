@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Reminder">
+        请检查手机号是否正确，如果正确但长时间没有收到验证码短
+        信，可能是因为短信运营商网络不太给力，请联系客服获取验
+        证码
+
+    </string>
+    <string name="Introduce">
+        该员工做事认真负责，为人老实能干，受到了许多顾客大一致好
+        评，希望也会给您带来极致服务
+    </string>
+</resources>

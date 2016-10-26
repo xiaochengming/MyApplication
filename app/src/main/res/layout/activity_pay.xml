@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.administrator.myapplication.activity.PayActivity">
+    <!-- toolbar-->
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tb_title"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        android:title=""
+        android:navigationIcon="@mipmap/backs">
+
+        <TextView
+            android:id="@+id/tv_tbTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/black"
+            android:textSize="20dp" />
+    </android.support.v7.widget.Toolbar>
+
+    <RelativeLayout
+        android:id="@+id/layout_dingdanxinxi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tb_title"
+        android:background="@color/white"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/tv_fuwunameleft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:text="服务内容："
+            android:textSize="@dimen/text_left" />
+
+        <TextView
+            android:id="@+id/tv_fuwuneirong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tv_fuwunameleft"
+            android:layout_toEndOf="@+id/tv_fuwunameleft"
+            android:text="日常服务"
+            android:textSize="@dimen/text_right" />
+
+        <TextView
+            android:id="@+id/tv_fuwujine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_fuwunameleft"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:text="服务金额："
+            android:textSize="@dimen/text_left" />
+
+        <TextView
+            android:id="@+id/tv_wufujE"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/tv_fuwujine"
+            android:layout_toEndOf="@+id/tv_fuwujine"
+            android:text="￥800元"
+            android:textSize="@dimen/text_right" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_dingdanxinxi"
+        android:layout_marginTop="20dp"
+        android:background="@color/white"
+        android:id="@+id/layout_jine">
+
+        <TextView
+            android:id="@+id/tv_zhifu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_dingdanxinxi"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:text="支付金额："
+            android:textSize="@dimen/text_left" />
+
+        <TextView
+            android:id="@+id/tv_zhifujinge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tv_zhifu"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/tv_zhifu"
+            android:text="￥800元"
+            android:textColor="@color/red"
+            android:textSize="@dimen/text_right" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_zhifufangshi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:layout_below="@id/layout_jine"
+        android:layout_marginTop="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="请选择支付方式"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/gopay_rl_alipay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="6dp">
+
+            <ImageView
+                android:id="@+id/gopay_alipay"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/zhifubao" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/gopay_alipay"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="支付宝支付"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:text="推荐已安装支付宝客户端的用户使用"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/gopay_select_alipay"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:padding="10dp"
+                android:src="@drawable/succeed" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/gopay_rl_weixinpay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="6dp">
+
+            <ImageView
+                android:id="@+id/gopay_weixinpay"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/weixinzhifu" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/gopay_weixinpay"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="微信支付"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:text="推荐已安装微信客户端的用户使用"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/gopay_select_weixin"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:padding="10dp"
+                android:src="@drawable/select_all_gray" />
+        </RelativeLayout>
+
+    </LinearLayout>
+    <Button
+        android:id="@+id/gopay_pay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_green"
+        android:gravity="center"
+        android:layout_below="@id/layout_zhifufangshi"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="30dp"
+        android:text="确认支付"
+        android:textColor="#ffffff"
+        android:textSize="18sp"/>
+
+</RelativeLayout>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/id_prod_list_title"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:background="@drawable/tab_bg"
+    android:orientation="horizontal"
+    android:weightSum="5">
+
+    <ImageView
+        android:id="@+id/id_prod_list_iv_left"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:src="@mipmap/nav_back" />
+
+    <TextView
+        android:id="@+id/id_prod_list_tv"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:gravity="center"
+        android:text="应急列表"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:id="@+id/title_bar_rl_cartview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/id_prod_list_iv_right"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="centerCrop"
+          />
+
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/id_title_bar_right"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:text="编辑"
+        android:textColor="#88ECEE"
+        android:textSize="16sp"
+        android:visibility="gone" />
+
+
+</LinearLayout>

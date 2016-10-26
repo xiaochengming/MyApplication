@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.administrator.myapplication.activity.EditActivity">
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#ffffff"
+        android:id="@+id/edit_toolbar">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="编辑个人信息"
+            android:textSize="25sp"
+            android:layout_gravity="center"/>
+    </android.support.v7.widget.Toolbar>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/edit_framelayout"
+        android:layout_below="@+id/edit_toolbar"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:id="@+id/iv_edit"
+            android:layout_gravity="center"
+            android:src="@mipmap/name"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="7dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="头像编辑"
+            android:textSize="18sp"
+            android:id="@+id/tv_Head_portrait"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="10dp"/>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="名字："
+        android:textSize="16sp"
+        android:id="@+id/tv_edit_name"
+        android:layout_below="@id/edit_framelayout"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/text_color"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/et_name"
+        android:hint="编辑名字"
+        android:background="@null"
+        android:textSize="16sp"
+        android:layout_alignTop="@+id/tv_edit_name"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:id="@+id/textView"
+        android:background="#CCCCCC"
+        android:layout_below="@+id/et_name"
+        android:layout_alignStart="@+id/et_name"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="更换号码："
+        android:textSize="16sp"
+        android:id="@+id/tv_edit_phone"
+        android:layout_below="@+id/textView"
+        android:layout_alignStart="@+id/tv_edit_name"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/text_color"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/et_edit_phone"
+        android:hint="更换号码"
+        android:background="@null"
+        android:textSize="16sp"
+        android:layout_alignBottom="@+id/tv_edit_phone"
+        android:layout_alignStart="@+id/textView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="#CCCCCC"
+        android:id="@+id/textView2"
+        android:layout_below="@+id/et_edit_phone"
+        android:layout_alignStart="@+id/et_edit_phone"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#CCCCCC"
+        android:id="@+id/textView3"
+        android:layout_below="@+id/textView2"
+        android:layout_marginTop="15dp"
+        android:layout_alignEnd="@+id/textView2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="年龄："
+        android:textSize="16sp"
+        android:id="@+id/tv_edit_age"
+        android:layout_below="@+id/textView3"
+        android:layout_alignStart="@+id/tv_edit_phone"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/text_color"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/et_edit_age"
+        android:hint="编辑年龄"
+        android:background="@null"
+        android:textSize="16sp"
+        android:layout_alignTop="@+id/tv_edit_age"
+        android:layout_alignStart="@+id/textView2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="#CCCCCC"
+        android:id="@+id/textView5"
+        android:layout_below="@+id/et_edit_age"
+        android:layout_alignStart="@+id/et_edit_age"
+        android:layout_alignEnd="@+id/textView2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="性别："
+        android:textSize="16sp"
+        android:id="@+id/tv_edit_sex"
+        android:layout_below="@+id/textView5"
+        android:layout_alignStart="@+id/tv_edit_age"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/text_color"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/et_edit_sex"
+        android:hint="编辑性别"
+        android:background="@null"
+        android:textSize="16sp"
+        android:layout_alignTop="@+id/tv_edit_sex"
+        android:layout_alignStart="@+id/textView5" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:id="@+id/textView4"
+        android:background="#CCCCCC"
+        android:layout_below="@+id/et_edit_sex"
+        android:layout_alignStart="@+id/et_edit_sex"
+        android:layout_alignEnd="@+id/textView5" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#CCCCCC"
+        android:id="@+id/textView6"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/textView4"
+        android:layout_centerHorizontal="true" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#CCCCCC"
+        android:layout_below="@id/textView6"
+        android:id="@+id/textView7"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="生日："
+        android:textSize="16sp"
+        android:id="@+id/tv_edit_birthday"
+        android:layout_below="@+id/textView7"
+        android:layout_alignStart="@+id/tv_edit_sex"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/text_color"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/et_edit_birthday"
+        android:hint="输入生日"
+        android:background="@null"
+        android:textSize="16sp"
+        android:layout_alignTop="@+id/tv_edit_birthday"
+        android:layout_alignStart="@+id/textView4" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="#CCCCCC"
+        android:id="@+id/textView10"
+        android:layout_below="@+id/et_edit_birthday"
+        android:layout_alignStart="@+id/et_edit_birthday"
+        android:layout_alignEnd="@+id/textView4" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="邮箱："
+        android:textSize="16sp"
+        android:id="@+id/tv_edit_emil"
+        android:layout_below="@+id/textView10"
+        android:layout_alignStart="@+id/tv_edit_birthday"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/text_color"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/et_edit_emil"
+        android:hint="输入邮箱号"
+        android:background="@null"
+        android:textSize="16sp"
+        android:layout_alignTop="@+id/tv_edit_emil"
+        android:layout_alignStart="@+id/textView10" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="#CCCCCC"
+        android:id="@+id/textView11"
+        android:layout_below="@+id/et_edit_emil"
+        android:layout_alignStart="@+id/et_edit_emil"
+        android:layout_alignEnd="@+id/textView10" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="确认"
+        android:background="@drawable/shape"
+        android:backgroundTint="@color/button_color"
+        android:id="@+id/but_edit"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>

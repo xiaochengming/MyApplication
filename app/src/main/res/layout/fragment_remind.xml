@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="152dp"
+        android:layout_height="1dp"
+        android:id="@+id/tv_fragment"
+        android:background="#CCCCCC"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="温馨提示"
+        android:textSize="18sp"
+        android:id="@+id/tv_fragment2"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/tv_fragment" />
+
+    <TextView
+        android:layout_width="153dp"
+        android:layout_height="1dp"
+        android:id="@+id/tv_fragment3"
+        android:background="#CCCCCC"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/tv_fragment2" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:text="@string/Reminder"
+        android:textSize="15sp"
+        android:id="@+id/tv_fragment4"
+        android:layout_below="@+id/tv_fragment2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="联系客服"
+        android:background="@color/button_color"
+        android:id="@+id/but_fragment"
+        android:layout_below="@+id/tv_fragment4"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_alignEnd="@+id/tv_fragment3" />
+</RelativeLayout>

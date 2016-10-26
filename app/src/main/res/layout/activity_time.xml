@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tb2"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="#ffffff">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:text="服务时间"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+    </android.support.v7.widget.Toolbar>
+
+    <RadioGroup
+        android:id="@+id/group"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@+id/tb2"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingTop="2dp">
+
+        <RadioButton
+            android:id="@+id/time0"
+            style="@style/main_tab_bottom"
+            android:checked="true"
+            android:text="今天" />
+
+        <RadioButton
+            android:id="@+id/time1"
+            style="@style/main_tab_bottom"
+
+            android:text="明天" />
+
+        <RadioButton
+            android:id="@+id/time2"
+            style="@style/main_tab_bottom"
+
+            android:text="后天" />
+    </RadioGroup>
+
+
+    <View
+        android:id="@+id/v4"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/juli"
+
+        android:layout_below="@+id/group"
+        android:layout_marginTop="@dimen/juli"
+        android:background="@color/baise" />
+
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/v4"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/juli">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/time3"
+                android:layout_column="2"
+                android:background="@color/baise"
+                android:text="08:00"
+                android:textSize="@dimen/ershi" />
+
+            <Button
+                android:id="@+id/time4"
+                android:layout_marginLeft="@dimen/ershi"
+                android:background="@color/baise"
+                android:text="09:00"
+                android:textSize="@dimen/ershi" />
+
+            <Button
+                android:id="@+id/time5"
+                android:layout_marginLeft="@dimen/ershi"
+                android:background="@color/baise"
+                android:text="10:00"
+                android:textSize="@dimen/ershi" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/juli">
+
+            <Button
+                android:id="@+id/time6"
+                android:layout_column="2"
+                android:background="@color/baise"
+                android:text="11:00"
+                android:textSize="@dimen/ershi" />
+
+            <Button
+                android:id="@+id/time7"
+                android:layout_marginLeft="@dimen/ershi"
+                android:background="@color/baise"
+                android:text="12:00"
+                android:textSize="@dimen/ershi"
+
+                />
+
+            <Button
+                android:id="@+id/time8"
+                android:layout_marginLeft="@dimen/ershi"
+                android:background="@color/baise"
+                android:text="13:00"
+                android:textSize="@dimen/ershi" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/juli">
+
+            <Button
+                android:id="@+id/time9"
+                android:layout_column="2"
+                android:background="@color/baise"
+                android:text="14:00"
+                android:textSize="@dimen/ershi" />
+
+            <Button
+                android:id="@+id/time10"
+                android:layout_marginLeft="@dimen/ershi"
+                android:background="@color/baise"
+                android:text="15:00"
+                android:textSize="@dimen/ershi" />
+
+            <Button
+                android:id="@+id/time11"
+                android:layout_marginLeft="@dimen/ershi"
+                android:background="@color/baise"
+                android:text="16:00"
+                android:textSize="@dimen/ershi" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/juli">
+
+            <Button
+                android:id="@+id/time12"
+                android:layout_column="2"
+                android:background="@color/baise"
+                android:text="17:00"
+                android:textSize="@dimen/ershi" />
+
+            <Button
+                android:id="@+id/time13"
+                android:layout_marginLeft="@dimen/ershi"
+                android:background="@color/baise"
+                android:text="18:00"
+                android:textSize="@dimen/ershi" />
+
+            <Button
+                android:id="@+id/time14"
+                android:layout_marginLeft="@dimen/ershi"
+                android:background="@color/baise"
+                android:text="19:00"
+                android:textSize="@dimen/ershi" />
+        </TableRow>
+    </TableLayout>
+
+    <View
+        android:id="@+id/v3"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/juli"
+        android:layout_below="@+id/tableLayout"
+        android:layout_marginTop="20dp"
+        android:background="@color/baise" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/v3"
+        android:layout_marginLeft="@dimen/ershi"
+        android:layout_marginRight="@dimen/ershi"
+        android:layout_marginTop="@dimen/ershi"
+        android:background="@drawable/shape1"
+        android:text="确定上门时间"
+        android:textColor="#ffffff" />
+
+</RelativeLayout>

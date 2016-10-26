@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="button_color">#33CC66</color>
+    <color name="text_color">#9D55B8</color>
+    <color name="hang_text_color">#003399</color>
+    <color name="border_clo">#FF4081</color>
+    <color name="green">#00BEAF</color>
+    <color name="text_clo">#5E5E5E</color>
+</resources>

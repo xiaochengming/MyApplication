@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="zhuti">#02BB9D</color>
+    <color name="head">#00CCCC</color>
+    <color name="hui">#FF818181</color>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+    <color name="qianhui">#f8f8f8</color>
+    <color name="wenzi">#353535</color>
+    <color name="red">#e69a78</color>
+    <color name="qianhong">#e61c15</color>
+    <color name="xiantiao">#FF909090</color>
+    <color name="baise">#ffffff</color>
+    <color name="mititle">#1ed6ff</color>
+    <color name="miwhite">#FFFFFF</color>
+</resources>

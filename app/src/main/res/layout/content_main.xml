@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".activity.MainActivity"
+    tools:showIn="@layout/app_bar_main">
+
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:orientation="horizontal"
+            android:id="@+id/radioG_main">
+
+            <RadioButton
+                android:id="@+id/rbtn_shou"
+                style="@style/main_tab_bottom"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/main"
+                android:text="首页"
+                android:checked="true"/>
+
+
+
+
+            <RadioButton
+                android:id="@+id/rbtn_paihang"
+                style="@style/main_tab_bottom"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/paihang"
+                android:text="排行榜" />
+
+            <RadioButton
+                android:id="@+id/rbtn_fuwu"
+                style="@style/main_tab_bottom"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/fuwu"
+                android:text="应急服务" />
+            <RadioButton
+                android:id="@+id/rbtn_orde"
+                style="@style/main_tab_bottom"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/order"
+                android:text="社区" />
+        </RadioGroup>
+        <android.support.v4.view.ViewPager
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/vp_main"
+            android:layout_marginBottom="56dp"
+            android:layout_alignParentTop="true" />
+
+</RelativeLayout>

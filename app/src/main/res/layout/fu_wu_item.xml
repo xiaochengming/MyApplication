@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff">
+
+    <include
+        android:id="@+id/prod_info_title_bar"
+        layout="@layout/title_bar" />
+
+
+    <!--下面的按钮-->
+    <RelativeLayout
+        android:id="@+id/prod_info_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/tab_bg"
+        android:padding="8dp">
+
+
+        <Button
+            android:id="@+id/prod_info_cart"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/shape_yellow"
+            android:text="在线咨询"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/prod_info_nowbuy"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/shape_red"
+            android:text="立即下单"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <com.example.administrator.myapplication.util.MyScrollView
+        android:id="@+id/prod_info_scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/prod_info_bottom"
+
+        android:background="#EEEEEE">
+
+        <LinearLayout
+            android:id="@+id/prod_info_linearly"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="#ffffff">
+
+                <!--图片切换 -->
+                <ViewFlipper
+                    android:id="@+id/flipper_photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp"
+                    android:layout_centerInParent="true"></ViewFlipper>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <!--商品名称-->
+                <TextView
+                    android:id="@+id/prod_info_tv_des"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:background="#EEEEEE"
+                    android:maxLines="2"
+                    android:minLines="1"
+                    android:padding="8dp"
+                    android:text="应急名称:"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/prod_info_tv_des_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#EEEEEE"
+                    android:maxLines="2"
+                    android:minLines="1"
+
+                    android:padding="8dp"
+                    android:text="名称"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff">
+                <!--商品价格-->
+                <TextView
+                    android:id="@+id/prod_info_tv_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:padding="5dp"
+                    android:text="￥240.00"
+                    android:textColor="@color/red"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/prod_info_tv_pnum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:padding="10dp"
+                    android:text="0位空闲师傅"
+                    android:textColor="@color/text_clo"
+                    android:textSize="14sp" />
+
+                <View
+                    style="@style/bg_line"
+                    android:layout_alignParentBottom="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff">
+
+                <View
+                    style="@style/bg_line"
+                    android:layout_alignParentBottom="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="#ffffff">
+
+                <TextView
+                    android:id="@+id/prod_info_tv_prod_record"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:padding="10dp"
+                    android:text="用户评价 "
+                    android:textColor="@android:color/background_dark"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+
+            <ListView
+                android:id="@+id/lv_user_remark"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff">
+
+                <TextView
+                    android:id="@+id/prod_info_tv_prod_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:padding="10dp"
+                    android:text="更多评论"
+                    android:textColor="@android:color/background_dark"
+                    android:textSize="16sp" />
+
+                <View
+                    style="@style/bg_line"
+                    android:layout_alignParentBottom="true" />
+            </RelativeLayout>
+        </LinearLayout>
+    </com.example.administrator.myapplication.util.MyScrollView>
+
+</RelativeLayout>

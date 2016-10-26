@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="com.example.administrator.myapplication.activity.OrderActivity">
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:id="@+id/tb"
+        android:background="#ffffff">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:id="@+id/title"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+    </android.support.v7.widget.Toolbar>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/v1"
+        android:layout_below="@+id/tb"
+        android:background="#FF909090" />
+<View
+    android:layout_width="match_parent"
+    android:layout_height="20dp"
+    android:id="@+id/v2"
+    android:layout_below="@+id/v1"
+    android:layout_marginTop="10dp"
+    android:background="@mipmap/xiantiao">
+</View>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/d1"
+        android:layout_below="@+id/v2"
+        android:background="@mipmap/dingwei"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"/>
+    <TextView
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv1"
+      android:layout_below="@+id/v2"
+        android:textSize="16dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="@dimen/ershi"
+        android:hint="请设置服务地址"
+        android:textColor="@color/black"
+        android:layout_toRightOf="@+id/d1"
+        android:layout_gravity="center_horizontal" />
+<Button
+    android:layout_width="wrap_content"
+    android:layout_height="40dp"
+    android:id="@+id/bt1"
+    android:text="去设置"
+     android:textColor="#ffffff"
+    android:layout_marginTop="15dp"
+    android:background="@drawable/shape1"
+    android:layout_below="@+id/v2"
+android:layout_marginLeft="260dp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:id="@+id/v3"
+        android:layout_below="@+id/tv1"
+        android:layout_marginTop="30dp"
+        android:background="@mipmap/xiantiao">
+    </View>
+</RelativeLayout>

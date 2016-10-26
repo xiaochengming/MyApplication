@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+  <include
+      layout="@layout/activity_toolbar"
+      android:id="@+id/include"></include>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/include"
+        android:text="单价:"
+        android:id="@+id/tv_danjia"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="15dp"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:text="88"
+        android:id="@+id/tv_price"
+        android:layout_marginLeft="15dp"
+        android:layout_below="@+id/tv_danjia"
+        android:layout_marginTop="10dp"
+        android:textSize="@dimen/ershi"
+        android:textColor="@color/red"
+        />
+    <Button
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:padding="4dp"
+        android:id="@+id/jian"
+        android:background="#ffffff"
+        android:textColor="#0157D3"
+        android:textSize="25sp"
+        android:text="-"
+        android:layout_above="@+id/tv_allprice"
+        android:layout_alignEnd="@+id/aa" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:textColor="@color/red"
+        android:textSize="18dp"
+        android:id="@+id/count"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_toRightOf="@+id/jian"
+        android:layout_below="@+id/include"
+        android:layout_marginTop="15dp"
+        android:layout_alignTop="@+id/jian"/>
+    <Button
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:padding="4dp"
+        android:id="@+id/jia"
+        android:background="#ffffff"
+        android:textColor="#0157D3"
+        android:textSize="25sp"
+        android:text="+"
+        android:layout_alignTop="@+id/jian"
+        android:layout_toEndOf="@id/count"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_allprice"
+        android:text="总价"
+        android:textSize="25dp"
+        android:textColor="@color/qianhong"
+        android:layout_marginTop="25dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/tv_price"/>
+<View
+    android:layout_width="match_parent"
+    android:layout_height="10dp"
+     android:id="@+id/v4"
+    android:layout_below="@+id/tv_allprice"
+    android:background="@color/baise"
+    android:layout_marginTop="@dimen/ershi"
+    />
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="希望技师什么时候上门?"
+    android:id="@+id/aa"
+    android:textSize="@dimen/ershi"
+    android:gravity="center"
+    android:layout_marginTop="@dimen/juli"
+    android:layout_centerHorizontal="true"
+    android:layout_below="@+id/v4"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_below="@+id/aa"
+        android:background="@color/baise"
+        android:layout_marginTop="@dimen/ershi"
+        android:id="@+id/view" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="选择服务时间"
+        android:id="@+id/button"
+        android:layout_marginLeft="@dimen/ershi"
+        android:layout_marginRight="@dimen/ershi"
+        android:background="@drawable/shape1"
+        android:layout_below="@+id/view"
+        android:textColor="#ffffff"
+        android:onClick="yuyue"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/ershi" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="数量："
+        android:id="@+id/textView"
+        android:textSize="20dp"
+        android:layout_marginTop="13dp"
+        android:layout_alignTop="@+id/jian"
+        android:layout_toStartOf="@+id/jian" />
+
+</RelativeLayout>
+

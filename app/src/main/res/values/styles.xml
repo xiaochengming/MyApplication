@@ -1,0 +1,86 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="main_tab_bottom">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/bottom_text_color</item>
+        <!-- 当前的文字太长，会以...表示 -->
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">#ffffff</item>
+        <item name="android:paddingTop">2.0dip</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">fill_parent</item>
+        <!-- 去按钮立体效果 -->
+        <item name="android:button">@null</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:drawablePadding">@dimen/bottom_tab_padding_drawable</item>
+        <item name="android:layout_weight">1.0</item>
+    </style>
+
+    <style name="hang_pai_button">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/textview_text_color</item>
+        <item name="android:button">@null</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:paddingTop">2.0dip</item>
+    </style>
+
+    <style name="RatingStyle" parent="@android:style/Widget.RatingBar">
+        <!--定义星星图片-->
+        <item name="android:progressDrawable">@drawable/rating_bar</item>
+        <!--根据自定义星星图片的大小，设置相应的值，否则可能显示不全-->
+        <item name="android:minHeight">40dp</item>
+        <item name="android:minWidth">50dp</item>
+    </style>
+
+    <style name="md_line">
+        <item name="android:layout_width">1px</item>
+        <item name="android:layout_height">12dp</item>
+        <item name="android:background">@color/border_clo</item>
+    </style>
+    <!-- view分割线样式 -->
+    <style name="bg_line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:background">@color/green</item>
+    </style>
+    <!-- 订单字体设计 -->
+    <style name="Typeface_ServiceType">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">18dp</item>
+    </style>
+    <!-- 订单状态设计 -->
+    <style name="State">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/border_clo</item>
+        <item name="android:textSize">22dp</item>
+    </style>
+    <!-- 订单价格设计 -->
+    <style name="price">
+
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/hui</item>
+        <item name="android:textSize">32dp</item>
+    </style>
+</resources>

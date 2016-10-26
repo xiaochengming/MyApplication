@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".activity.ItemActivity">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/image_id_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|left"
+                android:layout_weight="1"
+                android:background="@mipmap/ord2"
+                android:focusable="false" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/consignee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="12"
+                    android:focusable="false"
+                    android:text="客户: 林焰龙"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/order_textview_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="12"
+                    android:focusable="false"
+                    android:text="地址: 学生公寓b栋 657"
+                    android:textSize="20dp" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/view1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#aa000000"
+            android:focusable="false" />
+
+        <RelativeLayout
+            android:id="@+id/relat_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#00FFFF">
+
+            <ImageView
+                android:id="@+id/img_housekeeper_photo"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:background="@drawable/img_border"
+                android:src="@drawable/ic_launcher" />
+
+            <TextView
+                android:id="@+id/ed_category_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@null"
+                android:paddingRight="25dp"
+                android:paddingTop="25dp"
+                android:text="服务类型"
+                android:textSize="23dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img_housekeeper_photo">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="6" />
+
+                <Button
+                    android:id="@+id/button_left"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:background="@drawable/shape_white"
+                    android:text="申请售后"
+                    android:textColor="#141414"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/button_right"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:background="@drawable/shape_white"
+                    android:text="联系客服"
+                    android:textColor="#141414"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+        <ListView
+            android:id="@+id/list_order_information"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></ListView>
+
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/prod_info_bottom"
+        android:layout_centerHorizontal="true"
+        android:text="到达时间:"
+        android:textSize="18dp" />
+
+    <RelativeLayout
+        android:id="@+id/prod_info_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/tab_bg"
+        android:padding="8dp">
+
+
+        <Button
+            android:id="@+id/bu_left"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/shape_yellow"
+            android:text="删除订单"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/bu_right"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/shape_red"
+            android:text="立即评价"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+</RelativeLayout>

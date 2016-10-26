@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tb_workerlist"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/zhuti"
+        android:title="">
+        <TextView
+            android:id="@+id/tv_tbTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="我的订单"
+            android:textSize="20dp"
+            android:layout_gravity="center"
+            />
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="50.0dip"
+        android:background="#FFFFFF">
+
+        <TextView
+            android:id="@+id/tv_allOrder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:text="全部订单"
+            android:textColor="@drawable/fuwu_color_change"
+            android:textSize="15.0dip" />
+
+        <View
+            style="@style/md_line"
+            android:layout_gravity="center_vertical" />
+
+        <TextView
+            android:id="@+id/tv_daifukuang"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:text="待付款"
+            android:textColor="@drawable/fuwu_color_change"
+            android:textSize="15.0dip" />
+
+        <View
+            style="@style/md_line"
+            android:layout_gravity="center_vertical" />
+
+        <TextView
+            android:id="@+id/tv_daipingjia"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:text="待评价"
+            android:textColor="@drawable/fuwu_color_change"
+            android:textSize="15.0dip" />
+
+        <View
+            style="@style/md_line"
+            android:layout_gravity="center_vertical" />
+
+        <TextView
+            android:id="@+id/tv_daifuwu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:text="待服务"
+            android:textColor="@drawable/fuwu_color_change"
+            android:textSize="15.0dip" />
+
+
+    </LinearLayout>
+
+
+    <FrameLayout
+        android:id="@+id/fragment_dingdan"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/orderFrame" />
+
+
+</LinearLayout>

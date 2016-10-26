@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_personal"
+            android:icon="@mipmap/personal"
+            android:title="个人信息" />
+        <item
+            android:id="@+id/nav_address"
+            android:icon="@mipmap/address"
+            android:title="服务地址" />
+        <item
+            android:id="@+id/nav_worker"
+            android:icon="@mipmap/worker"
+            android:title="常用阿姨" />
+        <item
+            android:id="@+id/nav_xiao_xi"
+            android:icon="@mipmap/xiao_xi"
+            android:title="消息通知"/>
+        <item
+            android:id="@+id/nav_dingdan"
+            android:icon="@mipmap/order_on"
+            android:title="我的订单" />
+        <item
+            android:id="@+id/nav_set"
+            android:icon="@mipmap/set"
+            android:title="更多设置" />
+    </group>
+
+
+
+</menu>

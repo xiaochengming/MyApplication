@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.administrator.myapplication.activity.MapLocationActivity">
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#ffffff"
+        android:id="@+id/map_toolbar">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="添加服务地址"
+            android:textSize="25sp"
+            android:layout_gravity="center"/>
+    </android.support.v7.widget.Toolbar>
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/iv_map"
+        android:src="@mipmap/address"
+        android:layout_below="@+id/map_toolbar"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="41dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="请输入小区或大厦名称"
+        android:background="@null"
+        android:ems="10"
+        android:id="@+id/et_map"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@+id/iv_map"
+        android:layout_toEndOf="@+id/iv_map"
+        android:layout_alignTop="@+id/iv_map" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="确定"
+        android:id="@+id/but_map"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/et_map"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/but_map"
+        android:id="@+id/frame_layout_map">
+    </FrameLayout>
+</RelativeLayout>

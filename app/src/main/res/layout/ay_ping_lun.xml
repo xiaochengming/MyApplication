@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/relative_layout1">
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:id="@+id/circle_image_view1"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="7dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="显示用户姓名"
+            android:id="@+id/tv_ping_lun_username"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/circle_image_view1"
+            android:layout_marginLeft="7dp"/>
+
+        <RatingBar
+            style="@style/RatingStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ratingBar3"
+            android:numStars="5"
+            android:isIndicator="true"
+            android:layout_centerVertical="true"
+            android:layout_alignTop="@+id/circle_image_view1"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/relative_layout2">
+        <jaydenxiao.com.expandabletextview.ExpandableTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_ping_lun_js"
+            android:textSize="15sp"
+            app:animDuration="200"
+            android:padding="8dp"
+            app:collapseDrawable="@drawable/icon_green_arrow_down"
+            app:collapseExpandGrarity="right"
+            app:collapseExpandTextColor="@color/main_color"
+            app:contentTextColor="@color/gray"
+            app:contentTextSize="14sp"
+            app:expandDrawable="@drawable/icon_green_arrow_up"
+            app:maxCollapsedLines="2"
+            app:textCollapse="@string/collapse"
+            app:textExpand="@string/expand"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="显示时间"
+    android:id="@+id/tv_ping_lun_time"
+    android:textSize="14sp"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentEnd="true"
+    android:layout_marginRight="10dp"/>
+    </RelativeLayout>
+</LinearLayout>

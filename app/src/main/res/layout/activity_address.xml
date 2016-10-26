@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.administrator.myapplication.activity.AddressActivity">
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#ffffff"
+        android:id="@+id/address_toolbar">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="服务地址"
+            android:textSize="25sp"
+            android:layout_gravity="center"/>
+    </android.support.v7.widget.Toolbar>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="添加服务地址"
+        android:id="@+id/but_address"
+        android:background="#11CD6E"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/address_toolbar" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lv_address"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/address_toolbar"
+        android:layout_above="@+id/but_address" />
+</RelativeLayout>

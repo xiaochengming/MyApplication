@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.administrator.myapplication.activity.FirstAddressActivity">
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#ffffff"
+        android:id="@+id/first_address_toolbar">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="服务地址"
+            android:textSize="25sp"
+            android:layout_gravity="center"/>
+    </android.support.v7.widget.Toolbar>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="首次使用时,请添加服务地址!"
+        android:textSize="20sp"
+        android:id="@+id/tv_first_address"
+        android:layout_below="@+id/first_address_toolbar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="127dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="添加服务地址"
+        android:textSize="15sp"
+        android:id="@+id/but_first_address"
+        android:layout_below="@+id/tv_first_address"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="122dp" />
+</RelativeLayout>

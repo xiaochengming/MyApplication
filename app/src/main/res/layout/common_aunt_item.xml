@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="70dp"
+        android:id="@+id/aunt_imageViews"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="显示姓名"
+        android:textSize="15sp"
+        android:id="@+id/tv_aunt_names"
+        android:layout_alignTop="@+id/aunt_imageViews"
+        android:layout_toEndOf="@+id/aunt_imageViews"
+        android:layout_marginLeft="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="显示服务次数"
+        android:textSize="15sp"
+        android:id="@+id/tv_aunt_count"
+        android:layout_alignTop="@+id/tv_aunt_names"
+        android:layout_toEndOf="@+id/tv_aunt_names"
+        android:layout_marginLeft="40dp"/>
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:id="@+id/aunt_ratingBar"
+        android:layout_below="@+id/tv_aunt_names"
+        android:layout_alignStart="@+id/tv_aunt_names" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="地址"
+        android:id="@+id/tv_aunt_address"
+        android:textSize="15sp"
+        android:layout_below="@+id/aunt_ratingBar"
+        android:layout_alignStart="@+id/aunt_ratingBar"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="年龄"
+        android:textSize="15sp"
+        android:id="@+id/tv_aunt_ages"
+        android:layout_alignBottom="@+id/tv_aunt_address"
+        android:layout_alignStart="@+id/tv_aunt_count"
+        android:layout_marginLeft="40dp"
+        android:width="100dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="预约"
+        android:id="@+id/but_aunt"
+        android:layout_alignTop="@+id/aunt_ratingBar"
+        android:layout_toEndOf="@+id/aunt_ratingBar"
+        android:layout_alignBottom="@+id/aunt_ratingBar" />
+</RelativeLayout>

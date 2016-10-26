@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="com.example.administrator.myapplication.activity.PersonalInformationActivity">
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#ffffff"
+        android:id="@+id/information_toolbar"
+        android:layout_alignParentTop="true">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="个人信息"
+            android:textSize="25sp"
+            android:layout_gravity="center"/>
+    </android.support.v7.widget.Toolbar>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@+id/information_toolbar"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/information_framelayout">
+
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:id="@+id/iv_information"
+            android:layout_gravity="right|center_vertical"
+            android:src="@mipmap/name"
+            android:layout_marginRight="7dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="我的头像"
+            android:id="@+id/tv_edit_head"
+            android:layout_gravity="left|center_vertical"
+            android:paddingLeft="20dp" />
+    </FrameLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#ffffff"
+        android:id="@+id/rl_edit_name"
+        android:layout_below="@+id/information_framelayout">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="名字："
+            android:id="@+id/tv_name"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:paddingLeft="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="还没编辑姓名"
+            android:id="@+id/tv_dsname"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="30dp"/>
+
+        <ImageView
+            android:id="@+id/iv_edit_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:padding="6dp"
+            android:src="@drawable/iv_editinfo"
+            android:layout_alignBottom="@+id/tv_name"
+            android:layout_alignTop="@+id/tv_name" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="#CCCCCC"
+        android:id="@+id/view_name"
+        android:layout_below="@+id/rl_edit_name"
+        android:layout_centerHorizontal="true" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#ffffff"
+        android:layout_below="@id/view_name"
+        android:id="@+id/rl_edit_phone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="电话号码："
+            android:id="@+id/tv_phone"
+            android:layout_centerVertical="true"
+            android:paddingLeft="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="暂无电话号码"
+            android:id="@+id/tv_diphone"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="30dp"/>
+
+        <ImageView
+            android:id="@+id/iv_edit_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:padding="6dp"
+            android:src="@drawable/iv_editinfo"
+            android:layout_alignTop="@id/tv_phone"
+            android:layout_alignBottom="@id/tv_phone"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="#CCCCCC"
+        android:id="@+id/view_phone"
+        android:layout_below="@+id/rl_edit_phone"
+        android:layout_centerHorizontal="true" />
+    <RelativeLayout
+        android:id="@+id/rl_edit_aget"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/view_phone"
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="年龄："
+            android:id="@+id/tv_age"
+            android:layout_centerVertical="true"
+            android:paddingLeft="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="还没编辑年龄"
+            android:id="@+id/tv_dsage"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="30dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/iv_edit_age"
+            android:layout_alignParentRight="true"
+            android:padding="6dp"
+            android:src="@drawable/iv_editinfo"
+            android:layout_alignBottom="@id/tv_age"
+            android:layout_alignTop="@id/tv_age"/>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="#CCCCCC"
+        android:id="@+id/view_age"
+        android:layout_below="@+id/rl_edit_aget"
+        android:layout_centerHorizontal="true" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/view_age"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/rl_edit_sex">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="性别："
+            android:id="@+id/tv_sex"
+            android:layout_centerVertical="true"
+            android:paddingLeft="20dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="还没编辑性别"
+            android:id="@+id/tv_dssex"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="30dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/iv_edit_sex"
+            android:layout_alignParentRight="true"
+            android:padding="6dp"
+            android:src="@drawable/iv_editinfo"
+            android:layout_alignTop="@id/tv_sex"
+            android:layout_alignBottom="@id/tv_sex"/>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="#CCCCCC"
+        android:id="@+id/view_sex"
+        android:layout_below="@+id/rl_edit_sex"
+        android:layout_centerHorizontal="true" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/view_sex"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/rl_edit_other">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="查看更多资料"
+            android:layout_centerVertical="true"
+            android:paddingLeft="20dp"
+            android:id="@+id/cha_kan_more"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView2"
+            android:layout_alignParentRight="true"
+            android:padding="6dp"
+            android:src="@drawable/iv_editinfo"
+            android:layout_alignTop="@id/cha_kan_more"
+            android:layout_alignBottom="@id/cha_kan_more"/>
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/rl_edit_other"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/fl_birthday">
+
+    </FrameLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/fl_birthday"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/fl_emil">
+
+    </FrameLayout>
+
+</RelativeLayout>
