@@ -297,8 +297,10 @@ public class RefreshListView extends ListView implements AbsListView.OnScrollLis
             if (tailView != null) {
                 this.removeFooterView(tailView);
             }
+            if (tailViewNoOrder == null) {
+                addFooterViewNoOrder(context);
+            }
 
-            addFooterViewNoOrder(context);
         } else {
             if (tailViewNoOrder != null) {
                 this.removeFooterView(tailViewNoOrder);

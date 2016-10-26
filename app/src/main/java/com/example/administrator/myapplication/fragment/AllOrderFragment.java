@@ -27,6 +27,7 @@ import com.example.administrator.myapplication.entity.Order;
 
 import com.example.administrator.myapplication.util.CommonAdapter;
 import com.example.administrator.myapplication.util.RefreshListView;
+import com.example.administrator.myapplication.util.StringUtil;
 import com.example.administrator.myapplication.util.TimesTypeAdapter;
 import com.example.administrator.myapplication.util.UrlAddress;
 import com.example.administrator.myapplication.util.ViewHolder;
@@ -73,6 +74,7 @@ public class AllOrderFragment extends Fragment implements RefreshListView.OnRefr
     private AlertDialog.Builder builder;
     TextView teState;
     MyApplication myApplication;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -91,8 +93,7 @@ public class AllOrderFragment extends Fragment implements RefreshListView.OnRefr
 
     //获取网路数据
     public void initData() {
-
-        String url = UrlAddress.url + "AllOrderServlet";
+        String url = StringUtil.ip + "/AllOrderServlet";
         RequestParams requestParams = new RequestParams(url);
         //发送用户id
         Log.d("用户id", +myApplication.getUser().getUserId() + "");
@@ -126,6 +127,7 @@ public class AllOrderFragment extends Fragment implements RefreshListView.OnRefr
                             listView.setAdapter(orderApater);
 
                         } else {
+                            changeLayout();
                             orderApater.notifyDataSetChanged();
                         }
 
@@ -261,8 +263,8 @@ public class AllOrderFragment extends Fragment implements RefreshListView.OnRefr
                 switch (order.getState()) {
                     case UNPAY:
                         //跳转到支付界面
-                        Intent intent=new Intent(getActivity(), PayActivity.class);
-                        intent.putExtra("order",order);
+                        Intent intent = new Intent(getActivity(), PayActivity.class);
+                        intent.putExtra("order", order);
                         startActivity(intent);
                         break;
                     case UNSERVICE:
@@ -370,7 +372,7 @@ public class AllOrderFragment extends Fragment implements RefreshListView.OnRefr
     //更新订单状态，更新界面
     public void changeState(Order order, final int position, final int changeState) {
 
-        RequestParams requestParams = new RequestParams(UrlAddress.url + "UpdateOrderServlet");
+        RequestParams requestParams = new RequestParams( StringUtil.ip + "/UpdateOrderServlet");
 
         MyApplication myApplication = (MyApplication) getActivity().getApplication();
         requestParams.addQueryStringParameter("userId", myApplication.getUser().getUserId() + "");
@@ -406,7 +408,7 @@ public class AllOrderFragment extends Fragment implements RefreshListView.OnRefr
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                //Log.d("onError", "网络连接失败");
+
             }
 
             @Override

@@ -137,7 +137,14 @@ public class PayActivity extends AppCompatActivity {
                 break;
             case R.id.layout_dingdanxinxi:
                 //进入订单详情
+                if (order.getArriveTime() == null) {
+                    Intent intent = new Intent(this, PayItemActivity.class);
+                    intent.putExtra("order", order);
+                    startActivity(intent);
 
+                } else {
+
+                }
 
                 break;
         }
