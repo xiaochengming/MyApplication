@@ -21,6 +21,7 @@ import com.example.administrator.myapplication.entity.Category;
 import com.example.administrator.myapplication.entity.User;
 import com.example.administrator.myapplication.util.CommonAdapter;
 import com.example.administrator.myapplication.util.RefreshListView;
+import com.example.administrator.myapplication.util.StringUtil;
 import com.example.administrator.myapplication.util.TimesTypeAdapter;
 import com.example.administrator.myapplication.util.UrlAddress;
 import com.example.administrator.myapplication.util.ViewHolder;
@@ -129,7 +130,7 @@ public class EmergencyServiecesFragment extends Fragment implements RefreshListV
         profile.setText(category.getProfile());
         ImageView imageView = holder.getView(R.id.prod_list_item_iv);
         if (category != null) {
-            x.image().bind(imageView, category.getIcon());
+            x.image().bind(imageView, StringUtil.ip+ category.getIcon());
         }
 
 
