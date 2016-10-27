@@ -27,6 +27,7 @@ import com.example.administrator.myapplication.activity.ItemActivity;
 import com.example.administrator.myapplication.entity.Order;
 import com.example.administrator.myapplication.util.CommonAdapter;
 import com.example.administrator.myapplication.util.RefreshListView;
+import com.example.administrator.myapplication.util.StringUtil;
 import com.example.administrator.myapplication.util.TimesTypeAdapter;
 import com.example.administrator.myapplication.util.UrlAddress;
 import com.example.administrator.myapplication.util.ViewHolder;
@@ -53,7 +54,7 @@ public class ToBeEvaluatedFragment extends Fragment implements RefreshListView.O
     RefreshListView listView;
     List<Order> orders = new ArrayList<Order>();//存放订单信息
     int pageNo = 1;// 页号
-    int pageSize = 2;// 页大小
+    int pageSize = 5;// 页大小
 
     Handler handler = new Handler();
     CommonAdapter<Order> orderApater;//适配器
@@ -89,7 +90,7 @@ public class ToBeEvaluatedFragment extends Fragment implements RefreshListView.O
     //获取网路数据
     public void initData() {
 
-        String url = UrlAddress.url + "AllOrderServlet";
+        String url = StringUtil.ip + "/AllOrderServlet";
         RequestParams requestParams = new RequestParams(url);
         //发送用户id
         MyApplication myApplication = (MyApplication) getActivity().getApplication();
@@ -109,14 +110,6 @@ public class ToBeEvaluatedFragment extends Fragment implements RefreshListView.O
                         List<Order> orderList = gson.fromJson(result, new TypeToken<List<Order>>() {
                         }.getType());
                         orders.clear();
-                        //移除交易关闭状态的订单
-                        Iterator iterList = orderList.iterator();
-                        while (iterList.hasNext()) {
-                            Order order = (Order) iterList.next();
-                            if (order.getState() == 6) {
-                                iterList.remove();
-                            }
-                        }
                         orders.addAll(orderList);
                         if (orderApater == null) {
                             orderApater = new CommonAdapter<Order>(getActivity(), orders, R.layout.order_layout) {
@@ -132,6 +125,7 @@ public class ToBeEvaluatedFragment extends Fragment implements RefreshListView.O
                             listView.setAdapter(orderApater);
 
                         } else {
+                            changeLayout();
                             orderApater.notifyDataSetChanged();
                         }
 
@@ -287,7 +281,7 @@ public class ToBeEvaluatedFragment extends Fragment implements RefreshListView.O
     //更新订单状态，更新界面
     public void changeState(Order order, final int position, final int changeState) {
 
-        RequestParams requestParams = new RequestParams(UrlAddress.url + "UpdateOrderServlet");
+        RequestParams requestParams = new RequestParams(StringUtil.ip + "/UpdateOrderServlet");
 
         MyApplication myApplication = (MyApplication) getActivity().getApplication();
         requestParams.addQueryStringParameter("userId", myApplication.getUser().getUserId() + "");
@@ -330,9 +324,7 @@ public class ToBeEvaluatedFragment extends Fragment implements RefreshListView.O
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("requestCode+resultCode", requestCode + "." + resultCode);
         if (requestCode == TOITEM && resultCode == 2) {
-            // Log.d("requestCode+resultCode", "我执行了");
             //删除回调
             if (data != null) {
                 int orderId = Integer.parseInt(data.getStringExtra("orderId"));
@@ -375,6 +367,7 @@ public class ToBeEvaluatedFragment extends Fragment implements RefreshListView.O
 
                 }
             }
+            changeLayout();
             orderApater.notifyDataSetChanged();
         }
 
@@ -416,7 +409,7 @@ public class ToBeEvaluatedFragment extends Fragment implements RefreshListView.O
     }
 
     public void topPullLoading() {
-        String url = UrlAddress.url + "AllOrderServlet";
+        String url = StringUtil.ip + "/AllOrderServlet";
         RequestParams requestParams = new RequestParams(url);
         //发送用户id
         MyApplication myApplication = (MyApplication) getActivity().getApplication();
@@ -437,20 +430,7 @@ public class ToBeEvaluatedFragment extends Fragment implements RefreshListView.O
                             pageNo--;
                             return;
                         }
-                        //移除交易关闭状态的订单
-                        Iterator iterList = orderList.iterator();
-                        while (iterList.hasNext()) {
-                            Order order = (Order) iterList.next();
-                            //  Log.d("111", order.toString());
-                            if (order.getState() == 6) {
-                                iterList.remove();
-
-                            }
-                        }
-
                         orders.addAll(orderList);
-                        //  Log.d("111", orders.size()+"");
-
                         if (orderApater == null) {
                             orderApater = new CommonAdapter<Order>(getActivity(), orders, R.layout.order_layout) {
                                 @Override
@@ -461,8 +441,10 @@ public class ToBeEvaluatedFragment extends Fragment implements RefreshListView.O
                                 }
 
                             };
+                            changeLayout();
                             listView.setAdapter(orderApater);
                         } else {
+                            changeLayout();
                             orderApater.notifyDataSetChanged();
                         }
 
@@ -498,7 +480,7 @@ public class ToBeEvaluatedFragment extends Fragment implements RefreshListView.O
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                //bug
+                pageNo = 1;
                 initData();
                 listView.completeRefresh();//刷新数据后，改变界面
             }
@@ -509,8 +491,6 @@ public class ToBeEvaluatedFragment extends Fragment implements RefreshListView.O
     @Override
     public void onPull() {
         pageNo++;
-        Log.d("用户id", "fdsafdsafdsa");
-
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {

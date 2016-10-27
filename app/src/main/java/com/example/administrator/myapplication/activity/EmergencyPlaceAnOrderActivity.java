@@ -15,8 +15,10 @@ import android.widget.TextView;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.entity.Address;
 import com.example.administrator.myapplication.entity.Category;
+import com.example.administrator.myapplication.entity.Evaluate;
 import com.example.administrator.myapplication.entity.Order;
 import com.example.administrator.myapplication.entity.User;
+import com.example.administrator.myapplication.util.StringUtil;
 import com.example.administrator.myapplication.util.TimesTypeAdapter;
 import com.example.administrator.myapplication.util.TitleBar;
 import com.example.administrator.myapplication.util.UrlAddress;
@@ -42,6 +44,7 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
     Category category = null;
     User user;
     List<Address> address;
+    List<Evaluate> evaluates;
     Address addressIsefault = null;
     @InjectView(R.id.titlebar)
     TitleBar titlebar;
@@ -102,6 +105,9 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
     TextView name;
     @InjectView(R.id.emergency_order_name)
     RelativeLayout emergencyOrderName;
+    Integer orderId;
+    Timestamp nowTime;
+    Time time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,12 +116,14 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
         ButterKnife.inject(this);
         //获取数据
         getData();
+        //初始控件
+        getDataToAddress();
+
         //获取地址
         getDataToAddress();
-        //初始控件
-        initView();
         orderGoumai.setOnClickListener(this);
         orderDizhiRightTupian.setOnClickListener(this);
+
     }
 
     //获取数据
@@ -136,12 +144,11 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
         RequestParams requestParams = new RequestParams(url);
         //发送用户id
         requestParams.addQueryStringParameter("userId", user.getUserId() + "");
-        Callback.Cancelable cancelable = x.http().get(requestParams, new Callback.CacheCallback<String>() {
+
+        x.http().get(requestParams, new Callback.CacheCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-
                         if (result != null) {
-                            temp = true;
                             Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
                                     .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
                             address = gson.fromJson(result, new TypeToken<List<Address>>() {
@@ -155,16 +162,22 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
                                 }
 
                             }
-                        } else {
-                            temp = false;
+                            if (addressIsefault != null) {
 
+                                orderDizhiPhonenum.setText(addressIsefault.getUserName());
+                                orderDizhiDetaildizhi.setText(addressIsefault.getAddress());
+                            }
+                            //初始化服务类型
+                            name.setText(category.getName());
+                            //初始化价格
+                            orderCountTotalMoney.setText(String.valueOf(category.getPrices().get(0).getPrice()));
+                            orderTotalMoney.setText(String.valueOf(category.getPrices().get(0).getPrice()));
                         }
-
                     }
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-
+                        Log.d("EmergencyPlay", "onError: " + ex);
                     }
 
                     @Override
@@ -189,17 +202,21 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
 
 
     //生成订单
-    public Order newOrder() {
 
-        Timestamp nowTime = new Timestamp(System.currentTimeMillis());
-        Order order = new Order(user, addressIsefault, nowTime, 1, category.getPrices().get(0).getPrice(),
-                category, category.getPrices().get(0).getPrice(), null);//少了到达时间arrive
-        return order;
+    public Order newOrder() {
+        if (addressIsefault != null) {
+            nowTime = new Timestamp(System.currentTimeMillis());
+            time = new Time(System.currentTimeMillis());//创建一个时间对象，获取到当前的时间
+            Order order = new Order(user, addressIsefault, nowTime, 1, category.getPrices().get(0).getPrice(),
+                    category, category.getPrices().get(0).getPrice(), time);//少了到达时间arrive
+            return order;
+        }
+        return null;
     }
 
     //插入数据库
-    public void toMySql() {
-        String url = UrlAddress.url + "";
+    public void toMySqlOder() {
+        String url = StringUtil.ip + "/EmergencyPlaceAnOrderServlet";
         RequestParams requestParams = new RequestParams(url);
         //发送用户id
         Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
@@ -210,8 +227,77 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
         x.http().get(requestParams, new Callback.CacheCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
+                        Log.d("Emergy", "onSuccess: " + result);
                         if (result != null) {
-                            int orderId = Integer.getInteger(result);
+                            //返回订单id
+                            orderId = Integer.parseInt(result);
+
+                            Intent intent = new Intent(EmergencyPlaceAnOrderActivity.this, PayActivity.class);
+                            Order order = new Order(orderId, user, addressIsefault, nowTime, 1, category, category.getPrices().get(0).getPrice(),
+                                    category.getPrices().get(0).getPrice(), time);
+                            intent.putExtra("order", order);
+                            startActivity(intent);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(Throwable ex, boolean isOnCallback) {
+                        Log.d("Emerge", "onError: " + ex);
+                    }
+
+                    @Override
+                    public void onCancelled(CancelledException cex) {
+                    }
+
+                    @Override
+                    public void onFinished() {
+
+                    }
+
+                    @Override
+                    public boolean onCache(String result) {
+                        return false;
+                    }
+                }
+
+        );
+
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.order_goumai:
+                //下单按钮
+                Log.d("aaaa", "onClick: ");
+                toMySqlOder();
+                break;
+            case R.id.order_dizhi_right_tupian:
+                //地址按钮
+                getEvaluates();
+                break;
+        }
+    }
+
+    public void getEvaluates() {
+        String url = UrlAddress.url + "Yan_EmergencyEvaluate";
+        RequestParams requestParams = new RequestParams(url);
+        requestParams.addQueryStringParameter("categoryId", category.getName() + "");
+        x.http().get(requestParams, new Callback.CacheCallback<String>() {
+                    @Override
+                    public void onSuccess(String result) {
+                        if (result != null) {
+                            Log.d("Emergenc", "onSuccess: " + result);
+                            Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
+                                    .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+                            evaluates = gson.fromJson(result, new TypeToken<List<Address>>() {
+                            }.getType());
+                            Iterator<Evaluate> iterator = evaluates.iterator();
+
+                        } else {
+
 
                         }
 
@@ -239,33 +325,5 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
 
         );
 
-
-    }
-
-    public void initView() {
-
-
-        //初始化服务类型
-        name.setText(category.getName());
-        //初始化价格
-        orderCountTotalMoney.setText(category.getPrices().get(0).getPrice() + "");
-        orderTotalMoney.setText(category.getPrices().get(0).getPrice() + "");
-
-    }
-
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.order_goumai:
-                //下单按钮
-
-
-                break;
-            case R.id.order_dizhi_right_tupian:
-                //地址按钮
-
-                break;
-        }
     }
 }
