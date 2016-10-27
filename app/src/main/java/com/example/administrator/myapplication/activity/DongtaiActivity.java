@@ -23,6 +23,7 @@ import com.example.administrator.myapplication.entity.Dynamic;
 import com.example.administrator.myapplication.entity.Post;
 import com.example.administrator.myapplication.entityMi.Zan;
 import com.example.administrator.myapplication.util.StringUtil;
+import com.example.administrator.myapplication.widget.NoScrollListview;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -61,7 +62,7 @@ public class DongtaiActivity extends AppCompatActivity {
     @InjectView(R.id.luntan_listitem_layout)
     LinearLayout luntanListitemLayout;
     @InjectView(R.id.lv_tiezi_pinglun)
-    ListView lvTieziPinglun;
+    NoScrollListview lvTieziPinglun;
     @InjectView(R.id.tv_tbTitle)
     TextView tvTbTitle;
     @InjectView(R.id.tb_workerlist)
@@ -76,20 +77,19 @@ public class DongtaiActivity extends AppCompatActivity {
     TextView dianzanliang;
     @InjectView(R.id.layout_tiezhibuju)
     LinearLayout layoutTiezhibuju;
+    @InjectView(R.id.et_fasong_pinglun)
+    EditText etFasongPinglun;
+    @InjectView(R.id.show_luntan_text_enterpinglun)
+    TextView showLuntanTextEnterpinglun;
+    @InjectView(R.id.dibubuju)
+    LinearLayout dibubuju;
+
 
 
     Post post;
     List<Dynamic> list = new ArrayList<Dynamic>();
     CommonAdapter<Dynamic> adapter;
-    @InjectView(R.id.et_fasong_pinglun)
-    EditText etFasongPinglun;
-    @InjectView(R.id.show_luntan_text_enterpinglun)
-    TextView showLuntanTextEnterpinglun;
-
     MyApplication myApplication;
-    @InjectView(R.id.dibubuju)
-    LinearLayout dibubuju;
-
     InputMethodManager imm;
     int louceng;
 
@@ -210,7 +210,7 @@ public class DongtaiActivity extends AppCompatActivity {
                         name.setText(dynamic.getUser().getName());
                     }
                     int x = position + 1;
-                    int b = dynamic.getParent();
+                    int b = findParent(dynamic.getParent());
                     if (b != 0) {
                         lou.setText("第" + x + "楼   回复" + b + "楼");
                     } else {
@@ -226,7 +226,7 @@ public class DongtaiActivity extends AppCompatActivity {
     }
 
 
-    @OnClick({R.id.luntan_listitem_textView_dianzan, R.id.et_fasong_pinglun})
+    @OnClick({R.id.luntan_listitem_textView_dianzan, R.id.show_luntan_text_enterpinglun})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.luntan_listitem_textView_dianzan:
@@ -239,9 +239,10 @@ public class DongtaiActivity extends AppCompatActivity {
                 }
                 dianzan(view, flag, post);
                 break;
-            case R.id.et_fasong_pinglun:
+            case R.id.show_luntan_text_enterpinglun:
                 //底部发表评论
-                String string = showLuntanTextEnterpinglun.getText().toString();
+                Log.i("DongtaiActivity", "onClick: 评论");
+                String string = etFasongPinglun.getText().toString();
                 if (string == null) {
                     Toast.makeText(DongtaiActivity.this, "请输入内容", Toast.LENGTH_SHORT).show();
                     return;
@@ -266,11 +267,46 @@ public class DongtaiActivity extends AppCompatActivity {
     //刷新界面和插入数据库
     public void insertPinglun(Dynamic dynamic) {
         //刷新界面
-        List<Dynamic> newList=new ArrayList<>();
-       for (int i=0;i<newList.size();i++){
+        list.add(dynamic);
+        List<Dynamic> newlist=sortList(list);
+        list.clear();
+        list.addAll(newlist);
+      listViewshezhishipeiqi();
+        int a=0;
+        for (int i=0;i<list.size();i++) {
+            if (list.get(i).getDynamicId()==0){
+                a=i;
+                break;
+            }
+        }
+       lvTieziPinglun.setSelection(a);
+        //
+        RequestParams params=new RequestParams(StringUtil.ip+"/InsertDynamicServlet");
+        Gson gson = new GsonBuilder().enableComplexMapKeySerialization().setDateFormat("yyyy-MM-dd HH:mm:ss")
+                .create();
+        String string=gson.toJson(dynamic);
+        params.addQueryStringParameter("dyamic",string);
+        x.http().get(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.i("DongtaiActivity", "onSuccess: ");
+            }
 
-         //  if (newList.get(i).)
-       }
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Log.i("DongtaiActivity", "onError: "+ex);
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
     //点赞后改变图标
@@ -322,8 +358,9 @@ public class DongtaiActivity extends AppCompatActivity {
             }
         });
     }
-    //对
-    private List<Dynamic> sortList(List<Dynamic> list) {
+
+    //对list排序
+    public List<Dynamic> sortList(List<Dynamic> list) {
 
         List<Dynamic> jieguolist = new ArrayList<Dynamic>();
         for (Dynamic dynamic : list) {
@@ -337,7 +374,7 @@ public class DongtaiActivity extends AppCompatActivity {
         return jieguolist;
     }
 
-    private void sortSubList(List<Dynamic> list, Dynamic dynamic,
+    public void sortSubList(List<Dynamic> list, Dynamic dynamic,
                              List<Dynamic> jieguolist) {
 
         if (dynamic.getHasNext() == 0) {
@@ -350,5 +387,15 @@ public class DongtaiActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    //查找父动态楼层
+    public int findParent(int dynamicId) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getDynamicId() == dynamicId) {
+                return i + 1;
+            }
+        }
+        return 0;
     }
 }
