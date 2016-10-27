@@ -112,7 +112,7 @@ public class PayActivity extends AppCompatActivity {
     private void initOrderData() {
         //初始化订单信息
         tvFuwuneirong.setText(order.getCategory().getName());
-        tvWufujE.setText(" ￥：" +order.getAllprice() + "");
+        tvWufujE.setText(" ￥：" + order.getAllprice() + "");
         tvZhifujinge.setText(" ￥：" + order.getAllprice() + "");
     }
 
@@ -143,14 +143,17 @@ public class PayActivity extends AppCompatActivity {
                     startActivity(intent);
 
                 } else {
-
+                    Intent intent = new Intent(this, PayEmergencyItemActivity.class);
+                    intent.putExtra("order", order);
+                    startActivity(intent);
                 }
 
                 break;
         }
     }
+
     public void accessFile(boolean flag) {
-        String[] permissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_PHONE_STATE};
+        String[] permissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE};
         String permission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
         int checkSelfPermission = ActivityCompat.checkSelfPermission(this, permission);
         if (checkSelfPermission != PackageManager.PERMISSION_GRANTED) {
@@ -160,22 +163,24 @@ public class PayActivity extends AppCompatActivity {
             zhifu(flag);
         }
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-            if (requestCode==REQUEST_EXTERNAL){
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED&&grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                    //读写SD卡...
-                    zhifu(flag);
-                } else {
-                    Toast.makeText(this, "禁止了读写SD卡的权限...", Toast.LENGTH_SHORT).show();
-                }
+        if (requestCode == REQUEST_EXTERNAL) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                //读写SD卡...
+                zhifu(flag);
+            } else {
+                Toast.makeText(this, "禁止了读写SD卡的权限...", Toast.LENGTH_SHORT).show();
             }
+        }
 
     }
+
     private void zhifu(boolean flag) {
-        BP.pay(order.getCategory().getName(), "订单编号："+order.getOrderId(), 0.02, flag, new PListener() {
+        BP.pay(order.getCategory().getName(), "订单编号：" + order.getOrderId(), 0.02, flag, new PListener() {
             @Override
             public void orderId(String s) {
                 orderId = s;

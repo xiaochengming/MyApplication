@@ -115,7 +115,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"/>
         -->
-        <activity android:name=".activity.PayActivity"></activity>
+        <activity android:name=".activity.PayActivity" />
         <activity android:name=".activity.OrderActivity" />
         <activity android:name=".activity.TimeActivity" />
         <activity
@@ -123,8 +123,12 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".activity.ItemActivity" />
         <activity android:name=".activity.FuWuItemActivity" />
-        <activity android:name=".activity.MyOrderActivity"></activity>
+        <activity android:name=".activity.MyOrderActivity" />
         <activity android:name=".activity.PayItemActivity" />
+        <activity android:name=".activity.PayEmergencyItemActivity">
+
+
+        </activity>
     </application>
 
 </manifest>

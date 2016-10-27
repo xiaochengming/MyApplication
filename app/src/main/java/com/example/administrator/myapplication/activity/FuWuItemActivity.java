@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.example.administrator.myapplication.R;
@@ -159,15 +160,22 @@ public class FuWuItemActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.prod_info_nowbuy:
                 //转到下单页面
-                Intent intent = new Intent(this, EmergencyPlaceAnOrderActivity.class);
-                Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
-                        .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
-                String categoryJson = gson.toJson(category);
-                String userJson = gson.toJson(user);
-                intent.putExtra("categoryJson", categoryJson);
-                intent.putExtra("userJson", userJson);
-                startActivity(intent);
+                if (user.getUserId() != 0) {
+                    Intent intent = new Intent(this, EmergencyPlaceAnOrderActivity.class);
+                    Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
+                            .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+                    String categoryJson = gson.toJson(category);
+                    String userJson = gson.toJson(user);
+                    intent.putExtra("categoryJson", categoryJson);
+                    intent.putExtra("userJson", userJson);
+                    startActivity(intent);
+
+                } else {
+                    Toast.makeText(this, "未登入", Toast.LENGTH_SHORT).show();
+                }
+
                 break;
+
         }
     }
 }

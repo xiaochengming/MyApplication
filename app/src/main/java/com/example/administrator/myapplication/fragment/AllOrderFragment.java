@@ -438,7 +438,6 @@ public class AllOrderFragment extends Fragment implements RefreshListView.OnRefr
                 int orderState = Integer.parseInt(data.getStringExtra("orderState"));
 
                 Iterator iterList = orders.iterator();
-                Log.d("requestCode+resultCode", orderState + "");
                 while (iterList.hasNext()) {
                     Order backOrder = (Order) iterList.next();
                     if (backOrder.getOrderId() == orderId) {
@@ -536,20 +535,7 @@ public class AllOrderFragment extends Fragment implements RefreshListView.OnRefr
                             pageNo--;
                             return;
                         }
-                        //移除交易关闭状态的订单
-                        Iterator iterList = orderList.iterator();
-                        while (iterList.hasNext()) {
-                            Order order = (Order) iterList.next();
-                            //  Log.d("111", order.toString());
-                            if (order.getState() == 6) {
-                                iterList.remove();
-
-                            }
-                        }
-
                         orders.addAll(orderList);
-                        //  Log.d("111", orders.size()+"");
-
                         if (orderApater == null) {
                             orderApater = new CommonAdapter<Order>(getActivity(), orders, R.layout.order_layout) {
                                 @Override
