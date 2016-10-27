@@ -143,10 +143,18 @@ public class Post implements Parcelable {
 
     @Override
     public String toString() {
-        return "Post [postId=" + postId + ", user=" + user + ", postContent="
-                + postContent + ", postTimes=" + postTimes + ", firstDynamic="
-                + firstDynamic + ", number=" + number + "]";
+        return "Post{" +
+                "postId=" + postId +
+                ", user=" + user +
+                ", postContent='" + postContent + '\'' +
+                ", postTimes=" + postTimes +
+                ", firstDynamic=" + firstDynamic +
+                ", number=" + number +
+                ", pingLunnum=" + pingLunnum +
+                ", iszan=" + iszan +
+                '}';
     }
+
 
     @Override
     public int describeContents() {
@@ -162,6 +170,7 @@ public class Post implements Parcelable {
         dest.writeParcelable(this.firstDynamic, flags);
         dest.writeInt(this.number);
         dest.writeInt(this.pingLunnum);
+        dest.writeByte(this.iszan ? (byte) 1 : (byte) 0);
     }
 
     protected Post(Parcel in) {
@@ -172,9 +181,10 @@ public class Post implements Parcelable {
         this.firstDynamic = in.readParcelable(Dynamic.class.getClassLoader());
         this.number = in.readInt();
         this.pingLunnum = in.readInt();
+        this.iszan = in.readByte() != 0;
     }
 
-    public static final Creator<Post> CREATOR = new Creator<Post>() {
+    public static final Parcelable.Creator<Post> CREATOR = new Parcelable.Creator<Post>() {
         @Override
         public Post createFromParcel(Parcel source) {
             return new Post(source);

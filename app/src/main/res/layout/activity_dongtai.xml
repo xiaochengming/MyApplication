@@ -209,7 +209,7 @@
         android:background="@drawable/mi_while_blue"
         android:orientation="horizontal"
         >
-<!--android:visibility="gone"-->
+        <!--android:visibility="gone"-->
         <EditText
             android:id="@+id/et_fasong_pinglun"
             android:layout_width="wrap_content"

@@ -168,6 +168,7 @@ public class MiSheQuFragment extends Fragment {
                                     //跳到贴子详情
 
                                     Intent intent = new Intent(getActivity(), DongtaiActivity.class);
+                                    Log.i("MiSheQuFragment", "onClick: 是否赞"+list.get(position).getiszan());
                                     intent.putExtra("post", list.get(position));
                                     startActivity(intent);
                                 }

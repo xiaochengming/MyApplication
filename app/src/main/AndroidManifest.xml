@@ -63,7 +63,8 @@
         <activity android:name=".activity.WorkListActivity" />
         <activity android:name=".activity.ServiceInformationActivity" />
         <activity android:name=".activity.EmergencyPlaceAnOrderActivity" />
-        <activity android:name=".activity.DongtaiActivity" />
+        <activity android:name=".activity.DongtaiActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"></activity>
         <activity android:name=".activity.TianJiaTieziActivit" />
         <activity android:name=".CitySelectActivity" />
         <activity
