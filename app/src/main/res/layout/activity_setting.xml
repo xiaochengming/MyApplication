@@ -213,14 +213,18 @@
         android:layout_below="@+id/tv_about"
         android:layout_centerHorizontal="true" />
 
-    <FrameLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_6"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/set_frame_layout">
-    </FrameLayout>
+        android:text="退出登录"
+        android:textColor="#009966"
+        android:textSize="30sp"
+        android:gravity="center"
+        android:id="@+id/tv_exit_login"
+        android:layout_gravity="center_horizontal"
+        android:layout_centerVertical="true"
+        android:layout_alignEnd="@+id/iv_into_about"
+        android:visibility="invisible"/>
 
 
 </RelativeLayout>

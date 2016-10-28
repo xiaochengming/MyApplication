@@ -1,6 +1,27 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        release {
+            keyAlias 'myappxiangmu'
+            keyPassword '123456'
+            storeFile file('D:/xiangmu/MyApplication/myappxiangmu.jks')
+            storePassword '123456'
+        }
+    }
+    signingConfigs {
+        debug {
+            keyAlias 'myappxiangmu'
+            keyPassword '123456'
+            storeFile file("../signApk/myappxiangmu.jks")
+            storePassword '123456'
+        }
+    }
+    sourceSets{
+        main{
+            jniLibs.srcDirs=['libs']
+        }
+    }
     compileSdkVersion 24
     buildToolsVersion "24.0.2"
     defaultConfig {
@@ -16,8 +37,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
-
     dexOptions {
         preDexLibraries = false
         javaMaxHeapSize "4g"   //这个改大
@@ -36,7 +55,6 @@ dependencies {
     compile files('libs/BmobSMS_V1.0.1_20150710.jar')
     compile 'com.jaydenxiao:ExpandableTextView:1.0.0'
     compile 'com.jakewharton:butterknife:5.1.1'
-
 }
 //allprojects {
 //    gradle.projectsEvaluated {

@@ -18,7 +18,7 @@ public class Address implements Parcelable {
 	}
 
 	public Address(int addressId, String address, String userName,
-			String phone, int userId, int isdefault) {
+				   String phone, int userId, int isdefault) {
 		super();
 		this.addressId = addressId;
 		this.address = address;
@@ -27,7 +27,23 @@ public class Address implements Parcelable {
 		this.userId = userId;
 		this.isdefault = isdefault;
 	}
-
+	public Address(String address, String userName,
+				   String phone, int userId) {
+		super();
+		this.address = address;
+		this.userName = userName;
+		this.phone = phone;
+		this.userId = userId;
+	}
+	public Address(int addressId,String address, String userName,
+				   String phone, int userId) {
+		super();
+		this.addressId = addressId;
+		this.address = address;
+		this.userName = userName;
+		this.phone = phone;
+		this.userId = userId;
+	}
 	@Override
 	public String toString() {
 		return "Address [addressId=" + addressId + ", address=" + address
