@@ -65,7 +65,8 @@
         <activity android:name=".activity.WorkListActivity" />
         <activity android:name=".activity.ServiceInformationActivity" />
         <activity android:name=".activity.EmergencyPlaceAnOrderActivity" />
-        <activity android:name=".activity.DongtaiActivity" />
+        <activity android:name=".activity.DongtaiActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"></activity>
         <activity android:name=".activity.TianJiaTieziActivit" />
         <activity android:name=".CitySelectActivity" />
         <activity
@@ -126,6 +127,11 @@
         <activity android:name=".activity.ItemActivity" />
         <activity android:name=".activity.FuWuItemActivity" />
         <activity android:name=".activity.MyOrderActivity" />
+        <activity android:name=".activity.PayItemActivity" />
+        <activity android:name=".activity.PayEmergencyItemActivity">
+
+
+        </activity>
         <activity android:name=".activity.AddressXQActivity"></activity>
         <service
             android:name="com.baidu.location.f"

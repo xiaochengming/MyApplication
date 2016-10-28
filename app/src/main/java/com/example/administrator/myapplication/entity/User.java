@@ -19,6 +19,22 @@ public class User implements Parcelable {
 	private Date birthday;
     private String email;
 
+
+	@Override
+	public String toString() {
+		return "User{" +
+				"userId=" + userId +
+				", name='" + name + '\'' +
+				", sex=" + sex +
+				", photo='" + photo + '\'' +
+				", age=" + age +
+				", password='" + password + '\'' +
+				", number='" + number + '\'' +
+				", birthday=" + birthday +
+				", email='" + email + '\'' +
+				'}';
+	}
+
 	public User(int userId) {
 		this.userId = userId;
 	}

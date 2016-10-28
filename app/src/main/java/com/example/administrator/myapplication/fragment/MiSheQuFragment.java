@@ -164,11 +164,12 @@ public class MiSheQuFragment extends Fragment {
                                 @Override
                                 public void onClick(View v) {
                                     Log.i("MiSheQuFragment", "onClick:布局点击 ");
-                                    Post post1 = (Post) v.getTag();
+
                                     //跳到贴子详情
 
                                     Intent intent = new Intent(getActivity(), DongtaiActivity.class);
-                                    intent.putExtra("post", post1);
+                                    Log.i("MiSheQuFragment", "onClick: 是否赞"+list.get(position).getiszan());
+                                    intent.putExtra("post", list.get(position));
                                     startActivity(intent);
                                 }
                             });

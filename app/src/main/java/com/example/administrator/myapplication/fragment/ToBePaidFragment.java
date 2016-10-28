@@ -25,6 +25,7 @@ import com.example.administrator.myapplication.entity.Order;
 
 import com.example.administrator.myapplication.util.CommonAdapter;
 import com.example.administrator.myapplication.util.RefreshListView;
+import com.example.administrator.myapplication.util.StringUtil;
 import com.example.administrator.myapplication.util.TimesTypeAdapter;
 import com.example.administrator.myapplication.util.UrlAddress;
 import com.example.administrator.myapplication.util.ViewHolder;
@@ -52,7 +53,7 @@ public class ToBePaidFragment extends Fragment implements RefreshListView.OnRefr
     RefreshListView listView;
     List<Order> orders = new ArrayList<Order>();//存放订单信息
     int pageNo = 1;// 页号
-    int pageSize = 2;// 页大小
+    int pageSize = 5;// 页大小
     CommonAdapter<Order> orderApater;//适配器
     public static final int UNPAY = 1;//待付款
     public static final int UNSERVICE = 2;//待服务
@@ -69,8 +70,6 @@ public class ToBePaidFragment extends Fragment implements RefreshListView.OnRefr
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.worker_list, null);
         listView = (RefreshListView) view.findViewById(R.id.lv_workerList);
-
-        //  headSelectView = (LinearLayout) view.findViewById(R.id.head_select_view);
         //控件初始化
         initData();
         //item点击事件
@@ -82,7 +81,7 @@ public class ToBePaidFragment extends Fragment implements RefreshListView.OnRefr
     //获取网路数据
     public void initData() {
 
-        String url = UrlAddress.url + "AllOrderServlet";
+        String url = StringUtil.ip + "/AllOrderServlet";
         RequestParams requestParams = new RequestParams(url);
         //发送用户id
         MyApplication myApplication = (MyApplication) getActivity().getApplication();
@@ -135,7 +134,7 @@ public class ToBePaidFragment extends Fragment implements RefreshListView.OnRefr
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-                        Log.d("用户id", "1111");
+
                     }
 
                     @Override
@@ -230,8 +229,8 @@ public class ToBePaidFragment extends Fragment implements RefreshListView.OnRefr
                 switch (order.getState()) {
                     case UNPAY:
                         //跳转到支付界面
-                        Intent intent=new Intent(getActivity(), PayActivity.class);
-                        intent.putExtra("order",order);
+                        Intent intent = new Intent(getActivity(), PayActivity.class);
+                        intent.putExtra("order", order);
                         startActivity(intent);
                         break;
 
@@ -283,7 +282,7 @@ public class ToBePaidFragment extends Fragment implements RefreshListView.OnRefr
     //更新订单状态，更新界面
     public void changeState(Order order, final int position, final int changeState) {
 
-        RequestParams requestParams = new RequestParams(UrlAddress.url + "UpdateOrderServlet");
+        RequestParams requestParams = new RequestParams(StringUtil.ip + "/UpdateOrderServlet");
 
         MyApplication myApplication = (MyApplication) getActivity().getApplication();
         requestParams.addQueryStringParameter("userId", myApplication.getUser().getUserId() + "");
@@ -326,9 +325,7 @@ public class ToBePaidFragment extends Fragment implements RefreshListView.OnRefr
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("requestCode+resultCode", requestCode + "." + resultCode);
         if (requestCode == TOITEM && resultCode == 2) {
-            // Log.d("requestCode+resultCode", "我执行了");
             //删除回调
             if (data != null) {
                 int orderId = Integer.parseInt(data.getStringExtra("orderId"));
@@ -371,6 +368,7 @@ public class ToBePaidFragment extends Fragment implements RefreshListView.OnRefr
 
                 }
             }
+            changeLayout();
             orderApater.notifyDataSetChanged();
         }
 
@@ -403,7 +401,7 @@ public class ToBePaidFragment extends Fragment implements RefreshListView.OnRefr
 
     //上拉加载
     public void topPullLoading() {
-        String url = UrlAddress.url + "AllOrderServlet";
+        String url = StringUtil.ip + "/AllOrderServlet";
         RequestParams requestParams = new RequestParams(url);
         //发送用户id
         MyApplication myApplication = (MyApplication) getActivity().getApplication();
@@ -440,6 +438,7 @@ public class ToBePaidFragment extends Fragment implements RefreshListView.OnRefr
                             changeLayout();
                             listView.setAdapter(orderApater);
                         } else {
+                            changeLayout();
                             orderApater.notifyDataSetChanged();
                         }
 
@@ -475,7 +474,7 @@ public class ToBePaidFragment extends Fragment implements RefreshListView.OnRefr
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                //bug
+                pageNo = 1;
                 initData();
                 listView.completeRefresh();//刷新数据后，改变界面
             }

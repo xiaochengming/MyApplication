@@ -23,6 +23,7 @@ import com.example.administrator.myapplication.activity.ItemActivity;
 import com.example.administrator.myapplication.entity.Order;
 import com.example.administrator.myapplication.util.CommonAdapter;
 import com.example.administrator.myapplication.util.RefreshListView;
+import com.example.administrator.myapplication.util.StringUtil;
 import com.example.administrator.myapplication.util.TimesTypeAdapter;
 import com.example.administrator.myapplication.util.UrlAddress;
 import com.example.administrator.myapplication.util.ViewHolder;
@@ -82,11 +83,10 @@ public class ToBeServedFragment extends Fragment implements RefreshListView.OnRe
 
     //获取网路数据
     public void initData() {
-        String url = UrlAddress.url + "AllOrderServlet";
+        String url = StringUtil.ip + "/AllOrderServlet";
         RequestParams requestParams = new RequestParams(url);
         //发送用户id
         MyApplication myApplication = (MyApplication) getActivity().getApplication();
-        //  Log.d("用户id", +myApplication.getUser().getUserId() + "");
         requestParams.addQueryStringParameter("userId", myApplication.getUser().getUserId() + "");
         requestParams.addQueryStringParameter("orderState", UNSERVICE + "");
         requestParams.addQueryStringParameter("pageNo", pageNo + "");
@@ -106,7 +106,6 @@ public class ToBeServedFragment extends Fragment implements RefreshListView.OnRe
                         Iterator iterList = orderList.iterator();
                         while (iterList.hasNext()) {
                             Order order = (Order) iterList.next();
-                            //  Log.d("111", order.toString());
                             if (order.getState() == 6) {
                                 iterList.remove();
                             }
@@ -126,6 +125,7 @@ public class ToBeServedFragment extends Fragment implements RefreshListView.OnRe
                             listView.setAdapter(orderApater);
 
                         } else {
+                            changeLayout();
                             orderApater.notifyDataSetChanged();
                         }
 
@@ -133,7 +133,7 @@ public class ToBeServedFragment extends Fragment implements RefreshListView.OnRe
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-                        Log.d("用户id", "1111");
+
                     }
 
                     @Override
@@ -311,7 +311,7 @@ public class ToBeServedFragment extends Fragment implements RefreshListView.OnRe
 
     //更新订单状态，更新界面
     public void changeState(Order order, final int position, final int changeState) {
-        RequestParams requestParams = new RequestParams(UrlAddress.url + "UpdateOrderServlet");
+        RequestParams requestParams = new RequestParams(StringUtil.ip + "/UpdateOrderServlet");
         MyApplication myApplication = (MyApplication) getActivity().getApplication();
         requestParams.addQueryStringParameter("userId", myApplication.getUser().getUserId() + "");
         requestParams.addBodyParameter("orderId", order.getOrderId() + "");
@@ -367,16 +367,12 @@ public class ToBeServedFragment extends Fragment implements RefreshListView.OnRe
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("requestCode+resultCode", requestCode + "." + resultCode);
         if (requestCode == TOITEM && resultCode == 2) {
-            // Log.d("requestCode+resultCode", "我执行了");
             //删除回调
             if (data != null) {
                 int orderId = Integer.parseInt(data.getStringExtra("orderId"));
                 int orderState = Integer.parseInt(data.getStringExtra("orderState"));
-
                 Iterator iterList = orders.iterator();
-                Log.d("requestCode+resultCode", orderState + "");
                 while (iterList.hasNext()) {
                     Order backOrder = (Order) iterList.next();
                     if (backOrder.getOrderId() == orderId) {
@@ -413,6 +409,7 @@ public class ToBeServedFragment extends Fragment implements RefreshListView.OnRe
 
                 }
             }
+            changeLayout();
             orderApater.notifyDataSetChanged();
         }
 
@@ -450,7 +447,7 @@ public class ToBeServedFragment extends Fragment implements RefreshListView.OnRe
 
     //上拉加载
     public void topPullLoading() {
-        String url = UrlAddress.url + "AllOrderServlet";
+        String url = StringUtil.ip + "/AllOrderServlet";
         RequestParams requestParams = new RequestParams(url);
         //发送用户id
         MyApplication myApplication = (MyApplication) getActivity().getApplication();
@@ -473,7 +470,6 @@ public class ToBeServedFragment extends Fragment implements RefreshListView.OnRe
                             return;
                         }
 
-
                         changeLayout();
                         orders.addAll(orderList);
 
@@ -488,8 +484,10 @@ public class ToBeServedFragment extends Fragment implements RefreshListView.OnRe
                                 }
 
                             };
+                            changeLayout();
                             listView.setAdapter(orderApater);
                         } else {
+                            changeLayout();
                             orderApater.notifyDataSetChanged();
                         }
 
@@ -523,6 +521,7 @@ public class ToBeServedFragment extends Fragment implements RefreshListView.OnRe
     @Override
     public void onRefresh() {
         //刷新
+        pageNo = 1;
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -537,8 +536,6 @@ public class ToBeServedFragment extends Fragment implements RefreshListView.OnRe
     @Override
     public void onPull() {
         pageNo++;
-        Log.d("用户id", "fdsafdsafdsa");
-
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -553,8 +550,6 @@ public class ToBeServedFragment extends Fragment implements RefreshListView.OnRe
     //是否有订单的布局切换
     public void changeLayout() {
         listView.isShowOrder(orders, getContext());
-
-
     }
 
 }

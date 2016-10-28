@@ -27,6 +27,7 @@ import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.entity.Evaluate;
 import com.example.administrator.myapplication.entity.Order;
 
+import com.example.administrator.myapplication.util.StringUtil;
 import com.example.administrator.myapplication.util.TimesTypeAdapter;
 import com.example.administrator.myapplication.util.UrlAddress;
 import com.google.gson.Gson;
@@ -142,17 +143,15 @@ public class EvaluateActivity extends AppCompatActivity {
 
     public void initView() {
         if (order.getHousekeeper() != null) {
-            x.image().bind(prodListItemIv, order.getHousekeeper().getHousePhoto());
+            x.image().bind(prodListItemIv, StringUtil.ip + order.getHousekeeper().getHousePhoto());
         }
         edCategoryName.setText(order.getCategory().getName());
     }
 
     //评价
     public void orderComment() {
-
         Intent intent1 = getIntent();
         String or = intent1.getStringExtra("Order");
-        // Log.d("444", or);
         Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
                 .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
         order = gson.fromJson(or, Order.class);
