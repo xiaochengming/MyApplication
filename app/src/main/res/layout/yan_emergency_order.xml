@@ -15,16 +15,17 @@
 
 
         <TextView
-            android:id="@+id/te_time"
+            android:layout_marginTop="-5dp"
+            android:id="@+id/State"
             style="@style/yan_styles_emergency"
             android:layout_alignParentRight="true"
             android:layout_marginRight="15dp"
-            android:text="下单时间" />
+            android:text="状态" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/te_time"
+            android:layout_below="@id/State"
             android:orientation="vertical">
             <View
 
@@ -41,15 +42,17 @@
 
 
                 <ImageView
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginLeft="-3dp"
                     android:id="@+id/img_housekeeper_photo"
                     android:layout_width="80dp"
                     android:layout_height="70dp"
                     android:layout_alignParentLeft="true"
-                    android:background="@drawable/img_border"
+
                     android:src="@drawable/ic_launcher" />
 
                 <TextView
+                    android:id="@+id/price"
                     style="@style/yan_styles_emergency"
                     android:layout_marginLeft="4dp"
                     android:layout_toRightOf="@+id/img_housekeeper_photo"
@@ -58,6 +61,7 @@
                     android:text="价格" />
 
                 <TextView
+                    android:id="@+id/Typeface_ServiceType"
                     style="@style/yan_styles_emergency"
                     android:layout_alignParentRight="true"
                     android:textColor="@color/border_clo"
@@ -75,6 +79,7 @@
                     android:text="地址:" />
 
                 <TextView
+                    android:id="@+id/tv_address"
                     style="@style/yan_styles_emergency"
                     android:layout_alignBottom="@+id/order_dizhi"
                     android:layout_toRightOf="@+id/order_dizhi"

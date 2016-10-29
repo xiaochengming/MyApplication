@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -91,7 +92,7 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
     //获取网路数据
     public void initData() {
 
-        String url = StringUtil.ip+ "/AllEmergencyOrderServlet";
+        String url = StringUtil.ip + "/AllEmergencyOrderServlet";
         RequestParams requestParams = new RequestParams(url);
         //发送用户id
         MyApplication myApplication = (MyApplication) getActivity().getApplication();
@@ -110,7 +111,7 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
                         orders.clear();
                         orders.addAll(orderList);
                         if (orderApater == null) {
-                            orderApater = new CommonAdapter<Order>(getActivity(), orders, R.layout.order_layout) {
+                            orderApater = new CommonAdapter<Order>(getActivity(), orders, R.layout.yan_emergency_order) {
                                 @Override
                                 public void convert(ViewHolder holder, Order order, int position) {
                                     //控件赋值
@@ -162,12 +163,17 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
         teState.setText(initState(order.getState()));
         TextView teAddress = holder.getView(R.id.tv_address);
         teAddress.setText(order.getAddress().getAddress());
-        TextView teBegin = holder.getView(R.id.order_textview_5);
-        teBegin.setText("下单时间: " + order.getBegdate() + "");
+    /*    TextView teBegin = holder.getView(R.id.order_textview_5);
+      teBegin.setText("下单时间: " + order.getBegdate() + "");*/
         TextView tePrice = holder.getView(R.id.price);
         tePrice.setText("￥" + order.getAllprice() + "");
         Button buttonLeft = holder.getView(R.id.button_left);
         Button buttonRight = holder.getView(R.id.button_right);
+        if (order.getCategory() != null) {
+            ImageView imageView = holder.getView(R.id.img_housekeeper_photo);
+            x.image().bind(imageView,StringUtil.ip+ order.getCategory().getIcon());
+
+        }
         //按钮控件初始化
         setButtonfromOrderState(buttonLeft, buttonRight, order);
         //按钮点击事件
