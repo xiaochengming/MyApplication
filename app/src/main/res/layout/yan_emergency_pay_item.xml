@@ -50,11 +50,11 @@
 
 
     <ScrollView
-        android:id="@+id/scr"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/line1"
-        android:layout_gravity="top">
+    android:id="@+id/scr"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/line1"
+    android:layout_gravity="top">
 
         <LinearLayout
             style="@style/buy_product_LinearLayout"

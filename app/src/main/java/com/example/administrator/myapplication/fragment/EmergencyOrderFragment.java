@@ -101,7 +101,6 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
         x.http().get(requestParams, new Callback.CacheCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        //Log.d("111", result);
                         Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
                                 .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
                         //把传输过来的json对象转换成UserText对象

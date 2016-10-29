@@ -136,4 +136,12 @@
         <item name="android:minHeight">15.0dip</item>
         <item name="android:isIndicator">true</item>
     </style>
+    <style name="yan_styles_emergency" parent="@android:style/Widget.Holo.TextView">
+        <item name="android:textSize">16.0sp</item>
+        <item name="android:textColor">#ff697279</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minWidth">63.0dip</item>
+    </style>
 </resources>
