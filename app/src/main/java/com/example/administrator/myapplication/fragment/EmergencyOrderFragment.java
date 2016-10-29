@@ -26,6 +26,7 @@ import com.example.administrator.myapplication.entity.Order;
 
 import com.example.administrator.myapplication.util.CommonAdapter;
 import com.example.administrator.myapplication.util.RefreshListView;
+import com.example.administrator.myapplication.util.StringUtil;
 import com.example.administrator.myapplication.util.TimesTypeAdapter;
 import com.example.administrator.myapplication.util.UrlAddress;
 import com.example.administrator.myapplication.util.ViewHolder;
@@ -90,7 +91,7 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
     //获取网路数据
     public void initData() {
 
-        String url = UrlAddress.url + "AllEmergencyOrderServlet";
+        String url = StringUtil.ip+ "/AllEmergencyOrderServlet";
         RequestParams requestParams = new RequestParams(url);
         //发送用户id
         MyApplication myApplication = (MyApplication) getActivity().getApplication();
@@ -264,8 +265,8 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
                 switch (order.getState()) {
                     case UNPAY:
                         //跳转到支付界面
-                        Intent intent=new Intent(getActivity(), PayActivity.class);
-                        intent.putExtra("order",order);
+                        Intent intent = new Intent(getActivity(), PayActivity.class);
+                        intent.putExtra("order", order);
                         startActivity(intent);
                         break;
                     case UNSERVICE:
@@ -549,7 +550,7 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                //bug
+                pageNo = 1;
                 initData();
                 listView.completeRefresh();//刷新数据后，改变界面
             }
