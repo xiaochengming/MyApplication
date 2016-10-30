@@ -96,6 +96,7 @@ public class MiSheQuFragment extends Fragment {
                 //上啦加载
                 getdata();
 
+
             }
         });
     }
@@ -212,6 +213,11 @@ public class MiSheQuFragment extends Fragment {
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 Log.i("MiSheQuFragment", "onError: " + ex);
+                if (flag) {
+                    listView.completeRefresh();
+                    flag = false;
+                }
+                Toast.makeText(getActivity(), "刷新失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -390,6 +396,8 @@ public class MiSheQuFragment extends Fragment {
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 Log.i("MiSheQuFragment", "onError: " + ex);
+                listView.completeLoad();
+                Toast.makeText(getActivity(), "网络错误", Toast.LENGTH_SHORT).show();
             }
 
             @Override
