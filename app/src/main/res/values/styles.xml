@@ -133,7 +133,7 @@
     <style name="MyRatingBar">
         <item name="android:maxHeight">15.0dip</item>
         <item name="android:progressDrawable">@drawable/food_ratingbar_full</item>
-        <item name="android:minHeight">15.0dip</item>
+        <item name="android:minHeight">20dp</item>
         <item name="android:isIndicator">true</item>
     </style>
     <style name="yan_styles_emergency" parent="@android:style/Widget.Holo.TextView">

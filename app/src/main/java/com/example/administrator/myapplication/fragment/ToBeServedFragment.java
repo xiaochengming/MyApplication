@@ -19,13 +19,13 @@ import android.widget.Toast;
 
 import com.example.administrator.myapplication.Application.MyApplication;
 import com.example.administrator.myapplication.R;
+import com.example.administrator.myapplication.activity.EmergencyOrderItemActivity;
 import com.example.administrator.myapplication.activity.ItemActivity;
 import com.example.administrator.myapplication.entity.Order;
 import com.example.administrator.myapplication.util.CommonAdapter;
 import com.example.administrator.myapplication.util.RefreshListView;
 import com.example.administrator.myapplication.util.StringUtil;
 import com.example.administrator.myapplication.util.TimesTypeAdapter;
-import com.example.administrator.myapplication.util.UrlAddress;
 import com.example.administrator.myapplication.util.ViewHolder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

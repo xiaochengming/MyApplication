@@ -126,7 +126,7 @@
         <activity
             android:name=".activity.EvaluateActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".activity.ItemActivity" />
+        <activity android:name=".activity.EmergencyOrderItemActivity" />
         <activity android:name=".activity.FuWuItemActivity" />
         <activity android:name=".activity.MyOrderActivity" />
         <activity android:name=".activity.PayItemActivity" />

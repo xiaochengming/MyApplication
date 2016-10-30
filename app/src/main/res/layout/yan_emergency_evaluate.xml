@@ -16,7 +16,7 @@
             style="@style/content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5.0dp"
+            android:layout_marginTop="5dp"
             android:text="150****1414" />
 
         <TextView
@@ -46,11 +46,12 @@
         <RatingBar
             android:id="@+id/guzhu_rating"
             style="@style/MyRatingBar"
+
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:clickable="false"
             android:numStars="5"
-            android:paddingTop="8.0dip"
+            android:paddingTop="8dp"
             android:rating="4.0" />
 
     </LinearLayout>
@@ -59,6 +60,6 @@
         style="@style/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5.0dp"
+        android:layout_marginTop="5dp"
         android:text="非常擅长做南方菜受到老人的好评" />
 </LinearLayout>

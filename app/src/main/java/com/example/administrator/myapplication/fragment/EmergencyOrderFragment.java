@@ -21,7 +21,7 @@ import android.widget.Toast;
 import com.example.administrator.myapplication.Application.MyApplication;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.activity.EvaluateActivity;
-import com.example.administrator.myapplication.activity.ItemActivity;
+import com.example.administrator.myapplication.activity.EmergencyOrderItemActivity;
 import com.example.administrator.myapplication.activity.PayActivity;
 import com.example.administrator.myapplication.entity.Order;
 
@@ -314,7 +314,7 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
                     Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
                             .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
                     String orderJson = gson.toJson(ordrers.get(i - 1));
-                    Intent intent = new Intent(getActivity(), ItemActivity.class);
+                    Intent intent = new Intent(getActivity(), EmergencyOrderItemActivity.class);
                     intent.putExtra("order", orderJson);
                     startActivityForResult(intent, TOITEM);
                 }
@@ -371,7 +371,7 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
     //更新订单状态，更新界面
     public void changeState(final Order order, final int position, final int changeState) {
 
-        RequestParams requestParams = new RequestParams(UrlAddress.url + "UpdateEmergencyOrder");
+        RequestParams requestParams = new RequestParams(StringUtil.ip + "/UpdateEmergencyOrder");
 
         MyApplication myApplication = (MyApplication) getActivity().getApplication();
         requestParams.addQueryStringParameter("userId", myApplication.getUser().getUserId() + "");

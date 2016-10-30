@@ -45,10 +45,7 @@ public class PayEmergencyItemActivity extends AppCompatActivity {
     TextView edCategoryName;
     @InjectView(R.id.order_profile)
     TextView orderProfile;
-    @InjectView(R.id.rela_jianjie)
-    RelativeLayout relaJianjie;
-    @InjectView(R.id.rela)
-    RelativeLayout rela;
+
     @InjectView(R.id.order_time)
     TextView orderTime;
     @InjectView(R.id.order_price)
@@ -73,7 +70,7 @@ public class PayEmergencyItemActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.yan_emergency_pay_item);
+        setContentView(R.layout.yan_emergency_item);
         ButterKnife.inject(this);
         getData();
     }

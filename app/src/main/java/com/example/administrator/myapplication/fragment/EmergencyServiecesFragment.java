@@ -63,7 +63,7 @@ public class EmergencyServiecesFragment extends Fragment implements RefreshListV
 
     public void initData() {
 
-        RequestParams requestParams = new RequestParams(UrlAddress.url + "AllEmergencyServiceServlet");
+        RequestParams requestParams = new RequestParams(StringUtil.ip+ "/AllEmergencyServiceServlet");
         requestParams.addQueryStringParameter("pageNo", pageNo + "");
         requestParams.addQueryStringParameter("pageSize", pageSize + "");
         //应急服务类型
