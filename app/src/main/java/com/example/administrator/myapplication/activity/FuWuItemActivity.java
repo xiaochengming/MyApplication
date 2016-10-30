@@ -41,6 +41,9 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
 
 /**
  * Created by king on 2016/10/19.
@@ -137,6 +140,11 @@ public class FuWuItemActivity extends AppCompatActivity implements View.OnClickL
         switch (view.getId()) {
             case R.id.prod_info_cart:
                 //转到客服
+                if (user.getUserId() != 0) {
+                    getChatKey();
+                } else {
+                    Toast.makeText(FuWuItemActivity.this, "未登入", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.prod_info_nowbuy:
                 //转到下单页面
@@ -155,9 +163,7 @@ public class FuWuItemActivity extends AppCompatActivity implements View.OnClickL
                 }
 
                 break;
-            case R.id.prod_info_tv_prod_comment:
 
-                break;
 
         }
 
@@ -244,4 +250,93 @@ public class FuWuItemActivity extends AppCompatActivity implements View.OnClickL
         userContent.setText(evaluate.getEvaluate());
     }
 
+    //获取聊天密钥
+    public void getChatKey() {
+        String url = StringUtil.ip + "/Yan_getChatKeyServlet";
+        RequestParams requestParams = new RequestParams(url);
+        //发送用户id
+        requestParams.addQueryStringParameter("userId1", user.getUserId() + "");
+        requestParams.addQueryStringParameter("username", user.getName());
+
+        x.http().get(requestParams, new Callback.CacheCallback<String>() {
+                    @Override
+                    public void onSuccess(String result) {
+                        String userKey = result.split("token")[1].split("userId")[0].split("\"")[2];
+                        Log.d("Main2Activity", "onSuccess: " + userKey);
+                        //得到Token
+                        String Token = userKey;
+                        /**
+                         * IMKit SDK调用第二步
+                         *
+                         * 建立与服务器的连接
+                         *
+                         */
+                        RongIM.connect(Token, new RongIMClient.ConnectCallback() {
+                            @Override
+                            public void onTokenIncorrect() {
+                                //Connect Token 失效的状态处理，需要重新获取 Token
+                            }
+
+                            @Override
+                            public void onSuccess(String userId) {
+                                Log.d("MainActivity", "onSuccess: " + userId);
+                            }
+
+                            @Override
+                            public void onError(RongIMClient.ErrorCode errorCode) {
+                                Log.d("MainActivity", "onError: " + errorCode);
+
+                            }
+                        });
+                        //实现客服端
+                        if (user.getUserId() == 3) {
+
+
+//启动会话列表界面
+                        if (RongIM.getInstance() != null)
+                                RongIM.getInstance().startConversationList(FuWuItemActivity.this);
+
+//启动聚合会话列表界面
+/*
+                         if (RongIM.getInstance() != null)
+                                RongIM.getInstance().startSubConversationList(FuWuItemActivity.this, Conversation.ConversationType.GROUP);
+*/
+                        } else {
+                            if (RongIM.getInstance() != null)
+                            //访问的用户
+                            /**
+                             * 启动单聊
+                             * context - 应用上下文。
+                             * targetUserId - 要与之聊天的用户 Id。
+                             * title - 聊天的标题，如果传入空值，则默认显示与之聊天的用户名称。
+                             */
+                                RongIM.getInstance().startPrivateChat(FuWuItemActivity.this, "3", "客服");
+                        }
+
+                    }
+
+
+                    @Override
+                    public void onError(Throwable ex, boolean isOnCallback) {
+                        Log.d("Main2Activity", "onError: " + ex);
+                    }
+
+                    @Override
+                    public void onCancelled(CancelledException cex) {
+
+                    }
+
+                    @Override
+                    public void onFinished() {
+
+                    }
+
+                    @Override
+                    public boolean onCache(String result) {
+                        return false;
+                    }
+                }
+
+        );
+    }
 }
