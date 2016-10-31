@@ -133,10 +133,7 @@ public class TianJiaTieziActivit extends AppCompatActivity {
         x.http().post(requestParams, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Intent intent = new Intent();
-                intent.putExtra("post", post);
-                setResult(RESULT_OK, intent);
-                finish();
+
             }
 
             @Override
@@ -154,7 +151,10 @@ public class TianJiaTieziActivit extends AppCompatActivity {
 
             }
         });
-
+        Intent intent = new Intent();
+        intent.putExtra("post", post);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     @Override

@@ -52,7 +52,7 @@ public class MiSheQuFragment extends Fragment {
     RefreshListView listView;
 
 
-    private int pageNum = 1;
+    public int pageNum = 1;
     private int pagesize = 10;
 
     public List<Post> list = new ArrayList<Post>();
