@@ -274,7 +274,7 @@ public class MainActivity extends AppCompatActivity
                 //判断是否为首次添加地址，是：跳转到首次添加地址界面；否：跳转到添加地址界面（添加过的地址
                 // 显示在listview上面，可以再次添加）
                 //首次
-                Intent intent = new Intent(MainActivity.this, FirstAddressActivity.class);
+                Intent intent = new Intent(MainActivity.this, AddressActivity.class);
                 startActivity(intent);
                 Log.i("ming", "onNavigationItemSelected: 22");
             } else {

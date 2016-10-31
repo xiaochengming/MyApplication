@@ -1,21 +1,30 @@
 package com.example.administrator.myapplication.fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,64 +57,134 @@ import butterknife.OnClick;
  */
 public class PaiHangFragment extends Fragment implements RefreshListView.OnRefreshUploadChangeListener{
 
-
-    @InjectView(R.id.tv_degree_of_heat)
-    TextView tvDegreeOfHeat;
-    @InjectView(R.id.tv_cleaning_service)
-    TextView tvCleaningService;
-    @InjectView(R.id.tv_appliance_cleaning)
-    TextView tvApplianceCleaning;
-    @InjectView(R.id.tv_furniture_maintenance)
-    TextView tvFurnitureMaintenance;
-    @InjectView(R.id.tv_nanny)
-    TextView tvNanny;
-    @InjectView(R.id.tv_maternity_matron)
-    TextView tvMaternityMatron;
-    @InjectView(R.id.tv_more)
-    TextView tvMore;
-    @InjectView(R.id.lv_hang)
-    RefreshListView lvHang;
-    String hangName=null;
-    int pageNo =1;
-    int pageSize =7;
+    String hangName = null;
+    int pageNo = 1;
+    int pageSize = 7;
     CommonAdapter<Housekeeper> hangAdapter;
-    List<Housekeeper> housekeepers=new ArrayList<Housekeeper>();
-    List<String> popContents=new ArrayList<String>();
-    Handler handler=new Handler();
+    List<Housekeeper> housekeepers = new ArrayList<Housekeeper>();
+    List<String> parentItemArr=new ArrayList<>();
+    Handler handler = new Handler();
     View tv;
+    RadioGroup mRadioGroup;
+    HorizontalScrollView mHorizontalScrollView;
+    RefreshListView lvHang;
+    RadioButton rb;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (tv!=null){
-            ViewGroup v= (ViewGroup) tv.getParent();
-            if (v!=null){
+        if (tv != null) {
+            ViewGroup v = (ViewGroup) tv.getParent();
+            if (v != null) {
                 v.removeView(tv);
-            } getData(hangName);
-            Log.i("PaiHangFragment", "onCreateView lvhang "+lvHang);
+            }
+            mRadioGroup = (RadioGroup)tv.findViewById(R.id.radio_group_ph);
+            mHorizontalScrollView = (HorizontalScrollView) tv.findViewById(R.id.horizontalscrollview);
+            lvHang= (RefreshListView) tv.findViewById(R.id.lv_rlv_ph);
+            init();
+            //初始化
+//            getData(null);
 
-            ButterKnife.inject(this, tv);
             lvHang.setOnRefreshUploadChangeListener(this);
-            popContents.add("维修服务");
-            popContents.add("居家换新");
-            popContents.add("深度除螨");
-            popContents.add("甲醛检测");
-            popContents.add("打蜡服务");
+            Log.i("PaiHangFragment", "onCreateView lvhang " + lvHang);
             return tv;
         }
-
         tv = inflater.inflate(R.layout.fragment_hang_pai, null);
-        ButterKnife.inject(this, tv);
+        mRadioGroup = (RadioGroup)tv.findViewById(R.id.radio_group_ph);
+        mHorizontalScrollView = (HorizontalScrollView) tv.findViewById(R.id.horizontalscrollview);
+        lvHang= (RefreshListView) tv.findViewById(R.id.lv_rlv_ph);
         //初始化，hangName=null;
-        getData(hangName);
+        init();
+        //初始化
+//        getData(null);
         lvHang.setOnRefreshUploadChangeListener(this);
-        popContents.add("维修服务");
-        popContents.add("居家换新");
-        popContents.add("深度除螨");
-        popContents.add("甲醛检测");
-        popContents.add("打蜡服务");
+        Log.i("PaiHangFragment", "onCreateView  ");
         return tv;
     }
+    //初始化
+    public void init(){
+        parentItemArr.add("热度");
+        parentItemArr.add("保洁服务");
+        parentItemArr.add("家电清洗");
+        parentItemArr.add("家具保养");
+        parentItemArr.add("保姆");
+        parentItemArr.add("月嫂");
+        parentItemArr.add("维修服务");
+        parentItemArr.add("居家换新");
+        parentItemArr.add("深度除螨");
+        parentItemArr.add("甲醛检测");
+        parentItemArr.add("打蜡服务");
 
+        //parentItemArr为商品类别对象集合
+        for (int i =0;i<parentItemArr.size();i++){
+            //添加radiobutton及设置参数(方便动态加载radiobutton)
+            rb  = new RadioButton(getActivity());
+            //根据下标获取商品类别对象
+            String itemArr = parentItemArr.get(i);
+            rb.setText(itemArr);
+            rb.setTextSize(14);
+            rb.setPadding(0,15,0,15);
+            rb.setGravity(Gravity.CENTER);
+            //根据需要设置显示初始标签的个数，这里显示4个
+            rb.setLayoutParams(new ViewGroup.LayoutParams((int)((getScreenWidth(getActivity()))/3.0), ViewGroup.LayoutParams.FILL_PARENT));
+            rb.setBackgroundResource(R.drawable.radiobutton_bg_selector);
+            //**原生radiobutton是有小圆点的，要去掉圆点而且最好按以下设置，设置为null的话在4.x.x版本上依然会出现**
+            rb.setButtonDrawable(new ColorDrawable(Color.TRANSPARENT));
+            rb.setTextColor(getActivity().getResources().getColorStateList(R.color.check_txt_color));
+            //向radiogroup中添加radiobutton
+            mRadioGroup.addView(rb);
+
+            //设置初始check对象（第一个索引从0开始）
+            ((RadioButton)mRadioGroup.getChildAt(0)).setChecked(true);
+            //初始化
+            getData(null);
+            //监听check对象
+            mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, final int checkedId) {
+                    final int RadiobuttonId = group.getCheckedRadioButtonId();
+                    //获取radiobutton对象
+                    final RadioButton bt = (RadioButton) group.findViewById(RadiobuttonId);
+                    //获取单个对象中的位置
+                    final int index = group.indexOfChild(bt);
+                    //设置滚动位置，可使点击radiobutton时，将该radiobutton移动至第二位置
+                    mHorizontalScrollView.smoothScrollTo(bt.getLeft() - (int) (getScreenWidth(getActivity()) / 3.0), 0);
+
+                    Log.i("MainActivity", "onCheckedChanged  3:"+parentItemArr.get(index));
+                    if (parentItemArr.get(index).equals("热度")){
+                        hangName=null;
+                    }else if (parentItemArr.get(index).equals("保洁服务")){
+                        hangName="保洁";
+                    }else if (parentItemArr.get(index).equals("家电清洗")){
+                        hangName="清洗";
+                    }else if (parentItemArr.get(index).equals("家具保养")){
+                        hangName="保养";
+                    }else if (parentItemArr.get(index).equals("保姆")){
+                        hangName="保姆";
+                    }else if (parentItemArr.get(index).equals("月嫂")){
+                        hangName="月嫂";
+                    }else if (parentItemArr.get(index).equals("维修服务")){
+                        hangName="维修";
+                    }else if (parentItemArr.get(index).equals("居家换新")){
+                        hangName="居";
+                    }else if (parentItemArr.get(index).equals("深度除螨")){
+                        hangName="除螨";
+                    }else if (parentItemArr.get(index).equals("甲醛检测")){
+                        hangName="甲醛";
+                    }else if (parentItemArr.get(index).equals("打蜡服务")){
+                        hangName="打蜡";
+                    }
+                    getData(hangName);
+                }
+            });
+        }
+    }
+    //获得屏幕宽度
+    public static int getScreenWidth(Context context) {
+        WindowManager manager = (WindowManager) context
+                .getSystemService(Context.WINDOW_SERVICE);
+        Display display = manager.getDefaultDisplay();
+        return display.getWidth();
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -114,13 +193,13 @@ public class PaiHangFragment extends Fragment implements RefreshListView.OnRefre
 
     //连接服务器，获取数据
     public void getData(String hangName) {
-        Log.i("PaiHangFragment", "getData hangName= "+hangName);
-        Log.i("PaiHangFragment", "getData  ");
-        String url = StringUtil.ip+"/Ranking";
+        Log.i("PaiHangFragment", "getData hangName= " + hangName);
+        String url = StringUtil.ip + "/Ranking";
         RequestParams requestParams = new RequestParams(url);
         requestParams.addQueryStringParameter("hangName", hangName);
         requestParams.addQueryStringParameter("pageNo", pageNo + "");
         requestParams.addQueryStringParameter("pageSize", pageSize + "");
+        Log.i("PaiHangFragment", "url:"+url+",pageNo:"+pageNo+",pageSize:"+pageSize);
         x.http().get(requestParams, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
@@ -129,11 +208,12 @@ public class PaiHangFragment extends Fragment implements RefreshListView.OnRefre
                 //响应成功
                 //json转换成List<HousekeeperCategory>
                 Gson gson = new Gson();
-                Type type = new TypeToken<List<Housekeeper>>() {}.getType();
-                List<Housekeeper> updatehousekeepers=gson.fromJson(result, type);
+                Type type = new TypeToken<List<Housekeeper>>() {
+                }.getType();
+                List<Housekeeper> updatehousekeepers = gson.fromJson(result, type);
                 housekeepers.clear();
                 housekeepers.addAll(updatehousekeepers);
-                Log.i("PaiHangFragment", "onSuccess  :"+housekeepers);
+                Log.i("PaiHangFragment", "onSuccess  :" + housekeepers);
                 //设置listview的adpter
                 if (hangAdapter == null) {
                     Log.i("PaiHangFragment", "onSuccess  hangAdapter");
@@ -148,7 +228,7 @@ public class PaiHangFragment extends Fragment implements RefreshListView.OnRefre
                             tvName.setText(housekeeper.getName());
                             //服务次数赋值
                             TextView tvCount = viewHolder.getViewById(R.id.tv_count);
-                            tvCount.setText("服务过"+housekeeper.getServiceTime() + "" + "个家庭");
+                            tvCount.setText("服务过" + housekeeper.getServiceTime() + "" + "个家庭");
                             //地址赋值
                             TextView tvAddress = viewHolder.getViewById(R.id.tv_address);
                             tvAddress.setText(housekeeper.getPlaceOfOrigin());
@@ -156,7 +236,7 @@ public class PaiHangFragment extends Fragment implements RefreshListView.OnRefre
                             TextView tvAge = viewHolder.getViewById(R.id.tv_ages);
                             tvAge.setText(housekeeper.getAge() + "" + "岁");
                             //头像赋值
-                            ImageOptions imageOptions=new ImageOptions.Builder()
+                            ImageOptions imageOptions = new ImageOptions.Builder()
                                     //设置加载过程的图片
                                     .setLoadingDrawableId(R.mipmap.ic_launcher)
                                     //设置加载失败后的图片
@@ -165,23 +245,24 @@ public class PaiHangFragment extends Fragment implements RefreshListView.OnRefre
                                     .setCircular(true)
                                     //设置支持gif
                                     .setIgnoreGif(true).build();
-                            String photoUrl = StringUtil.ip+"/"+ housekeeper.getHousePhoto();
+                            String photoUrl = StringUtil.ip + "/" + housekeeper.getHousePhoto();
+                            Log.i("PaiHangFragment", "convert  photoUrl:"+photoUrl);
                             ImageView imageView = viewHolder.getViewById(R.id.imageViews);
-                            x.image().bind(imageView, photoUrl,imageOptions);
+                            x.image().bind(imageView, photoUrl, imageOptions);
                             //星星数量赋值
-                            RatingBar ratingBar=viewHolder.getViewById(R.id.ratingBar);
-                            int ratingSize=housekeeper.getServiceplevel();
+                            RatingBar ratingBar = viewHolder.getViewById(R.id.ratingBar);
+                            int ratingSize = housekeeper.getServiceplevel();
                             ratingBar.setRating(ratingSize);
                             //按钮点击事件(找控件)
-                            TextView tvDetails=viewHolder.getViewById(R.id.but_details);
+                            TextView tvDetails = viewHolder.getViewById(R.id.but_details);
                             tvDetails.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     //跳转到介绍界面(传值)
-                                    Intent intent=new Intent(getActivity(),IntroduceActivity.class);
+                                    Intent intent = new Intent(getActivity(), IntroduceActivity.class);
                                     //housekeeper对象
-                                    Bundle bundle=new Bundle();
-                                    bundle.putParcelable("huosekeeper",housekeeper);
+                                    Bundle bundle = new Bundle();
+                                    bundle.putParcelable("huosekeeper", housekeeper);
                                     intent.putExtras(bundle);
                                     startActivity(intent);
                                 }
@@ -211,11 +292,12 @@ public class PaiHangFragment extends Fragment implements RefreshListView.OnRefre
         });
 
     }
+
     //连接服务器，获取数据
     public void getPullData(String hangName) {
-        Log.i("PaiHangFragment", "getData hangName= "+hangName);
+        Log.i("PaiHangFragment", "getData hangName= " + hangName);
         Log.i("PaiHangFragment", "getData  ");
-        String url = StringUtil.ip+"/Ranking";
+        String url = StringUtil.ip + "/Ranking";
         RequestParams requestParams = new RequestParams(url);
         requestParams.addQueryStringParameter("hangName", hangName);
         requestParams.addQueryStringParameter("pageNo", pageNo + "");
@@ -228,11 +310,12 @@ public class PaiHangFragment extends Fragment implements RefreshListView.OnRefre
                 //响应成功
                 //json转换成List<HousekeeperCategory>
                 Gson gson = new Gson();
-                Type type = new TypeToken<List<Housekeeper>>() {}.getType();
-                List<Housekeeper> updatehousekeepers=gson.fromJson(result, type);
-                if (updatehousekeepers.size()==0){
+                Type type = new TypeToken<List<Housekeeper>>() {
+                }.getType();
+                List<Housekeeper> updatehousekeepers = gson.fromJson(result, type);
+                if (updatehousekeepers.size() == 0) {
                     pageNo--;
-                    Toast.makeText(getActivity(),"已经到底了",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "已经到底了", Toast.LENGTH_SHORT).show();
                     lvHang.completeLoad();//加载数据后更新界面
                     return;
                 }
@@ -259,19 +342,19 @@ public class PaiHangFragment extends Fragment implements RefreshListView.OnRefre
                             TextView tvAge = viewHolder.getViewById(R.id.tv_ages);
                             tvAge.setText(housekeeper.getAge() + "" + "岁");
                             //头像赋值
-                            String photoUrl = StringUtil.ip+"/"+ housekeeper.getHousePhoto();
+                            String photoUrl = StringUtil.ip + "/" + housekeeper.getHousePhoto();
                             ImageView imageView = viewHolder.getViewById(R.id.imageViews);
                             x.image().bind(imageView, photoUrl);
                             //按钮点击事件(找控件)
-                            TextView tvDetails=viewHolder.getViewById(R.id.but_details);
+                            TextView tvDetails = viewHolder.getViewById(R.id.but_details);
                             tvDetails.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     //跳转到介绍界面(传值)
-                                    Intent intent=new Intent(getActivity(),IntroduceActivity.class);
+                                    Intent intent = new Intent(getActivity(), IntroduceActivity.class);
                                     //housekeeper对象
-                                    Bundle bundle=new Bundle();
-                                    bundle.putParcelable("huosekeeper",housekeeper);
+                                    Bundle bundle = new Bundle();
+                                    bundle.putParcelable("huosekeeper", housekeeper);
                                     intent.putExtras(bundle);
                                     startActivity(intent);
                                 }
@@ -302,100 +385,12 @@ public class PaiHangFragment extends Fragment implements RefreshListView.OnRefre
         });
 
     }
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.reset(this);
-
-    }
-    //创建popupWindow：v（点击的按钮）
-    public void initPopupWindow(View v){
-        Log.i("PaiHangFragment", "initPopupWindow popContents11: "+popContents);
-        View view=LayoutInflater.from(getActivity()).inflate(R.layout.lv_more,null);
-        final PopupWindow popupWindow=new PopupWindow(view,200,ViewGroup.LayoutParams.WRAP_CONTENT);
-        //listview设置数据源
-        ListView lv= (ListView) view.findViewById(R.id.lv_more_fenlei);
-        ArrayAdapter arrayAdapter=new ArrayAdapter(getActivity(),R.layout.lv_item_more,R.id.textView_pop,popContents);
-        lv.setAdapter(arrayAdapter);
-        //popupwiondow外面点击，popupwindow消失
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.setBackgroundDrawable(new BitmapDrawable());
-        //显示在v的下面
-        popupWindow.showAsDropDown(v);
-        //listview的item点击事件
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.i("PaiHangFragment", "initPopupWindow popContents22: "+popContents);
-                //关闭popupWindow
-                popupWindow.dismiss();
-                //排序
-                if (position==0){
-                    hangName="维修";
-                }else if (position==1){
-                    hangName="居";
-                }else if (position==2){
-                    hangName="除螨";
-                }else if (position==3){
-                    hangName="甲醛";
-                }else if (position==4){
-                    hangName="打蜡";
-                }
-                //重新获取数据源，按价格排序
-                getData(hangName);
-            }
-        });
-    }
-    @OnClick({R.id.tv_degree_of_heat, R.id.tv_cleaning_service, R.id.tv_appliance_cleaning, R.id.tv_furniture_maintenance, R.id.tv_nanny, R.id.tv_maternity_matron,R.id.tv_more})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.tv_degree_of_heat:
-                //热度
-                hangName=null;
-                getData(hangName);
-                break;
-            case R.id.tv_cleaning_service:
-                //保洁服务
-                hangName="保洁";
-                Log.i("PaiHangFragment", "onClick  tvCleaningService hangName="+hangName);
-                getData(hangName);
-                break;
-            case R.id.tv_appliance_cleaning:
-                //家电清洗
-                hangName="清洗";
-                Log.i("PaiHangFragment", "onClick  tvCleaningService hangName="+hangName);
-                getData(hangName);
-                break;
-            case R.id.tv_furniture_maintenance:
-                //家具保养
-                hangName="保养";
-                Log.i("PaiHangFragment", "onClick  tvCleaningService hangName="+hangName);
-                getData(hangName);
-                break;
-            case R.id.tv_nanny:
-                //保姆
-                hangName="保姆";
-                Log.i("PaiHangFragment", "onClick  tvCleaningService hangName="+hangName);
-                getData(hangName);
-                break;
-            case R.id.tv_maternity_matron:
-                //月嫂
-                hangName="月嫂";
-                Log.i("PaiHangFragment", "onClick  tvCleaningService hangName="+hangName);
-                getData(hangName);
-                break;
-            case R.id.tv_more:
-                //更多
-                initPopupWindow(view);
-                Log.i("PaiHangFragment", "onClick  more");
-                break;
-        }
-    }
-
+    //刷新
     @Override
     public void onRefresh() {
+        Log.i("PaiHangFragment", "onRefresh  ");
         //更新数据
-        pageNo=1;
+        pageNo = 1;
         //重新请求服务器
         handler.postDelayed(new Runnable() {
             @Override
@@ -404,13 +399,14 @@ public class PaiHangFragment extends Fragment implements RefreshListView.OnRefre
                 getData(hangName);//停留1秒
                 lvHang.completeRefresh();//更新界面
             }
-        },1000);
+        }, 1000);
 
     }
 
+    //加载数据
     @Override
     public void onPull() {
-//加载数据
+        Log.i("PaiHangFragment", "onPull  ");
         pageNo++;
         handler.postDelayed(new Runnable() {
             @Override
@@ -418,6 +414,7 @@ public class PaiHangFragment extends Fragment implements RefreshListView.OnRefre
                 Log.i("MainpageFragment", "runonPull()  ");
                 getPullData(hangName);//原来基础上加载数据
             }
-        },1000);
+        }, 1000);
     }
+
 }

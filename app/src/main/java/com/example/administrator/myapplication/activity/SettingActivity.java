@@ -14,7 +14,10 @@ import android.widget.TextView;
 
 import com.example.administrator.myapplication.Application.MyApplication;
 import com.example.administrator.myapplication.R;
+import com.example.administrator.myapplication.entity.User;
 import com.example.administrator.myapplication.fragment.ExitLoginFragment;
+
+import java.util.Date;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -66,6 +69,8 @@ public class SettingActivity extends AppCompatActivity {
     ImageView ivIntoAbout;
     @InjectView(R.id.tv_6)
     TextView tv6;
+    @InjectView(R.id.tv_exit_login)
+    TextView tvExitLogin;
     Integer setId=null;
     MyApplication myApplication;
     ExitLoginFragment exitLoginFragment;
@@ -74,36 +79,54 @@ public class SettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         ButterKnife.inject(this);
-        myApplication= (MyApplication) getApplication();
-        exitLoginFragment=new ExitLoginFragment();
+        myApplication = (MyApplication) getApplication();
         //设置导航图标
         setToolbar.setNavigationIcon(R.mipmap.backs);
         //设置主标题
         setToolbar.setTitle("");
         //设置actionBar为toolBar
         setSupportActionBar(setToolbar);
-        Log.i("TAG", "onCreate  myApplication.getUser()="+myApplication.getUser());
+        Log.i("TAG", "onCreate  myApplication.getUser()=" + myApplication.getUser());
         //设置toolBar的导航图标点击事件
         setToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //返回到主界面（传Id）
+                //返回到主界面
                 finish();
             }
         });
         //如果传回的Id存在，说明用户已经登录，显示“退出登录”
-        if (myApplication.isFlag()==true){
-            FragmentManager fragmentManager=getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-//把fragment添加到布局文件中
-            fragmentTransaction.replace(R.id.set_frame_layout, exitLoginFragment);
-            //提交事务
-            fragmentTransaction.commit();
+        if (myApplication.isFlag() == true) {
+            //显示退出登录
+            tvExitLogin.setVisibility(View.VISIBLE);
+            tvExitLogin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.i("SettingActivity", "onClick  ");
+//                    Intent intent=new Intent(SettingActivity.this,MainActivity.class);
+//                    setResult(RESULT_OK,intent);
+                    myApplication.setFlag(false);
+                    //  myApplication.setUser(null);
+                    myApplication.setUser(new User(0,null,0,null,2,null,null,getDate("0000-00-00"),null));
+                    finish();
+                    tvExitLogin.setVisibility(View.INVISIBLE);
+                }
+            });
         }
     }
-
+    public Date getDate(String dateSte) {
+        Date date = new Date(0);
+        return date;
+//        SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
+//        try {
+//            return dateFormat.parse(dateSte);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+    }
     @OnClick({R.id.iv_into_agreement, R.id.iv_into_problem, R.id.iv_into_coutomer, R.id.iv_into_new_version, R.id.iv_into_about})
-    public void onClick(View view) {
+    public void onClick (View view){
         switch (view.getId()) {
             case R.id.iv_into_agreement:
                 break;

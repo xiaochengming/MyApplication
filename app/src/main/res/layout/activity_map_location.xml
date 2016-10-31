@@ -23,8 +23,7 @@
         android:id="@+id/iv_map"
         android:src="@mipmap/address"
         android:layout_below="@+id/map_toolbar"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="41dp" />
+        android:layout_alignParentStart="true" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -39,7 +38,24 @@
         android:layout_toEndOf="@+id/iv_map"
         android:layout_alignTop="@+id/iv_map" />
 
+    <com.baidu.mapapi.map.MapView
+        android:layout_width="match_parent"
+        android:layout_height="285dp"
+        android:layout_below="@+id/et_map"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/map_view">
+    </com.baidu.mapapi.map.MapView>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lv_map"
+        android:layout_above="@+id/but_map"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/map_view"/>
+
     <Button
+        android:background="@drawable/button_shape"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="确定"
@@ -48,12 +64,11 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true" />
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/but_dian_ji"
         android:layout_below="@+id/et_map"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@+id/but_map"
-        android:id="@+id/frame_layout_map">
-    </FrameLayout>
+        android:layout_alignParentEnd="true"
+        />
 </RelativeLayout>

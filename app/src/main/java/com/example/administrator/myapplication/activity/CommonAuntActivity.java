@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
@@ -82,6 +83,10 @@ public class CommonAuntActivity extends AppCompatActivity {
                 Gson gson=new Gson();
                 Type type=new TypeToken<List<QueryHouserkeeperSize>>(){}.getType();
                 final List<QueryHouserkeeperSize> queryHouserkeeperSizes=gson.fromJson(result,type);
+                if (queryHouserkeeperSizes.size()==0){
+                    ArrayAdapter arrayAdapter=new ArrayAdapter(CommonAuntActivity.this,R.layout.lh_chushi_changyong_ay);
+                    lvCommonAunt.setAdapter(arrayAdapter);
+                }
                 Log.i("CommonAuntActivity", "queryHouserkeeperSizes: "+queryHouserkeeperSizes);
                 //给listview设置数据源
                 if (queryhouserkeeperAdapter==null){

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.administrator.myapplication.activity.AddAddressActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#ffffff"
+        android:id="@+id/rl_bianji_address">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="编辑服务地址"
+            android:textSize="25sp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/textView12" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/iv_bian_ji_address"
+            android:src="@mipmap/backs"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="删除"
+            android:textColor="#009966"
+            android:textSize="16sp"
+            android:id="@+id/tv_shan_chu"
+            android:layout_alignParentEnd="true"
+            android:layout_alignBottom="@+id/textView12"
+            android:layout_alignTop="@+id/textView12"
+            android:layout_marginRight="10dp"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="联系人："
+        android:id="@+id/tv_address_name"
+        android:textSize="18sp"
+        android:layout_below="@+id/rl_bianji_address"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="65dp"
+        android:layout_marginLeft="10dp"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="输入联系人"
+        android:background="@null"
+        android:ems="10"
+        android:id="@+id/et_address_xq_name"
+        android:layout_alignBottom="@+id/tv_address_name"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#CCCCCC"
+        android:layout_below="@+id/et_address_xq_name"
+        android:layout_alignStart="@+id/et_address_name"
+        android:id="@+id/textView8" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="手机号码："
+        android:textSize="18sp"
+        android:id="@+id/tv_address_xq_phone"
+        android:layout_below="@id/tv_address_name"
+        android:layout_alignStart="@+id/tv_address_name"
+        android:layout_marginTop="39dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="显示手机号码"
+        android:background="@null"
+        android:ems="10"
+        android:id="@+id/et_address_phone"
+        android:layout_alignBottom="@+id/tv_address_xq_phone"
+        android:layout_toEndOf="@+id/tv_address_xq_phone" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#CCCCCC"
+        android:id="@+id/textView9"
+        android:layout_below="@+id/et_address_phone"
+        android:layout_alignStart="@+id/et_address_phone" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="服务地址："
+        android:textSize="18sp"
+        android:id="@+id/tv_address_xq_set"
+        android:layout_below="@id/et_address_phone"
+        android:layout_alignStart="@+id/tv_address_xq_phone"
+        android:layout_marginTop="39dp"
+        android:layout_alignEnd="@+id/textView8" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/iv_set_address"
+        android:src="@mipmap/sertting"
+        android:layout_alignTop="@+id/tv_address_xq_set"
+        android:layout_toEndOf="@+id/et_address_phone"
+        android:layout_alignBottom="@+id/tv_address_xq_set" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="保存地址"
+        android:background="#11CD6E"
+        android:id="@+id/but_save_address"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/tv_address_xq_set" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/tv_address_xq_set"
+        android:layout_alignParentStart="true"
+        android:id="@+id/frame_layout_address"
+        android:layout_marginTop="15dp"
+        android:visibility="invisible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="地址详情："
+            android:id="@+id/tv_xq_di_zhi"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:textSize="18sp"
+            android:layout_marginLeft="10dp"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/et_xq_di_zhi"
+            android:background="@null"
+            android:hint="显示地址详情"
+            android:textSize="16sp"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/tv_xq_di_zhi" />
+    </RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="显示地址"
+        android:id="@+id/tv_display_xq_address"
+        android:layout_alignStart="@+id/textView9"
+        android:layout_above="@+id/frame_layout_address"
+        android:layout_alignTop="@+id/tv_address_xq_set" />
+</RelativeLayout>
