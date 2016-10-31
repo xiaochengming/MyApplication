@@ -39,6 +39,7 @@ import com.example.administrator.myapplication.fragment.ExitLoginFragment;
 import com.example.administrator.myapplication.fragment.FuWuFragment;
 import com.example.administrator.myapplication.fragment.MIMainShequFragment;
 import com.example.administrator.myapplication.fragment.MainPageFragment;
+import com.example.administrator.myapplication.fragment.MiSheQuFragment;
 import com.example.administrator.myapplication.fragment.OrderFragment;
 import com.example.administrator.myapplication.fragment.PaiHangFragment;
 import com.example.administrator.myapplication.fragment.RemindFragment;
@@ -339,6 +340,14 @@ public class MainActivity extends AppCompatActivity
             nowcity = data.getStringExtra("city");
             menu.setTitle(data.getStringExtra("city"));
             Log.i("MainActivity", "onActivityResult: " + data.getStringExtra("city"));
+            return;
+        }
+        if(requestCode==100&&resultCode==RESULT_OK){
+            //发表帖子回调
+           MIMainShequFragment miMainShequFragment= (MIMainShequFragment) fragmentList.get(3);
+             MiSheQuFragment miSheQuFragment= (MiSheQuFragment) miMainShequFragment.fragment[0];
+            miSheQuFragment.pageNum=1;
+            miSheQuFragment.getdata();
             return;
         }
         //登录后回调

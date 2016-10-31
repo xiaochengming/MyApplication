@@ -246,6 +246,7 @@ public class PaiHangFragment extends Fragment implements RefreshListView.OnRefre
                                     //设置支持gif
                                     .setIgnoreGif(true).build();
                             String photoUrl = StringUtil.ip + "/" + housekeeper.getHousePhoto();
+                            Log.i("PaiHangFragment", "convert  photoUrl:"+photoUrl);
                             ImageView imageView = viewHolder.getViewById(R.id.imageViews);
                             x.image().bind(imageView, photoUrl, imageOptions);
                             //星星数量赋值

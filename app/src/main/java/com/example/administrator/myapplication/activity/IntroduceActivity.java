@@ -8,8 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
@@ -22,6 +25,7 @@ import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.entity.Category;
 import com.example.administrator.myapplication.entity.Evaluate;
 import com.example.administrator.myapplication.entity.Housekeeper;
+import com.example.administrator.myapplication.entity.ImageTbl;
 import com.example.administrator.myapplication.util.StringUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -78,6 +82,8 @@ public class IntroduceActivity extends AppCompatActivity {
     @InjectView(R.id.lv_jie_shao)
     ListView lvJieShao;
     CommonAdapter<Evaluate> evaluateAdapter;
+    int evaluateId;
+    ImagesInnerGridViewAdapter imagesInnerGridViewAdapter=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,6 +115,7 @@ public class IntroduceActivity extends AppCompatActivity {
                         //设置支持gif
                         .setIgnoreGif(true).build();
                 String photoUrl = StringUtil.ip+"/" + housekeeper.getHousePhoto();
+                Log.i("IntroduceActivity", "onCreate  photoUrl:"+photoUrl);
                 x.image().bind(ivIntroduce, photoUrl,imageOptions);
             }
             housekeeperId = housekeeper.getHousekeeperId();
@@ -153,6 +160,7 @@ public class IntroduceActivity extends AppCompatActivity {
                         evaluateAdapter=new CommonAdapter<Evaluate>(IntroduceActivity.this,evaluates,R.layout.ay_ping_lun) {
                             @Override
                             public void convert(ViewHolder viewHolder, Evaluate evaluate, int position) {
+                                evaluateId=evaluate.getEvaluate_id();
                                 //给控件赋值
                                 //用户头像
                                 ImageView ivUser=viewHolder.getViewById(R.id.circle_image_view1);
@@ -177,6 +185,15 @@ public class IntroduceActivity extends AppCompatActivity {
                                 //评论内容赋值
                                 ExpandableTextView etvPingLun=viewHolder.getViewById(R.id.tv_ping_lun_js);
                                 etvPingLun.setText(evaluate.getEvaluate(),position);
+                                //评论图片赋值
+                                GridView mGridView=viewHolder.getViewById(R.id.multi_photo_grid);
+                                if (imagesInnerGridViewAdapter==null){
+                                    imagesInnerGridViewAdapter=new ImagesInnerGridViewAdapter(getImageData());
+                                    mGridView.setAdapter(imagesInnerGridViewAdapter);
+                                }else {
+                                    imagesInnerGridViewAdapter.notifyDataSetChanged();
+                                }
+
                                 //评论时间赋值
                                 TextView tvPingLunTime=viewHolder.getViewById(R.id.tv_ping_lun_time);
                                 tvPingLunTime.setText(evaluate.getTime().toString());
@@ -206,7 +223,98 @@ public class IntroduceActivity extends AppCompatActivity {
             }
         });
     }
+    //获取网络数据（图片地址）
+    private List<String> getImageData(){
+        final List<String> datas=new ArrayList<String>();
+        RequestParams requestParams=new RequestParams(StringUtil.ip+"/ChaZhaoImageServlet");
+        requestParams.addQueryStringParameter("evaluateId",evaluateId+"");
+        x.http().get(requestParams, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Gson gson=new Gson();
+                Type type=new TypeToken<List<ImageTbl>>(){}.getType();
+                List<ImageTbl> imageTbls=gson.fromJson(result,type);
+                Log.i("Main2Activity", "onSuccess imageTbls :"+imageTbls);
+                String url="http://192.168.191.1:8080/Myapp";
+                if (imageTbls.size()==0){
+                    return;
+                }else {
+                    for (int i=0;i<imageTbls.size();i++){
+                        datas.add(url+imageTbls.get(i).getImageAddress());
+                        Log.i("Main2Activity", "onSuccess  datas:"+datas);
+                    }
+                }
+            }
 
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+        return datas;
+    }
+    //给gridview设置适配器
+    private class ImagesInnerGridViewAdapter extends BaseAdapter {
+
+        private List<String> datas2;
+
+        public ImagesInnerGridViewAdapter(List<String> datas) {
+            this.datas2 = datas;
+            Log.i("ImagesInner", "ImagesInnerGridViewAdapter  datas:"+datas2);
+        }
+
+        @Override
+        public int getCount() {
+            return datas2.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return position;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            final ImageView imageView = new ImageView(IntroduceActivity.this);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            x.image().bind(imageView,datas2.get(position));
+            Log.i("ImagesInner", "getView  datas:"+datas2);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(IntroduceActivity.this, SpaceImageDetailActivity.class);
+                    intent.putExtra("images", (ArrayList<String>) datas2);
+                    intent.putExtra("position", position);
+                    int[] location = new int[2];
+                    imageView.getLocationOnScreen(location);
+                    intent.putExtra("locationX", location[0]);
+                    intent.putExtra("locationY", location[1]);
+                    intent.putExtra("width", imageView.getWidth());
+                    intent.putExtra("height", imageView.getHeight());
+                    startActivity(intent);
+                    overridePendingTransition(0, 0);
+                    Log.i("ImagesInner", "onClick  :"+datas2.get(position));
+                }
+            });
+            return imageView;
+        }
+
+    }
     @OnClick(R.id.but_introduce)
     public void onClick() {
         //跳转到预约界面

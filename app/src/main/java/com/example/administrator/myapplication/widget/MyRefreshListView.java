@@ -22,8 +22,9 @@ import java.util.Date;
 /**
  * Created by luhai on 2016/10/15.
  */
-public class RefreshListView extends ListView implements AbsListView.OnScrollListener{
+public class MyRefreshListView extends ListView implements AbsListView.OnScrollListener{
     View headView;//头部的view
+    View headView2;//头部的view
     private ImageView imageView;
     private ProgressBar progressBar;
     private TextView tvRefreshState;
@@ -52,15 +53,15 @@ public class RefreshListView extends ListView implements AbsListView.OnScrollLis
     public void setFlag(boolean flag) {
         this.flag = flag;
     }
-    public RefreshListView(Context context) {
+    public MyRefreshListView(Context context) {
         this(context,null);
     }
 
-    public RefreshListView(Context context, AttributeSet attrs) {
+    public MyRefreshListView(Context context, AttributeSet attrs) {
         this(context, attrs,0);
     }
 
-    public RefreshListView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public MyRefreshListView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         //初始化
         initHead(context);
@@ -73,15 +74,16 @@ public class RefreshListView extends ListView implements AbsListView.OnScrollLis
     //初始化头部
     public void initHead(Context context){
         //解析布局文件
-        headView= LayoutInflater.from(context).inflate(R.layout.refresh_head,null);
+        headView= LayoutInflater.from(context).inflate(R.layout.my_refresh_head,null);
         //初始化头部控件
         imageView= (ImageView) headView.findViewById(R.id.iv_refresher);
         progressBar=(ProgressBar) headView.findViewById(R.id.pb_refresher);
         tvRefreshState = (TextView) headView.findViewById(R.id.tv_refreshertext);
         tvRefreshTime = (TextView) headView.findViewById(R.id.tv_refreshtime);
         //获取head的高度
-        headView.measure(0,0);
-        hendHight=headView.getMeasuredHeight();
+        headView2= LayoutInflater.from(context).inflate(R.layout.refresh_head,null);
+        headView2.measure(0,0);
+        hendHight=headView2.getMeasuredHeight()+60;
         headView.setPadding(0,-hendHight,0,0);
         //加入并设置头部不显示
         addHeaderView(headView);
@@ -101,6 +103,9 @@ public class RefreshListView extends ListView implements AbsListView.OnScrollLis
             case MotionEvent.ACTION_DOWN:
                 //手按下去时
                 //记录初始位置的值
+                if (headState==ISREFRESHING){
+                    return true;
+                }
                 downY=ev.getY();
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -148,7 +153,8 @@ public class RefreshListView extends ListView implements AbsListView.OnScrollLis
                     Log.i("RefreshListView", "ACTION_UP3  ");
                     headView.setPadding(0,-hendHight,0,0);
                 }
-                break;
+
+               break;
         }
         return super.onTouchEvent(ev);
     }
