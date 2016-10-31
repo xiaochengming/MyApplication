@@ -46,8 +46,6 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
     List<Address> address;
     List<Evaluate> evaluates;
     Address addressIsefault = null;
-    @InjectView(R.id.titlebar)
-    TitleBar titlebar;
     @InjectView(R.id.bg_line)
     View bgLine;
     @InjectView(R.id.bg_line_bottom)
@@ -88,11 +86,6 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
     TextView orderCountHeji;
     @InjectView(R.id.order_count_money)
     RelativeLayout orderCountMoney;
-    @InjectView(R.id.order_prod_fapiao_left)
-    TextView orderProdFapiaoLeft;
-    @InjectView(R.id.order_prod_fapiao_right)
-    TextView orderProdFapiaoRight;
-    @InjectView(R.id.order_prod_fapiao)
     RelativeLayout orderProdFapiao;
     @InjectView(R.id.order_ly_scrllview)
     LinearLayout orderLyScrllview;
@@ -140,7 +133,7 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
 
     //获取地址
     public void getDataToAddress() {
-        String url = UrlAddress.url + "AddressServletli";
+        String url = StringUtil.ip+ "/AddressServletli";
         RequestParams requestParams = new RequestParams(url);
         //发送用户id
         requestParams.addQueryStringParameter("userId", user.getUserId() + "");
@@ -271,13 +264,17 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
         switch (view.getId()) {
             case R.id.order_goumai:
                 //下单按钮
-                Log.d("aaaa", "onClick: ");
                 toMySqlOder();
                 break;
             case R.id.order_dizhi_right_tupian:
                 //地址按钮
                 getEvaluates();
                 break;
+            case R.id.id_prod_list_iv_left:
+                //地址按钮
+              finish();
+                break;
+
         }
     }
 

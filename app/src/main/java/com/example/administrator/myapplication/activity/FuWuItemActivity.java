@@ -163,7 +163,9 @@ public class FuWuItemActivity extends AppCompatActivity implements View.OnClickL
                 }
 
                 break;
-
+            case R.id.id_prod_list_iv_left:
+                finish();
+                break;
 
         }
 
@@ -293,7 +295,7 @@ public class FuWuItemActivity extends AppCompatActivity implements View.OnClickL
 
 
 //启动会话列表界面
-                        if (RongIM.getInstance() != null)
+                            if (RongIM.getInstance() != null)
                                 RongIM.getInstance().startConversationList(FuWuItemActivity.this);
 
 //启动聚合会话列表界面

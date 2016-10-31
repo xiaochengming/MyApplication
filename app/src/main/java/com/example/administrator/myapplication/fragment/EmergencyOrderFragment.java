@@ -72,17 +72,17 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
     //删除弹出框
     private AlertDialog.Builder builder;
     TextView teState;
-
+    TextView typefaceServiceType;
+    ImageView imageView;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.worker_list, null);
         listView = (RefreshListView) view.findViewById(R.id.lv_workerList);
-
+       // listView.setCacheColorHint(0);
         //控件初始化
         initData();
         //item点击事件
-        Log.d("EmergencyOrderFragment", "onCreateView: " + orders.size());
         listView.setOnRefreshUploadChangeListener(this);
         OnItemClickListener(orders);
         return view;
@@ -157,7 +157,7 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
 
     //控件初始化
     public void initView(ViewHolder holder, Order order, int position) {
-        TextView typefaceServiceType = holder.getView(R.id.Typeface_ServiceType);
+         typefaceServiceType = holder.getView(R.id.Typeface_ServiceType);
         typefaceServiceType.setText(order.getCategory().getName());
         teState = holder.getView(R.id.State);
         teState.setText(initState(order.getState()));
@@ -170,7 +170,7 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
         Button buttonLeft = holder.getView(R.id.button_left);
         Button buttonRight = holder.getView(R.id.button_right);
         if (order.getCategory() != null) {
-            ImageView imageView = holder.getView(R.id.img_housekeeper_photo);
+             imageView = holder.getView(R.id.img_housekeeper_photo);
             x.image().bind(imageView,StringUtil.ip+ order.getCategory().getIcon());
 
         }
@@ -209,9 +209,8 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
                 buttonRight.setText("立即支付");
                 break;
             case UNSERVICE:
-                buttonLeft.setVisibility(View.VISIBLE);
+                buttonLeft.setVisibility(View.INVISIBLE);
                 buttonRight.setVisibility(View.VISIBLE);
-                buttonLeft.setText("取消订单");
                 buttonRight.setText("确认订单");
                 break;
             case UNREMARK:
@@ -248,13 +247,7 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
                         //删除订单
                         dialog(order, position, CLOSE);
                         break;
-                    case UNSERVICE:
-                        if (ontimeListener(position) == false) {
-                            dialog(order, position, REFUND);
-                        } else {
-                            Toast.makeText(getActivity(), "已服务请联系客服", Toast.LENGTH_SHORT).show();
-                        }
-                        break;
+
                     case UNREMARK:
                         //删除订单
                         dialog(order, position, CLOSE);
@@ -431,7 +424,6 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("requestCode+resultCode", requestCode + "." + resultCode);
         if (requestCode == TOITEM && resultCode == 2) {
             // Log.d("requestCode+resultCode", "我执行了");
             //删除回调
@@ -582,14 +574,22 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
         int endtime = 0;
         DateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         String time1 = sdf.format(System.currentTimeMillis());
+        //获取当前时间
         newTime = Integer.parseInt(time1.substring(0, time1.length() - 6));
-        String time2 = sdf.format(orders.get(position).getEndtime());
-        endtime = Integer.parseInt(time2.substring(0, time2.length() - 6));
-        if (newTime > endtime) {
+
+        String time2 = sdf.format(orders.get(position).getArriveTime());
+        String time3=sdf.format(orders.get(position).getTime());
+
+        Log.d("time2", "ontimeListener: "+time2);
+        Log.d("time3", "ontimeListener: "+time3);
+
+      //  endtime = Integer.parseInt(time2.substring(0, time2.length() - 6));
+   /*     if (newTime > endtime) {
             return true;
         } else {
             return false;
-        }
+        }*/
+        return false;
     }
 
     //是否有订单的布局切换

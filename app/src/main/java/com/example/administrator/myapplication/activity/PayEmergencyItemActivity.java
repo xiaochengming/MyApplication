@@ -45,13 +45,18 @@ public class PayEmergencyItemActivity extends AppCompatActivity {
     TextView edCategoryName;
     @InjectView(R.id.order_profile)
     TextView orderProfile;
-
+    @InjectView(R.id.rela_jianjie)
+    RelativeLayout relaJianjie;
+    @InjectView(R.id.rela)
+    RelativeLayout rela;
     @InjectView(R.id.order_time)
     TextView orderTime;
     @InjectView(R.id.order_price)
     TextView orderPrice;
     @InjectView(R.id.order_allprice)
     TextView orderAllprice;
+    @InjectView(R.id.order_arrive_time)
+    TextView orderArriveTime;
     @InjectView(R.id.progressBar)
     ProgressBar progressBar;
     @InjectView(R.id.scr)
@@ -60,12 +65,15 @@ public class PayEmergencyItemActivity extends AppCompatActivity {
     ImageView imgEmergency;
     @InjectView(R.id.bg_line_bottom)
     View bgLineBottom;
-    @InjectView(R.id.order_arrive_time)
-    TextView orderArriveTime;
-    @InjectView(R.id.order_cancel)
-    Button orderCancel;
+    @InjectView(R.id.order_left)
+    Button orderLeft;
+    @InjectView(R.id.order_right)
+    Button orderRight;
+    @InjectView(R.id.te_1)
+    TextView te1;
     @InjectView(R.id.prod_info_bottom)
     RelativeLayout prodInfoBottom;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

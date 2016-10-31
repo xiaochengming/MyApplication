@@ -116,9 +116,17 @@ public class EmergencyOrderItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.yan_emergency_item);
+
         ButterKnife.inject(this);
         getData();
         initView();
+        //退出
+        idProdListIvRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     //获取订单信息
