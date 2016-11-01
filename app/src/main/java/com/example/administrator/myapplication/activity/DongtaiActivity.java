@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,10 +22,12 @@ import com.example.administrator.myapplication.Adapter.CommonAdapter;
 import com.example.administrator.myapplication.Adapter.ViewHolder;
 import com.example.administrator.myapplication.Application.MyApplication;
 import com.example.administrator.myapplication.R;
+import com.example.administrator.myapplication.activitymi.ShowImageActivity;
 import com.example.administrator.myapplication.entity.Dynamic;
 import com.example.administrator.myapplication.entity.Post;
 import com.example.administrator.myapplication.entityMi.Zan;
 import com.example.administrator.myapplication.util.StringUtil;
+import com.example.administrator.myapplication.widget.MyGridView;
 import com.example.administrator.myapplication.widget.MyRefreshListView;
 import com.example.administrator.myapplication.widget.NoScrollListview;
 import com.google.gson.Gson;
@@ -56,10 +59,6 @@ public class DongtaiActivity extends AppCompatActivity {
     TextView luntanListitemTextViewTime;
     @InjectView(R.id.luntan_listitem_textView_content)
     TextView luntanListitemTextViewContent;
-    @InjectView(R.id.luntan_listitem_photo_list)
-    LinearLayout luntanListitemPhotoList;
-    @InjectView(R.id.luntan_listitem_horizontalview)
-    HorizontalScrollView luntanListitemHorizontalview;
     @InjectView(R.id.layout_tiezhi)
     LinearLayout layoutTiezhi;
     @InjectView(R.id.luntan_listitem_layout)
@@ -89,6 +88,8 @@ public class DongtaiActivity extends AppCompatActivity {
 
 
     TextView tvFloor;
+    MyGridView image;
+
     Post post;
     List<Dynamic> list = new ArrayList<Dynamic>();
     List<Dynamic> showlist = new ArrayList<Dynamic>();
@@ -107,6 +108,7 @@ public class DongtaiActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dongtai);
         ButterKnife.inject(this);
         tvFloor = (TextView) findViewById(R.id.tv_footer);
+        image= (MyGridView) findViewById(R.id.gv_tiezhixiangqing);
         imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(etFasongPinglun.getWindowToken(), 0);
         myApplication = (MyApplication) getApplication();
@@ -185,7 +187,32 @@ public class DongtaiActivity extends AppCompatActivity {
         }
         luntanListitemTextViewContent.setText(post.getPostContent());
         luntanListitemTextViewTime.setText(post.getPostTimes() + "");
+        grilvewXianshitupian(image);
         gengxintiezhi();
+    }
+    public void grilvewXianshitupian(GridView gridView) {
+        final List<String> images = post.getImageList();
+//        if (images.size() != 0) {
+        gridView.setAdapter(new CommonAdapter<String>(this, images, R.layout.imageitem) {
+            @Override
+            public void convert(ViewHolder viewHolder, String s, int position) {
+                ImageView imageView = viewHolder.getViewById(R.id.iv_show);
+                x.image().bind(imageView, StringUtil.ip + s);
+                Log.i("MiSheQuFragment", "convert: " + StringUtil.ip + s);
+                imageView.setTag(position);
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int x= (int) v.getTag();
+                        Intent intent=new Intent(DongtaiActivity.this, ShowImageActivity.class);
+                        intent.putStringArrayListExtra("image", (ArrayList<String>) images);
+                        intent.putExtra("postion",x);
+                        startActivity(intent);
+                    }
+                });
+            }
+        });
+//        }
     }
 
     public void gengxintiezhi() {
@@ -332,6 +359,7 @@ public class DongtaiActivity extends AppCompatActivity {
                 // dibubuju.setVisibility(View.GONE);
                 //刷新界面和插入数据库
                 insertPinglun(dynamic);
+                louceng=0;
                 break;
         }
     }

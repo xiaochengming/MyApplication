@@ -135,8 +135,8 @@
         <activity android:name=".activity.PayItemActivity" />
         <activity android:name=".activity.PayEmergencyItemActivity" />
         <activity android:name=".activitymi.ImageListActivity" />
-        <activity android:name=".activitymi.ImageActivity"></activity>
-        <activity android:name=".activity.PayEmergencyItemActivity"></activity>
+        <activity android:name=".activitymi.ImageActivity" />
+        <activity android:name=".activity.PayEmergencyItemActivity" />
         <activity android:name=".activity.AddressXQActivity" />
 
         <service
@@ -144,7 +144,8 @@
             android:enabled="true"
             android:process=":remote" />
 
-        <activity android:name=".activity.SpaceImageDetailActivity"></activity>
+        <activity android:name=".activity.SpaceImageDetailActivity" />
+        <activity android:name=".activitymi.ShowImageActivity"></activity>
     </application>
 
 </manifest>

@@ -71,25 +71,6 @@
                     android:textColor="#000000"
                     android:textSize="15dp" />
 
-                <HorizontalScrollView
-
-                    android:id="@+id/luntan_listitem_horizontalview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <LinearLayout
-                        android:id="@+id/luntan_listitem_photo_list"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-
-                    </LinearLayout>
-
-
-                </HorizontalScrollView>
-
-
             </LinearLayout>
 
 
@@ -98,7 +79,11 @@
 
     </LinearLayout>
 
-
+    <com.example.administrator.myapplication.widget.MyGridView
+        android:id="@+id/gv_tiezhi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:numColumns="4"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

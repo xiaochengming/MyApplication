@@ -345,9 +345,9 @@ public class MainActivity extends AppCompatActivity
         if(requestCode==100&&resultCode==RESULT_OK){
             //发表帖子回调
            MIMainShequFragment miMainShequFragment= (MIMainShequFragment) fragmentList.get(3);
-             MiSheQuFragment miSheQuFragment= (MiSheQuFragment) miMainShequFragment.fragment[0];
+             final MiSheQuFragment miSheQuFragment= (MiSheQuFragment) miMainShequFragment.fragment[0];
             miSheQuFragment.pageNum=1;
-            miSheQuFragment.getdata();
+            miSheQuFragment.initData();
             return;
         }
         //登录后回调

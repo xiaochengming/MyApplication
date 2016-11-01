@@ -1,7 +1,10 @@
 package com.example.administrator.myapplication.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -27,7 +30,12 @@ import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +60,7 @@ public class TianJiaTieziActivit extends AppCompatActivity {
     GridView gvTupian;
 
 
-    List<String> fileList=new ArrayList<>();
+    List<String> fileList = new ArrayList<>();
     CommonAdapter<String> adapter;
 
     @Override
@@ -127,7 +135,26 @@ public class TianJiaTieziActivit extends AppCompatActivity {
         requestParams.addBodyParameter("post", str);
         if (fileList.size() > 0) {
             for (int i = 0; i < fileList.size(); i++) {
-                requestParams.addBodyParameter("file" + i, new File(fileList.get(i)));
+                Bitmap bitmap = BitmapFactory.decodeFile(fileList.get(i));
+                File file = new File(Environment.getExternalStorageDirectory(), i+".jpg");
+
+                FileOutputStream fos = null;
+                try {
+                    fos = new FileOutputStream(file);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        fos.flush();
+                        fos.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
+                requestParams.addBodyParameter("file" + i, file);
             }
         }
         x.http().post(requestParams, new Callback.CommonCallback<String>() {
@@ -138,6 +165,7 @@ public class TianJiaTieziActivit extends AppCompatActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
+                Log.i("TianJiaTieziActivit", "onError: " + ex);
                 Toast.makeText(TianJiaTieziActivit.this, "网络错误", Toast.LENGTH_SHORT).show();
             }
 
@@ -156,6 +184,7 @@ public class TianJiaTieziActivit extends AppCompatActivity {
         setResult(RESULT_OK, intent);
         finish();
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
