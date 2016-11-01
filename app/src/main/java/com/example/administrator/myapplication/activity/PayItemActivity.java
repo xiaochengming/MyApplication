@@ -1,6 +1,7 @@
 package com.example.administrator.myapplication.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -8,12 +9,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.administrator.myapplication.Application.MyApplication;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.entity.Order;
+import com.example.administrator.myapplication.entity.Price;
 import com.example.administrator.myapplication.util.StringUtil;
 import com.example.administrator.myapplication.util.TimesTypeAdapter;
 import com.google.gson.Gson;
@@ -24,6 +27,7 @@ import org.xutils.http.RequestParams;
 import org.xutils.x;
 
 import java.sql.Time;
+import java.util.Iterator;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -64,6 +68,28 @@ public class PayItemActivity extends AppCompatActivity implements View.OnClickLi
     Button orderCancel;
     @InjectView(R.id.button_right)
     Button buttonRight;
+    public static final int UNPAY = 1;//待付款
+    public static final int UNSERVICE = 2;//待服务
+    public static final int UNREMARK = 3;//待评价
+    public static final int COMPLETE = 4;//订单完成
+    public static final int COMPLAINT = 5;//申请售后
+    public static final int CLOSE = 6;//交易关闭
+    public static final int REFUND = 7;//退款
+    @InjectView(R.id.id_prod_list_tv)
+    TextView idProdListTv;
+    @InjectView(R.id.id_prod_list_iv_right)
+    ImageView idProdListIvRight;
+    @InjectView(R.id.title_bar_rl_cartview)
+    RelativeLayout titleBarRlCartview;
+    @InjectView(R.id.text1)
+    TextView text1;
+    @InjectView(R.id.scr)
+    ScrollView scr;
+    @InjectView(R.id.bg_line_bottom)
+    View bgLineBottom;
+    @InjectView(R.id.prod_info_bottom)
+    RelativeLayout prodInfoBottom;
+    String unit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,11 +120,34 @@ public class PayItemActivity extends AppCompatActivity implements View.OnClickLi
             orderTime.setText(time.substring(0, time.length() - 4));
             String begdate = String.valueOf(order.getBegdate());
             orderBegdate.setText(begdate.substring(0, begdate.length() - 2));
-            orderWorker.setText(String.valueOf(order.getWorkerTime()));
-            orderPrice.setText(String.valueOf(order.getPrice()));
-            orderNumber.setText(String.valueOf(order.getNumber()));
-            orderAllprice.setText(String.valueOf(order.getAllprice()));
+            switch (order.getCategory().getType()){
+                case "保姆月嫂":
+                    orderWorker.setText(String.valueOf(order.getWorkerTime())+"月");
+                    break;
+                case "搬家服务":
+                    orderWorker.setText(String.valueOf(order.getWorkerTime())+"天");
+                    break;
+                case "居家换新":
+                    orderWorker.setText(String.valueOf(order.getWorkerTime())+"天");
+                    break;
+                default:
+                    orderWorker.setText(String.valueOf(order.getWorkerTime())+"小时");
+            }
+
+            orderPrice.setText("￥" + String.valueOf(order.getPrice()));
+            Iterator<Price> iterator = order.getCategory().getPrices().iterator();
+            while (iterator.hasNext()) {
+                Price price = iterator.next();
+                if (price.getPrice() == order.getPrice()) {
+                    unit = price.getUnit();
+                }
+            }
+            orderNumber.setText(String.valueOf(order.getNumber() + unit));
+            orderAllprice.setText("￥" + String.valueOf(order.getAllprice()));
             orderTotalMoney.setText(String.valueOf(order.getAllprice()));
+            //
+
+
         }
     }
 
@@ -114,6 +163,13 @@ public class PayItemActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             case R.id.button_right:
                 //客服
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_CALL);
+                //url:统一资源定位符
+                //uri:统一资源标示符（更广）
+                intent.setData(Uri.parse("tel:" + "10086"));
+                //开启系统拨号器
+                startActivity(intent);
                 break;
         }
     }

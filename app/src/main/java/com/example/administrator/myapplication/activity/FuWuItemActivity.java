@@ -49,7 +49,8 @@ import io.rong.imlib.model.Conversation;
  * Created by king on 2016/10/19.
  */
 public class FuWuItemActivity extends AppCompatActivity implements View.OnClickListener {
-
+    int pageNo = 1;// 页号
+    int pageSize = 5;// 页大小
 
     Category category;
     User user;
@@ -96,7 +97,7 @@ public class FuWuItemActivity extends AppCompatActivity implements View.OnClickL
     String categoryName;
     List<Evaluate> evaluates = new ArrayList<>();
     CommonAdapter evaluateAdapter;
-
+    TextView textView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -104,6 +105,15 @@ public class FuWuItemActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.yan_fuwu_item);
         ButterKnife.inject(this);
         listView = (ListView) findViewById(R.id.lv_user_remark);
+        textView= (TextView) listView.findViewById(R.id.prod_info_tv_prod_comment);
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pageNo++;
+                initDataEvaluate();
+
+            }
+        });
         prodInfoCart.setOnClickListener(this);
         prodInfoNowbuy.setOnClickListener(this);
 
@@ -167,6 +177,7 @@ public class FuWuItemActivity extends AppCompatActivity implements View.OnClickL
                 finish();
                 break;
 
+
         }
 
     }
@@ -176,7 +187,8 @@ public class FuWuItemActivity extends AppCompatActivity implements View.OnClickL
         String url = StringUtil.ip + "/Yan_EmergencyEvaluate";
         RequestParams requestParams = new RequestParams(url);
         //发送用户id
-
+        requestParams.addQueryStringParameter("pageNo", pageNo + "");
+        requestParams.addQueryStringParameter("pageSize", pageSize + "");
         requestParams.addQueryStringParameter("categoryName", category.getName() + "");
         x.http().get(requestParams, new Callback.CacheCallback<String>() {
                     @Override
@@ -187,8 +199,15 @@ public class FuWuItemActivity extends AppCompatActivity implements View.OnClickL
                         //把传输过来的json对象转换成UserText对象
                         List<Evaluate> evaluateList = gson.fromJson(result, new TypeToken<List<Evaluate>>() {
                         }.getType());
-                        evaluates.clear();
+                        if(evaluateList.isEmpty()){
+                         Toast.makeText(FuWuItemActivity.this, "没有更多评论了", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        if(pageNo==1){
+                            evaluates.clear();
+                        }
                         evaluates.addAll(evaluateList);
+
                         if (evaluates != null) {
 
 

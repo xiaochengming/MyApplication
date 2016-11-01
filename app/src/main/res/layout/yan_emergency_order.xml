@@ -3,6 +3,7 @@
     style="@style/buy_product_LinearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="50dp"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -15,7 +16,6 @@
 
 
         <TextView
-            android:layout_marginTop="-5dp"
             android:id="@+id/State"
             style="@style/yan_styles_emergency"
             android:layout_alignParentRight="true"
@@ -27,12 +27,13 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/State"
             android:orientation="vertical">
+
             <View
 
-                android:background="@color/black"
                 android:id="@+id/bg_line_bottom"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"/>
+                android:layout_height="1dp"
+                android:background="@color/black" />
 
             <RelativeLayout
 
@@ -42,31 +43,41 @@
 
 
                 <ImageView
-                    android:layout_marginTop="2dp"
-                    android:layout_marginLeft="-3dp"
                     android:id="@+id/img_housekeeper_photo"
                     android:layout_width="80dp"
                     android:layout_height="70dp"
                     android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="-3dp"
+                    android:layout_marginTop="2dp"
 
                     android:src="@drawable/ic_launcher" />
 
                 <TextView
-                    android:id="@+id/price"
-                    style="@style/yan_styles_emergency"
+                    android:id="@+id/yang"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:layout_toRightOf="@+id/img_housekeeper_photo"
-                    android:textColor="@color/black"
+                    android:text="￥"
+                    android:textColor="@color/border_clo"
+                    android:textSize="25dp" />
+
+                <TextView
+                    android:id="@+id/price"
+                    android:layout_toRightOf="@+id/yang"
+                    android:paddingTop="7dp"
+                    style="@style/yan_styles_emergency"
                     android:singleLine="true"
-                    android:text="价格" />
+                    android:text="价格"
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/Typeface_ServiceType"
                     style="@style/yan_styles_emergency"
                     android:layout_alignParentRight="true"
-                    android:textColor="@color/border_clo"
                     android:singleLine="true"
-                    android:text="服务类型" />
+                    android:text="服务类型"
+                    android:textColor="@color/border_clo" />
 
                 <TextView
                     android:id="@+id/order_dizhi"
@@ -93,58 +104,22 @@
                 android:layout_marginTop="2dp"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/te_hour"
-                    android:layout_width="20dp"
+                <com.example.administrator.myapplication.util.TimeCountDownTextView
+                    android:id="@+id/time_countc_down"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="9"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="5时2分6秒"
                     android:textSize="18dp" />
-
-                <TextView
-                    android:layout_width="25dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="时"
-                    android:textSize="16dp" />
-
-                <TextView
-                    android:id="@+id/te_minute"
-                    android:layout_width="20dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="60"
-                    android:textSize="18dp" />
-
-                <TextView
-                    android:layout_width="25dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="分"
-                    android:textSize="16dp" />
-
-                <TextView
-                    android:id="@+id/te_second"
-                    android:layout_width="20dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="60"
-                    android:textSize="18dp" />
-
-                <TextView
-                    android:layout_width="25dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="秒"
-                    android:textSize="16dp" />
 
                 <Button
-                    android:layout_weight="1"
                     android:id="@+id/button_left"
-                    android:layout_width="wrap_content"
-                    android:layout_height="38dp"
+                    android:layout_width="85dp"
+                    android:layout_height="36dp"
                     android:layout_gravity="right"
-                    android:background="@drawable/yan_button_green"
+                    android:background="@drawable/yan_t_button"
                     android:focusable="false"
                     android:text="@string/button_left" />
 
@@ -153,12 +128,10 @@
                     android:layout_height="wrap_content" />
 
                 <Button
-                    android:layout_weight="1"
                     android:id="@+id/button_right"
-                    android:layout_width="wrap_content"
-                    android:layout_height="38dp"
-
-                    android:background="@drawable/yan_button_green"
+                    android:layout_width="85dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/yan_t_button"
                     android:focusable="false"
                     android:text="@string/button_right" />
 

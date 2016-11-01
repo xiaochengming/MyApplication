@@ -10,6 +10,6 @@ public class aaaa extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.yan_emergency_order);
+        setContentView(R.layout.yan_fuwu_allorder);
     }
 }

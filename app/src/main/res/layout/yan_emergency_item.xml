@@ -205,7 +205,7 @@
                 <TextView
                     android:id="@+id/order_arrive_time"
                     style="@style/style_user_edit_text"
-                    android:hint="总价"
+                    android:hint="到达时间"
                     android:singleLine="true" />
             </RelativeLayout>
 
@@ -237,7 +237,7 @@
 
     <RelativeLayout
         android:id="@+id/prod_info_bottom"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
 
@@ -265,7 +265,17 @@
             android:background="@drawable/g_button_gree"
             android:text="右按钮"
             android:textColor="@color/white" />
+        <Button
 
+            android:id="@+id/order_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginLeft="12dp"
+          android:background="@drawable/g_button_gree"
+            android:text="中按钮"
+            android:textColor="@color/white"
+            android:visibility="gone"/>
         <TextView
             android:id="@+id/te_1"
             android:layout_width="match_parent"

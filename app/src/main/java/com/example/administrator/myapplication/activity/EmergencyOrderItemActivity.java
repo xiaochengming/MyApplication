@@ -1,15 +1,10 @@
 package com.example.administrator.myapplication.activity;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -26,7 +21,6 @@ import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.entity.Order;
 import com.example.administrator.myapplication.util.StringUtil;
 import com.example.administrator.myapplication.util.TimesTypeAdapter;
-import com.example.administrator.myapplication.util.UrlAddress;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -103,6 +97,8 @@ public class EmergencyOrderItemActivity extends AppCompatActivity {
     RelativeLayout prodInfoBottom;
     @InjectView(R.id.te_1)
     TextView textView;
+    @InjectView(R.id.order_bottom)
+    Button orderBottom;
 
 
     //删除弹出框
@@ -116,7 +112,6 @@ public class EmergencyOrderItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.yan_emergency_item);
-
         ButterKnife.inject(this);
         getData();
         initView();
@@ -146,13 +141,15 @@ public class EmergencyOrderItemActivity extends AppCompatActivity {
         if (order.getCategory() != null) {
             x.image().bind(imgHousekeeperPhoto, StringUtil.ip + order.getCategory().getIcon());
         }
-        orderPrice.setText(order.getCategory().getProfile());
+        orderProfile.setText("￥"+order.getCategory().getProfile());
         String time = String.valueOf(order.getTime());
         orderTime.setText(time.substring(0, time.length() - 3));
-        orderPrice.setText(String.valueOf(order.getPrice()));
-        orderAllprice.setText(String.valueOf(order.getAllprice()));
+        orderPrice.setText("￥"+String.valueOf(order.getPrice()));
+        orderAllprice.setText("￥"+String.valueOf(order.getAllprice()));
         //到达时间
-        //orderArriveTime.setText(String.valueOf(order.getArriveTime()));
+        DateFormat sdf = new SimpleDateFormat("HH小时mm分钟ss秒");
+        String time1 = sdf.format(order.getArriveTime());
+        orderArriveTime.setText(time1);
         initViewButton();
     }
 
@@ -178,17 +175,17 @@ public class EmergencyOrderItemActivity extends AppCompatActivity {
                 orderRight.setText("立即评价");
                 break;
             case COMPLETE:
-                orderLeft.setVisibility(View.VISIBLE);
-                orderLeft.setWidth(prodInfoBottom.getWidth());
+                orderLeft.setVisibility(View.GONE);
                 orderRight.setVisibility(View.GONE);
-                orderLeft.setText("删除订单");
+                orderBottom.setVisibility(View.VISIBLE);
+                orderBottom.setText("删除订单");
                 break;
         }
 
     }
 
 
-    @OnClick({R.id.order_left, R.id.order_right})
+    @OnClick({R.id.order_left, R.id.order_right,R.id.order_bottom})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.order_left:
@@ -196,6 +193,10 @@ public class EmergencyOrderItemActivity extends AppCompatActivity {
                     case UNPAY:
                         dialog(order, CLOSE);
                         break;
+                    case UNREMARK:
+                        dialog(order, CLOSE);
+                        break;
+
                 }
                 break;
             case R.id.order_right:
@@ -233,7 +234,12 @@ public class EmergencyOrderItemActivity extends AppCompatActivity {
                         break;
                 }
                 break;
+            case R.id.order_bottom:
+                //删除
+                dialog(order, CLOSE);
+                break;
         }
+
     }
 
     //判断是否可以“确认下单”||是否可以取消订单

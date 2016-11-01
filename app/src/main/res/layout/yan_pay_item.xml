@@ -239,6 +239,7 @@
                     android:background="@drawable/board_middle">
 
                     <TextView
+                        android:id="@+id/text1"
                         style="@style/style_user_text_view"
                         android:text="数量" />
 
