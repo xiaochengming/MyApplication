@@ -133,14 +133,12 @@
             android:name=".activity.EvaluateActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".activity.EmergencyOrderItemActivity" />
-        <activity android:name=".activity.ItemActivity" />
         <activity android:name=".activity.FuWuItemActivity" />
         <activity android:name=".activity.MyOrderActivity" />
         <activity android:name=".activity.PayItemActivity" />
         <activity android:name=".activity.PayEmergencyItemActivity"></activity>
         <activity android:name=".activitymi.ImageListActivity" />
         <activity android:name=".activitymi.ImageActivity"></activity>
-        <activity android:name=".activity.PayEmergencyItemActivity"></activity>
         <activity android:name=".activity.AddressXQActivity" />
 
         <service
@@ -151,7 +149,6 @@
         <activity android:name=".activity.SpaceImageDetailActivity" />
         <activity android:name=".activitymi.ShowImageActivity" />
         <activity android:name=".activity.HuifuActivity"></activity>
-        <activity android:name=".activity.SpaceImageDetailActivity"></activity>
         <activity android:name=".activity.aaaa">
 
         </activity>
