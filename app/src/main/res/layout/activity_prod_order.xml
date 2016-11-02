@@ -38,6 +38,7 @@
             android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>
+
     <View
         android:id="@+id/bg_line"
         style="@style/bg_line"
@@ -296,7 +297,30 @@
                     android:text="合计:"
                     android:textColor="@android:color/black"
                     android:textSize="14sp" />
+
+
             </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="请选择维修人员"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
+
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="175dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true">
+
+                </Spinner>
+            </RelativeLayout>
+
 
             <View style="@style/bg_line" />
         </LinearLayout>

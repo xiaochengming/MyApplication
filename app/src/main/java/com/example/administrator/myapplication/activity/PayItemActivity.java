@@ -117,7 +117,7 @@ public class PayItemActivity extends AppCompatActivity implements View.OnClickLi
             x.image().bind(imgHousekeeperPhoto, StringUtil.ip + order.getCategory().getIcon());
             edCategoryName.setText(order.getCategory().getName());
             String time = String.valueOf(order.getTime());
-            orderTime.setText(time.substring(0, time.length() - 4));
+            orderTime.setText(time.substring(0,19));
             String begdate = String.valueOf(order.getBegdate());
             orderBegdate.setText(begdate.substring(0, begdate.length() - 2));
             switch (order.getCategory().getType()){

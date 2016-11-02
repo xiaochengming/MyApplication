@@ -13,8 +13,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +24,8 @@ import android.widget.Toast;
 import com.example.administrator.myapplication.Application.MyApplication;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.entity.Order;
+import com.example.administrator.myapplication.entity.Price;
+import com.example.administrator.myapplication.util.StringUtil;
 import com.example.administrator.myapplication.util.TimesTypeAdapter;
 import com.example.administrator.myapplication.util.UrlAddress;
 import com.google.gson.Gson;
@@ -36,13 +40,14 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class ItemActivity extends AppCompatActivity {
+public class FuwuOrderItemActivity extends AppCompatActivity {
     public static final Integer BACK = 2;
     public static final Integer TOEVALUATE = 1;
     public static final int UNPAY = 1;//待付款
@@ -52,46 +57,68 @@ public class ItemActivity extends AppCompatActivity {
     public static final int COMPLAINT = 5;//投诉
     public static final int CLOSE = 6;//交易关闭
     public static final int REFUND = 7;//退款
+    @InjectView(R.id.id_prod_list_iv_left)
+    ImageView idProdListIvLeft;
+    @InjectView(R.id.id_prod_list_tv)
+    TextView idProdListTv;
+    @InjectView(R.id.id_prod_list_iv_right)
+    ImageView idProdListIvRight;
+    @InjectView(R.id.title_bar_rl_cartview)
+    RelativeLayout titleBarRlCartview;
+    @InjectView(R.id.line1)
+    LinearLayout line1;
+    @InjectView(R.id.user_name)
+    TextView userName;
+    @InjectView(R.id.user_address)
+    TextView userAddress;
+    @InjectView(R.id.img_housekeeper_photo)
+    ImageView imgHousekeeperPhoto;
+    @InjectView(R.id.ed_category_name)
+    TextView edCategoryName;
+    @InjectView(R.id.button_right)
+    Button buttonRight;
+    @InjectView(R.id.rela)
+    RelativeLayout rela;
+    @InjectView(R.id.order_time)
+    TextView orderTime;
+    @InjectView(R.id.order_begdate)
+    TextView orderBegdate;
+    @InjectView(R.id.order_worker)
+    TextView orderWorker;
+    @InjectView(R.id.order_price)
+    TextView orderPrice;
+    @InjectView(R.id.text1)
+    TextView text1;
+    @InjectView(R.id.order_number)
+    TextView orderNumber;
+    @InjectView(R.id.order_allprice)
+    TextView orderAllprice;
+    @InjectView(R.id.scr)
+    ScrollView scr;
+    @InjectView(R.id.bg_line_bottom)
+    View bgLineBottom;
+    @InjectView(R.id.order_left)
+    Button orderLeft;
+    @InjectView(R.id.order_right)
+    Button orderRight;
+    @InjectView(R.id.order_bottom)
+    Button orderBottom;
+    @InjectView(R.id.prod_info_bottom)
+    RelativeLayout prodInfoBottom;
     //删除弹出框
     private AlertDialog.Builder builder;
     Order order;
     ListView listView;
     List<HashMap<String, String>> orderList = new ArrayList<HashMap<String, String>>();
-    @InjectView(R.id.image_id_2)
-    ImageView imageId2;
-    @InjectView(R.id.consignee)
-    TextView consignee;
-    @InjectView(R.id.order_textview_3)
-    TextView orderTextview3;
-    @InjectView(R.id.view1)
-    View view1;
-    @InjectView(R.id.img_housekeeper_photo)
-    ImageView imgHousekeeperPhoto;
-    @InjectView(R.id.ed_category_name)
-    TextView edCategoryName;
-    @InjectView(R.id.button_left)
-    Button buttonLeft;
-    @InjectView(R.id.button_right)
-    Button buttonRight;
-    @InjectView(R.id.relat_id)
-    RelativeLayout relatId;
-    @InjectView(R.id.list_order_information)
-    ListView listOrderInformation;
-    @InjectView(R.id.bu_left)
-    Button buLeft;
-    @InjectView(R.id.bu_right)
-    Button buRight;
-    @InjectView(R.id.prod_info_bottom)
-    RelativeLayout prodInfoBottom;
-
+    String unit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_emergency_item);
+        setContentView(R.layout.yan_fuwu_allorder_item);
         ButterKnife.inject(this);
-        listView = (ListView) findViewById(R.id.list_order_information);
         getData();
+        //控件初始化
         initView();
     }
 
@@ -106,26 +133,46 @@ public class ItemActivity extends AppCompatActivity {
     }
 
     public void initView() {
-        //listview的初始化
-        String[] orderInformation = {"下单时间", "开始时间", "工作时间", "单价", "数量", "总价", "实付款"};
-        String[] orders = {order.getTime().toString(), order.getBegdate().toString(),
-                order.getWorker(), "￥" + order.getPrice(), order.getNumber() + "",
-                order.getAllprice() + "", order.getAllprice() + ""};
-        for (int i = 0; i < orderInformation.length; i++) {
-            HashMap<String, String> orderMap = new HashMap<String, String>();
-            orderMap.put("orderInformation", orderInformation[i]);
-            orderMap.put("orders", orders[i]);
-            orderList.add(orderMap);
+        userName.setText(order.getUser().getName());
+        userAddress.setText(order.getAddress().getAddress());
+        //服务类型的图片
+        if (order.getCategory() != null) {
+            x.image().bind(imgHousekeeperPhoto, StringUtil.ip + order.getCategory().getIcon());
         }
-
-        listView.setAdapter(new SimpleAdapter(this, orderList, R.layout.emergency_item_list_layout, new String[]{"orderInformation", "orders"},
-                new int[]{R.id.tv_left, R.id.tv_right}));
-        //其他控件初始化
-        if (order.getHousekeeper() != null) {
-            x.image().bind(imgHousekeeperPhoto, order.getHousekeeper().getHousePhoto());
-        }
-
         edCategoryName.setText(order.getCategory().getName());
+        //下单时间
+        String time = String.valueOf(order.getTime());
+        orderTime.setText(time.substring(0, 19));
+        //开始时间
+        String begdate = String.valueOf(order.getBegdate());
+        orderBegdate.setText(begdate.substring(0, 19));
+        //工作时间
+        switch (order.getCategory().getType()) {
+            case "保姆月嫂":
+                orderWorker.setText(String.valueOf(order.getWorkerTime()) + "月");
+                break;
+            case "搬家服务":
+                orderWorker.setText(String.valueOf(order.getWorkerTime()) + "天");
+                break;
+            case "居家换新":
+                orderWorker.setText(String.valueOf(order.getWorkerTime()) + "天");
+                break;
+            default:
+                orderWorker.setText(String.valueOf(order.getWorkerTime()) + "小时");
+        }
+        //单价
+        orderPrice.setText("￥" + order.getPrice());
+        //数量
+        Iterator<Price> iterator = order.getCategory().getPrices().iterator();
+        while (iterator.hasNext()) {
+            Price price = iterator.next();
+            if (price.getPrice() == order.getPrice()) {
+                unit = price.getUnit();
+            }
+        }
+        orderNumber.setText(String.valueOf(order.getNumber() + unit));
+        //总价
+        orderAllprice.setText("￥" + order.getAllprice());
         initViewButton();
     }
 
@@ -133,46 +180,44 @@ public class ItemActivity extends AppCompatActivity {
     public void initViewButton() {
         switch (order.getState()) {
             case UNPAY:
-                buttonLeft.setVisibility(View.GONE);
-                buLeft.setVisibility(View.VISIBLE);
-                buLeft.setText("删除订单");
-                buRight.setText("立即支付");
+                orderLeft.setVisibility(View.VISIBLE);
+                orderRight.setVisibility(View.VISIBLE);
+                orderLeft.setText("删除订单");
+                orderRight.setText("立即支付");
                 break;
             case UNSERVICE:
-                buttonLeft.setVisibility(View.GONE);
-                buLeft.setVisibility(View.VISIBLE);
-                buRight.setVisibility(View.VISIBLE);
-                buLeft.setText("取消订单");
-                buRight.setText("确认订单");
+
+                orderLeft.setVisibility(View.VISIBLE);
+                orderRight.setVisibility(View.VISIBLE);
+                orderLeft.setText("取消订单");
+                orderRight.setText("确认订单");
                 break;
             case UNREMARK:
-                buttonLeft.setVisibility(View.VISIBLE);
-                buLeft.setVisibility(View.VISIBLE);
-                buLeft.setText("删除订单");
-                buRight.setText("立即评价");
+                orderLeft.setVisibility(View.VISIBLE);
+                orderRight.setVisibility(View.VISIBLE);
+                orderLeft.setText("删除订单");
+                orderRight.setText("立即评价");
                 break;
             case COMPLETE:
-                buttonLeft.setVisibility(View.VISIBLE);
-                buRight.setVisibility(View.GONE);
-                buLeft.setText("删除订单");
+                orderLeft.setVisibility(View.GONE);
+                orderRight.setVisibility(View.GONE);
+                orderBottom.setVisibility(View.VISIBLE);
+                orderBottom.setText("删除订单");
                 break;
             case REFUND:
-                buttonLeft.setVisibility(View.VISIBLE);
-                buLeft.setVisibility(View.GONE);
-                buRight.setVisibility(View.GONE);
+                orderLeft.setVisibility(View.VISIBLE);
+                orderLeft.setVisibility(View.GONE);
+                orderRight.setVisibility(View.GONE);
                 break;
         }
 
     }
 
 
-    @OnClick({R.id.button_left, R.id.button_right, R.id.bu_left, R.id.bu_right})
+    @OnClick({R.id.order_right, R.id.order_left, R.id.order_bottom, R.id.button_right})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.button_left:
-                //跳转到客服
 
-                break;
             case R.id.button_right:
                 //开启电话
                 Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:1008611"));
@@ -180,9 +225,9 @@ public class ItemActivity extends AppCompatActivity {
 
                     return;
                 }
-                ItemActivity.this.startActivity(intent);
+                FuwuOrderItemActivity.this.startActivity(intent);
                 break;
-            case R.id.bu_left:
+            case R.id.order_left:
                 switch (order.getState()) {
                     case UNPAY:
                         dialog(order, CLOSE);
@@ -206,10 +251,13 @@ public class ItemActivity extends AppCompatActivity {
 
                 }
                 break;
-            case R.id.bu_right:
+            case R.id.order_right:
                 switch (order.getState()) {
                     case UNPAY:
                         //立即支付跳转支付方页面
+                        Intent intent1 = new Intent(this, PayActivity.class);
+                        intent1.putExtra("order", order);
+                        startActivity(intent1);
                         break;
                     case UNSERVICE:
                         //在服务完成时候可以确认订单
@@ -328,18 +376,18 @@ public class ItemActivity extends AppCompatActivity {
                 if (result.equals("success")) {
                     switch (changeState) {
                         case CLOSE:
-                            Toast.makeText(ItemActivity.this, "删除成功", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(FuwuOrderItemActivity.this, "删除成功", Toast.LENGTH_SHORT).show();
                             order.setState(CLOSE);
                             back();
                             finish();//销毁当前activity (返回键)
                             break;
                         case UNREMARK:
-                            Toast.makeText(ItemActivity.this, "确认成功", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(FuwuOrderItemActivity.this, "确认成功", Toast.LENGTH_SHORT).show();
                             order.setState(UNREMARK);
                             back();
                             break;
                         case REFUND:
-                            Toast.makeText(ItemActivity.this, "取消成功", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(FuwuOrderItemActivity.this, "取消成功", Toast.LENGTH_SHORT).show();
                             order.setState(REFUND);
                             back();
                             break;

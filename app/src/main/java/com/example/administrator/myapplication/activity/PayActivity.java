@@ -20,10 +20,18 @@ import android.widget.Toast;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.entity.Order;
 import com.example.administrator.myapplication.util.StringUtil;
+import com.example.administrator.myapplication.util.TimesTypeAdapter;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
+
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -190,7 +198,12 @@ public class PayActivity extends AppCompatActivity {
             public void succeed() {
                 Log.i("PayActivity", "succeed: 支付成功");
                 Toast.makeText(PayActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
-                changeOrderState(order.getOrderId());
+                if (order.getArriveTime() == null) {
+                    changeOrderState(order.getOrderId());
+                }else {
+                    changeOrderStateByEmergency(order);
+                }
+
                 //queren();
             }
 
@@ -245,6 +258,42 @@ public class PayActivity extends AppCompatActivity {
         RequestParams params = new RequestParams(StringUtil.ip + "/OrderStateChangeServlet");
         params.addQueryStringParameter("orderId", orderId + "");
         params.addQueryStringParameter("newState", 2 + "");
+        x.http().get(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Intent intent = new Intent(PayActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+
+    }
+
+    //未调试
+    private void changeOrderStateByEmergency(Order order) {
+        RequestParams params = new RequestParams(StringUtil.ip + "/Yan_EmergencyEvaluate");
+        Timestamp newTime = new Timestamp(System.currentTimeMillis());
+        long endTime = order.getArriveTime().getTime() + newTime.getTime();
+        Timestamp en = new Timestamp(endTime);
+        order.setEndtime(en);// 获取下单时间
+        Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
+                .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+        String orderJson = gson.toJson(order);
+        params.addQueryStringParameter("orderJson", orderJson);
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {

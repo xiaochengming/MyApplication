@@ -55,6 +55,7 @@ public class EmergencyServiecesFragment extends Fragment implements RefreshListV
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.worker_list, null);
         listView = (RefreshListView) view.findViewById(R.id.lv_workerList);
+        //获取数据初始化页面
         initData();
         itemListener();
         listView.setOnRefreshUploadChangeListener(this);
@@ -63,7 +64,7 @@ public class EmergencyServiecesFragment extends Fragment implements RefreshListV
 
     public void initData() {
 
-        RequestParams requestParams = new RequestParams(StringUtil.ip+ "/AllEmergencyServiceServlet");
+        RequestParams requestParams = new RequestParams(StringUtil.ip + "/AllEmergencyServiceServlet");
         requestParams.addQueryStringParameter("pageNo", pageNo + "");
         requestParams.addQueryStringParameter("pageSize", pageSize + "");
         //应急服务类型
@@ -71,7 +72,7 @@ public class EmergencyServiecesFragment extends Fragment implements RefreshListV
 
                     @Override
                     public void onSuccess(String result) {
-                        Log.i("EmergencyServieces", "onSuccess: 应急服务"+result);
+                        Log.i("EmergencyServieces", "onSuccess: 应急服务" + result);
                         Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
                                 .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
                         List<Category> cat = gson.fromJson(result, new TypeToken<List<Category>>() {
@@ -130,7 +131,7 @@ public class EmergencyServiecesFragment extends Fragment implements RefreshListV
         profile.setText(category.getProfile());
         ImageView imageView = holder.getView(R.id.prod_list_item_iv);
         if (category != null) {
-            x.image().bind(imageView, StringUtil.ip+ category.getIcon());
+            x.image().bind(imageView, StringUtil.ip + category.getIcon());
         }
 
 
@@ -147,6 +148,7 @@ public class EmergencyServiecesFragment extends Fragment implements RefreshListV
                             .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
                     MyApplication myApplication = (MyApplication) getActivity().getApplication();
                     User user = myApplication.getUser();
+
                     String categoriesJson = gson.toJson(categories.get(i - 1));
                     String userJson = gson.toJson(user);
                     Intent intent = new Intent(getActivity(), FuWuItemActivity.class);
@@ -214,7 +216,7 @@ public class EmergencyServiecesFragment extends Fragment implements RefreshListV
 
                         categories.addAll(categorieList);
                         if (categoryAdapter == null) {
-                            categoryAdapter = new CommonAdapter<Category>(getActivity(), categories, R.layout.order_layout) {
+                            categoryAdapter = new CommonAdapter<Category>(getActivity(), categories, R.layout.yan_fuwu_allorder) {
                                 @Override
                                 public void convert(ViewHolder holder, Category category, int position) {
                                     //控件赋值
@@ -252,5 +254,6 @@ public class EmergencyServiecesFragment extends Fragment implements RefreshListV
 
         );
     }
+
 
 }

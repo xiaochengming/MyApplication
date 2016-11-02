@@ -292,7 +292,7 @@ public class RefreshListView extends ListView implements AbsListView.OnScrollLis
 
     public void isShowOrder(List t, Context context) {
         if (t.isEmpty()) {
-            Log.d("a", "a: ");
+
             if (tailView != null) {
                 this.removeFooterView(tailView);
                 tailView = null;
@@ -301,7 +301,7 @@ public class RefreshListView extends ListView implements AbsListView.OnScrollLis
                 }
             }
         } else {
-            Log.d("a", "b: ");
+
             if (tailViewNoOrder != null) {
                 this.removeFooterView(tailViewNoOrder);
                 tailViewNoOrder = null;

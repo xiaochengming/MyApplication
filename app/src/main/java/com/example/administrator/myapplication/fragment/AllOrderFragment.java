@@ -20,8 +20,7 @@ import android.widget.Toast;
 import com.example.administrator.myapplication.Application.MyApplication;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.activity.EvaluateActivity;
-import com.example.administrator.myapplication.activity.EmergencyOrderItemActivity;
-import com.example.administrator.myapplication.activity.ItemActivity;
+import com.example.administrator.myapplication.activity.FuwuOrderItemActivity;
 import com.example.administrator.myapplication.activity.PayActivity;
 import com.example.administrator.myapplication.entity.Order;
 
@@ -117,6 +116,7 @@ public class AllOrderFragment extends Fragment implements RefreshListView.OnRefr
                                 @Override
                                 public void convert(ViewHolder holder, Order order, int position) {
                                     //控件赋值
+
 
                                     initView(holder, order, position);
                                 }
@@ -488,11 +488,11 @@ public class AllOrderFragment extends Fragment implements RefreshListView.OnRefr
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //判断是否下拉，没有下拉执行点击事件
-                if (listView.isFlag() == false&& i != ordrers.size() + 1) {
+                if (listView.isFlag() == false && i != ordrers.size() + 1) {
                     Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
                             .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
                     String orderJson = gson.toJson(ordrers.get(i - 1));
-                    Intent intent = new Intent(getActivity(), ItemActivity.class);
+                    Intent intent = new Intent(getActivity(), FuwuOrderItemActivity.class);
                     intent.putExtra("order", orderJson);
                     startActivityForResult(intent, TOITEM);
                 }
@@ -537,10 +537,11 @@ public class AllOrderFragment extends Fragment implements RefreshListView.OnRefr
                         }
                         orders.addAll(orderList);
                         if (orderApater == null) {
-                            orderApater = new CommonAdapter<Order>(getActivity(), orders, R.layout.order_layout) {
+                            orderApater = new CommonAdapter<Order>(getActivity(), orders, R.layout.yan_fuwu_allorder) {
                                 @Override
                                 public void convert(ViewHolder holder, Order order, int position) {
                                     //控件赋值
+
 
                                     initView(holder, order, position);
                                 }

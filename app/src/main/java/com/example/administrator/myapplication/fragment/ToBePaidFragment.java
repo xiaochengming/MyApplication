@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +18,7 @@ import android.widget.Toast;
 
 import com.example.administrator.myapplication.Application.MyApplication;
 import com.example.administrator.myapplication.R;
-import com.example.administrator.myapplication.activity.EmergencyOrderItemActivity;
-import com.example.administrator.myapplication.activity.ItemActivity;
+import com.example.administrator.myapplication.activity.FuwuOrderItemActivity;
 import com.example.administrator.myapplication.activity.PayActivity;
 import com.example.administrator.myapplication.entity.Order;
 
@@ -385,7 +383,7 @@ public class ToBePaidFragment extends Fragment implements RefreshListView.OnRefr
                     Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
                             .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
                     String orderJson = gson.toJson(ordrers.get(i - 1));
-                    Intent intent = new Intent(getActivity(), ItemActivity.class);
+                    Intent intent = new Intent(getActivity(), FuwuOrderItemActivity.class);
                     intent.putExtra("order", orderJson);
                     startActivityForResult(intent, TOITEM);
                 }
@@ -428,7 +426,7 @@ public class ToBePaidFragment extends Fragment implements RefreshListView.OnRefr
                         orders.addAll(orderList);
 
                         if (orderApater == null) {
-                            orderApater = new CommonAdapter<Order>(getActivity(), orders, R.layout.order_layout) {
+                            orderApater = new CommonAdapter<Order>(getActivity(), orders, R.layout.yan_fuwu_allorder) {
                                 @Override
                                 public void convert(ViewHolder holder, Order order, int position) {
                                     //控件赋值

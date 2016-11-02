@@ -21,6 +21,7 @@ import android.widget.ViewFlipper;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.entity.Category;
 import com.example.administrator.myapplication.entity.Evaluate;
+import com.example.administrator.myapplication.entity.Housekeeper;
 import com.example.administrator.myapplication.entity.User;
 import com.example.administrator.myapplication.util.CommonAdapter;
 import com.example.administrator.myapplication.util.MyListNoScroll;
@@ -43,7 +44,6 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
-import io.rong.imlib.model.Conversation;
 
 /**
  * Created by king on 2016/10/19.
@@ -102,10 +102,10 @@ public class FuWuItemActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.yan_fuwu_item);
+        setContentView(R.layout.yan_emergency_service_item);
         ButterKnife.inject(this);
         listView = (ListView) findViewById(R.id.lv_user_remark);
-        textView= (TextView) listView.findViewById(R.id.prod_info_tv_prod_comment);
+        textView = (TextView) listView.findViewById(R.id.prod_info_tv_prod_comment);
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -159,14 +159,7 @@ public class FuWuItemActivity extends AppCompatActivity implements View.OnClickL
             case R.id.prod_info_nowbuy:
                 //转到下单页面
                 if (user.getUserId() != 0) {
-                    Intent intent = new Intent(this, EmergencyPlaceAnOrderActivity.class);
-                    Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
-                            .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
-                    String categoryJson = gson.toJson(category);
-                    String userJson = gson.toJson(user);
-                    intent.putExtra("categoryJson", categoryJson);
-                    intent.putExtra("userJson", userJson);
-                    startActivity(intent);
+                    getHousekeeper();
 
                 } else {
                     Toast.makeText(this, "未登入", Toast.LENGTH_SHORT).show();
@@ -193,17 +186,16 @@ public class FuWuItemActivity extends AppCompatActivity implements View.OnClickL
         x.http().get(requestParams, new Callback.CacheCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        Log.d("result", "onSuccess: " + result);
                         Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
                                 .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
                         //把传输过来的json对象转换成UserText对象
                         List<Evaluate> evaluateList = gson.fromJson(result, new TypeToken<List<Evaluate>>() {
                         }.getType());
-                        if(evaluateList.isEmpty()){
-                         Toast.makeText(FuWuItemActivity.this, "没有更多评论了", Toast.LENGTH_SHORT).show();
+                        if (evaluateList.isEmpty()) {
+                            Toast.makeText(FuWuItemActivity.this, "没有更多评论了", Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        if(pageNo==1){
+                        if (pageNo == 1) {
                             evaluates.clear();
                         }
                         evaluates.addAll(evaluateList);
@@ -234,7 +226,7 @@ public class FuWuItemActivity extends AppCompatActivity implements View.OnClickL
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-                        Log.d("Throwable", "onError: " + ex);
+
                     }
 
                     @Override
@@ -320,7 +312,7 @@ public class FuWuItemActivity extends AppCompatActivity implements View.OnClickL
 //启动聚合会话列表界面
 /*
                          if (RongIM.getInstance() != null)
-                                RongIM.getInstance().startSubConversationList(FuWuItemActivity.this, Conversation.ConversationType.GROUP);
+                                RongIM.getInstance().startSubConversationList(this, Conversation.ConversationType.GROUP);
 */
                         } else {
                             if (RongIM.getInstance() != null)
@@ -334,6 +326,53 @@ public class FuWuItemActivity extends AppCompatActivity implements View.OnClickL
                                 RongIM.getInstance().startPrivateChat(FuWuItemActivity.this, "3", "客服");
                         }
 
+                    }
+
+
+                    @Override
+                    public void onError(Throwable ex, boolean isOnCallback) {
+                        Log.d("Main2Activity", "onError: " + ex);
+                    }
+
+                    @Override
+                    public void onCancelled(CancelledException cex) {
+
+                    }
+
+                    @Override
+                    public void onFinished() {
+
+                    }
+
+                    @Override
+                    public boolean onCache(String result) {
+                        return false;
+                    }
+                }
+
+        );
+    }
+
+    //获取应急服务对应的保姆
+    public void getHousekeeper() {
+        String url = StringUtil.ip + "/Yan_HousekeeperCategory";
+        RequestParams requestParams = new RequestParams(url);
+        //发送用户id
+        requestParams.addQueryStringParameter("categoryId", category.getCategoryId() + "");
+        x.http().get(requestParams, new Callback.CacheCallback<String>() {
+                    @Override
+                    public void onSuccess(String result) {
+                        //跳转到下单页面
+                        Intent intent = new Intent(FuWuItemActivity.this, EmergencyPlaceAnOrderActivity.class);
+                        Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
+                                .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+                        String categoryJson = gson.toJson(category);
+                        String userJson = gson.toJson(user);
+                        intent.putExtra("categoryJson", categoryJson);
+                        intent.putExtra("userJson", userJson);
+                        //提供服务的保姆|维修工
+                        intent.putExtra("housekeepersJson", result);
+                        startActivity(intent);
                     }
 
 

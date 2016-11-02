@@ -5,22 +5,25 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.entity.Address;
 import com.example.administrator.myapplication.entity.Category;
 import com.example.administrator.myapplication.entity.Evaluate;
+import com.example.administrator.myapplication.entity.Housekeeper;
 import com.example.administrator.myapplication.entity.Order;
 import com.example.administrator.myapplication.entity.User;
 import com.example.administrator.myapplication.util.StringUtil;
 import com.example.administrator.myapplication.util.TimesTypeAdapter;
-import com.example.administrator.myapplication.util.TitleBar;
 import com.example.administrator.myapplication.util.UrlAddress;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -32,11 +35,13 @@ import org.xutils.x;
 
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import io.rong.photoview.log.LoggerDefault;
 
 public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -101,6 +106,19 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
     Integer orderId;
     Timestamp nowTime;
     Time time;
+    @InjectView(R.id.id_prod_list_iv_left)
+    ImageView idProdListIvLeft;
+    @InjectView(R.id.id_prod_list_tv)
+    TextView idProdListTv;
+    @InjectView(R.id.line1)
+    LinearLayout line1;
+    //获取提供服务的保姆|维修人员
+    List<Housekeeper> housekeepers;
+    //提供服务的保姆|维修人员的名字
+    List<String> hou;
+    @InjectView(R.id.spinner)
+    Spinner spinner;
+    Housekeeper housekeeper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +135,7 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
         orderGoumai.setOnClickListener(this);
         orderDizhiRightTupian.setOnClickListener(this);
 
+
     }
 
     //获取数据
@@ -124,16 +143,20 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
         Intent intent = getIntent();
         String categoryJson = intent.getStringExtra("categoryJson");
         String userJson = intent.getStringExtra("userJson");
-
+        String housekeepersJson = intent.getStringExtra("housekeepersJson");
+        Log.d("getData", "getData: " + housekeepersJson);
         Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
                 .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
         category = gson.fromJson(categoryJson, Category.class);
         user = gson.fromJson(userJson, User.class);
+        housekeepers = gson.fromJson(housekeepersJson, new TypeToken<List<Housekeeper>>() {
+        }.getType());
+
     }
 
     //获取地址
     public void getDataToAddress() {
-        String url = StringUtil.ip+ "/AddressServletli";
+        String url = StringUtil.ip + "/AddressServletli";
         RequestParams requestParams = new RequestParams(url);
         //发送用户id
         requestParams.addQueryStringParameter("userId", user.getUserId() + "");
@@ -165,6 +188,30 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
                             //初始化价格
                             orderCountTotalMoney.setText(String.valueOf(category.getPrices().get(0).getPrice()));
                             orderTotalMoney.setText(String.valueOf(category.getPrices().get(0).getPrice()));
+                            //初始化选择保姆|维修人员
+                            hou = new ArrayList<String>();
+                            for (int i = 0; i < housekeepers.size(); i++) {
+                                String name = housekeepers.get(i).getName();
+                                Log.d("hou", "hou: " + name);
+                                hou.add(name);
+
+                            }
+                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(EmergencyPlaceAnOrderActivity.this,
+                                    android.R.layout.simple_spinner_item, hou);
+                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            spinner.setAdapter(adapter);
+                            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                @Override
+                                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                    housekeeper = housekeepers.get(i);
+
+                                }
+
+                                @Override
+                                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                                }
+                            });
                         }
                     }
 
@@ -201,7 +248,7 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
             nowTime = new Timestamp(System.currentTimeMillis());
             time = new Time(System.currentTimeMillis());//创建一个时间对象，获取到当前的时间
             Order order = new Order(user, addressIsefault, nowTime, 1, category.getPrices().get(0).getPrice(),
-                    category, category.getPrices().get(0).getPrice(), time);//少了到达时间arrive
+                    housekeeper, category, category.getPrices().get(0).getPrice(), time);//少了到达时间arrive
             return order;
         }
         return null;
@@ -220,14 +267,13 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
         x.http().get(requestParams, new Callback.CacheCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        Log.d("Emergy", "onSuccess: " + result);
                         if (result != null) {
                             //返回订单id
                             orderId = Integer.parseInt(result);
 
                             Intent intent = new Intent(EmergencyPlaceAnOrderActivity.this, PayActivity.class);
-                            Order order = new Order(orderId, user, addressIsefault, nowTime, 1, category, category.getPrices().get(0).getPrice(),
-                                    category.getPrices().get(0).getPrice(), time);
+                            Order order = new Order(orderId, user, addressIsefault, nowTime, 1, category.getPrices().get(0).getPrice(),
+                                    housekeeper, category, category.getPrices().get(0).getPrice(), time);
                             intent.putExtra("order", order);
                             startActivity(intent);
                         }
@@ -272,7 +318,7 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
                 break;
             case R.id.id_prod_list_iv_left:
                 //地址按钮
-              finish();
+                finish();
                 break;
 
         }
@@ -321,6 +367,11 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
                 }
 
         );
+
+    }
+
+    //spinner监听
+    public void onListenerSpinner() {
 
     }
 }
