@@ -346,6 +346,7 @@ public class MiSheQuFragment extends Fragment {
             @Override
             public void onSuccess(String result) {
                 Log.i("MiSheQuFragment", "onSuccess: getdata" + result);
+                listView.completeLoad();
                 Type type = new TypeToken<List<Post>>() {
                 }.getType();
                 Gson gson = new Gson();

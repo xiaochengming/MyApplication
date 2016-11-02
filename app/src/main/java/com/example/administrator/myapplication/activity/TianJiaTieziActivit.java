@@ -37,7 +37,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -136,12 +138,12 @@ public class TianJiaTieziActivit extends AppCompatActivity {
         if (fileList.size() > 0) {
             for (int i = 0; i < fileList.size(); i++) {
                 Bitmap bitmap = BitmapFactory.decodeFile(fileList.get(i));
-                File file = new File(Environment.getExternalStorageDirectory(), i+".jpg");
+                File file = new File(Environment.getExternalStorageDirectory(), getPhotoFileName()+i+".jpg");
 
                 FileOutputStream fos = null;
                 try {
                     fos = new FileOutputStream(file);
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 80, fos);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } finally {
@@ -184,7 +186,11 @@ public class TianJiaTieziActivit extends AppCompatActivity {
         setResult(RESULT_OK, intent);
         finish();
     }
-
+    private String getPhotoFileName() {
+        Date date = new Date(System.currentTimeMillis());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        return sdf.format(date);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

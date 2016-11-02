@@ -1,16 +1,13 @@
-package com.example.administrator.myapplication.fragment;
+package com.example.administrator.myapplication.activity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,7 +19,6 @@ import com.example.administrator.myapplication.Adapter.CommonAdapter;
 import com.example.administrator.myapplication.Adapter.ViewHolder;
 import com.example.administrator.myapplication.Application.MyApplication;
 import com.example.administrator.myapplication.R;
-import com.example.administrator.myapplication.activity.DongtaiActivity;
 import com.example.administrator.myapplication.entity.Dynamic;
 import com.example.administrator.myapplication.entity.Post;
 import com.example.administrator.myapplication.entity.User;
@@ -49,18 +45,14 @@ import java.util.Set;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-/**
- * Created by Administrator on 2016/10/24.
- */
-public class MiHuiFuFragment extends Fragment {
+public class HuifuActivity extends AppCompatActivity {
     @InjectView(R.id.lv_huifu)
     RefreshListView lvHuifu;
     @InjectView(R.id.et_fasong_pinglun)
     EditText etFasongPinglun;
     @InjectView(R.id.show_luntan_text_enterpinglun)
     TextView showLuntanTextEnterpinglun;
-    @InjectView(R.id.dibubuju)
-    LinearLayout dibubuju;
+
 
     CommonAdapter<Map<Post, List<Dynamic>>> adapter;
     int page = 1;
@@ -73,22 +65,35 @@ public class MiHuiFuFragment extends Fragment {
     InputMethodManager imm;
     Dynamic parentDyanmic;
     Post beihuifupost;
+    @InjectView(R.id.dibubuju)
+    LinearLayout dibubuju;
+    @InjectView(R.id.tv_tbTitle)
+    TextView tvTbTitle;
+    @InjectView(R.id.tb_workerlist)
+    Toolbar tbWorkerlist;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_huifu, null);
-        ButterKnife.inject(this, v);
-        imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_huifu);
+        ButterKnife.inject(this);
+
+        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(etFasongPinglun.getWindowToken(), 0);
         initDate();
         initEven();
-        return v;
     }
 
 
-
     public void initEven() {
+
+        tbWorkerlist.setNavigationIcon(R.mipmap.back);
+        tbWorkerlist.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         lvHuifu.setOnRefreshUploadChangeListener(new RefreshListView.OnRefreshUploadChangeListener() {
             @Override
             public void onRefresh() {
@@ -109,11 +114,11 @@ public class MiHuiFuFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (beihuifupost == null || parentDyanmic == null) {
-                    Toast.makeText(getActivity(), "你没有选择回复对象", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HuifuActivity.this, "你没有选择回复对象", Toast.LENGTH_SHORT).show();
                 } else {
                     String string = etFasongPinglun.getText().toString();
                     if (string.isEmpty() || string.equals("")) {
-                        Toast.makeText(getActivity(), "请输入内容", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(HuifuActivity.this, "请输入内容", Toast.LENGTH_SHORT).show();
                         return;
                     } else {
                         Dynamic dynamic = new Dynamic(0, myApplication.getUser(), beihuifupost.getPostId(), string, new Timestamp(System.currentTimeMillis()), parentDyanmic.getDynamicId(), 0);
@@ -172,7 +177,7 @@ public class MiHuiFuFragment extends Fragment {
     }
 
     public void initDate() {
-        myApplication = (MyApplication) getActivity().getApplication();
+        myApplication = (MyApplication) HuifuActivity.this.getApplication();
         RequestParams params = new RequestParams(StringUtil.ip + "/SelectHuifu");
         params.addQueryStringParameter("userId", myApplication.getUser().getUserId() + "");
         params.addQueryStringParameter("page", page + "");
@@ -198,7 +203,7 @@ public class MiHuiFuFragment extends Fragment {
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 Log.i("MiHuiFuFragment", "onError: " + ex);
-                Toast.makeText(getActivity(), "网络错误", Toast.LENGTH_SHORT).show();
+                Toast.makeText(HuifuActivity.this, "网络错误", Toast.LENGTH_SHORT).show();
                 if (flag) {
                     lvHuifu.completeRefresh();
                     flag = false;
@@ -219,7 +224,7 @@ public class MiHuiFuFragment extends Fragment {
 
     public void listViewSheZhishiperqi() {
         if (adapter == null) {
-            adapter = new CommonAdapter<Map<Post, List<Dynamic>>>(getActivity(), list, R.layout.huifu_item) {
+            adapter = new CommonAdapter<Map<Post, List<Dynamic>>>(HuifuActivity.this, list, R.layout.huifu_item) {
                 @Override
                 public void convert(ViewHolder viewHolder, Map<Post, List<Dynamic>> postDynamicMap, int position) {
                     ImageView touxiang = viewHolder.getViewById(R.id.listview_pinglun_item_imageview_icon);
@@ -260,7 +265,7 @@ public class MiHuiFuFragment extends Fragment {
                         @Override
                         public void onClick(View v) {
                             Post p = (Post) v.getTag();
-                            Intent intent = new Intent(getActivity(), DongtaiActivity.class);
+                            Intent intent = new Intent(HuifuActivity.this, DongtaiActivity.class);
                             intent.putExtra("post", p);
                             startActivity(intent);
                         }
@@ -276,7 +281,7 @@ public class MiHuiFuFragment extends Fragment {
                         }
                     });
                     final List<Dynamic> finalList = list;
-                    listview.setAdapter(new CommonAdapter<Dynamic>(getActivity(), finalList, R.layout.huifuxiangqingitem) {
+                    listview.setAdapter(new CommonAdapter<Dynamic>(HuifuActivity.this, finalList, R.layout.huifuxiangqingitem) {
                         @Override
                         public void convert(ViewHolder viewHolder, Dynamic dynamic, int position) {
                             TextView huifuname = viewHolder.getViewById(R.id.tv_huifuName);
@@ -314,14 +319,9 @@ public class MiHuiFuFragment extends Fragment {
         return null;
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.reset(this);
-    }
 
     public void getDate() {
-        myApplication = (MyApplication) getActivity().getApplication();
+        myApplication = (MyApplication) getApplication();
         RequestParams params = new RequestParams(StringUtil.ip + "/SelectHuifu");
         params.addQueryStringParameter("userId", myApplication.getUser().getUserId() + "");
         params.addQueryStringParameter("page", page + "");
@@ -336,7 +336,7 @@ public class MiHuiFuFragment extends Fragment {
                 List<Map<Post, List<Dynamic>>> newList = new ArrayList<Map<Post, List<Dynamic>>>();
                 newList = gson.fromJson(result, type);
                 if (newList.size() == 0) {
-                    Toast.makeText(getActivity(), "暂无数据", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HuifuActivity.this, "暂无数据", Toast.LENGTH_SHORT).show();
                     page--;
                     lvHuifu.completeLoad();
                     return;
@@ -350,7 +350,7 @@ public class MiHuiFuFragment extends Fragment {
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 Log.i("MiHuiFuFragment", "onError: " + ex);
-                Toast.makeText(getActivity(), "网络错误", Toast.LENGTH_SHORT).show();
+                Toast.makeText(HuifuActivity.this, "网络错误", Toast.LENGTH_SHORT).show();
                 lvHuifu.completeLoad();
             }
 
@@ -368,38 +368,13 @@ public class MiHuiFuFragment extends Fragment {
     }
 
     public boolean onTouchEvent(MotionEvent event) {
-        if (null != getActivity().getCurrentFocus()) {
+        if (null != this.getCurrentFocus()) {
             /**
              * 点击空白位置 隐藏软键盘
              */
-            InputMethodManager mInputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            return mInputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+            InputMethodManager mInputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            return mInputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
-        return getActivity().onTouchEvent(event);
+        return super.onTouchEvent(event);
     }
-    /*Post post=null;
-    Dynamic beihufuDynamic=null;
-    Dynamic huFudynamic=null;
-    for (Map.Entry<Post, Dynamic> map:set
-    ) {
-        if ( (map.getKey()).getPostId()!=0){
-            post=map.getKey();
-            beihufuDynamic=map.getValue();
-        }else {
-            huFudynamic=map.getValue();
-        }
-    }
-    if (huFudynamic.getUser() != null && huFudynamic.getUser().getPhoto() != null) {
-        ImageOptions imageOptions = new ImageOptions.Builder().
-                setLoadingDrawableId(R.mipmap.ic_launcher).
-                setRadius(DensityUtil.dip2px(30.0f)).build();
-        x.image().bind(touxiang, StringUtil.ip + "/" + huFudynamic.getUser().getPhoto(), imageOptions);
-        huifuzhename.setText(huFudynamic.getUser().getName());
-    }
-    huifuzhetime.setText(huFudynamic.getDynamicTime().toString());
-    huifuneilong.setText(huFudynamic.getDynamicContent());
-    postname.setText(post.getUser().getName());
-    postcontent.setText(post.getPostContent());
-    beihuifuname.setText(beihufuDynamic.getUser().getName());
-    beihuifucontext.setText(beihufuDynamic.getDynamicContent());*/
 }

@@ -145,7 +145,8 @@
             android:process=":remote" />
 
         <activity android:name=".activity.SpaceImageDetailActivity" />
-        <activity android:name=".activitymi.ShowImageActivity"></activity>
+        <activity android:name=".activitymi.ShowImageActivity" />
+        <activity android:name=".activity.HuifuActivity"></activity>
     </application>
 
 </manifest>
