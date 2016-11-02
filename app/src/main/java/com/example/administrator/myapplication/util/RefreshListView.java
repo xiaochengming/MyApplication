@@ -279,7 +279,6 @@ public class RefreshListView extends ListView implements AbsListView.OnScrollLis
             tvFooter.setVisibility(GONE);
         } else {
             flag = true;
-
             //加载完成，显示文本
             pbFooter.setVisibility(GONE);
             tvFooter.setVisibility(VISIBLE);
@@ -288,30 +287,26 @@ public class RefreshListView extends ListView implements AbsListView.OnScrollLis
 
     public void addFooterViewNoOrder(Context context) {
         tailViewNoOrder = LayoutInflater.from(context).inflate(R.layout.no_order, null);
-
         addFooterView(tailViewNoOrder, null, false);
     }
 
     public void isShowOrder(List t, Context context) {
         if (t.isEmpty()) {
+
             if (tailView != null) {
                 this.removeFooterView(tailView);
+                tailView = null;
+                if (tailViewNoOrder == null) {
+                    addFooterViewNoOrder(context);
+                }
             }
-            if (tailViewNoOrder == null) {
-                addFooterViewNoOrder(context);
-            }
-
         } else {
+
             if (tailViewNoOrder != null) {
                 this.removeFooterView(tailViewNoOrder);
-            }
-            if (tailView == null) {
+                tailViewNoOrder = null;
                 initTail(context);
             }
-
         }
-
     }
 }
-
-

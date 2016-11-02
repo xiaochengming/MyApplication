@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.administrator.myapplication">
 
+
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
     <!-- 获取网络请求 -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -74,6 +76,7 @@
             android:name=".activity.TianJiaTieziActivit"
             android:launchMode="singleTask" />
         <activity android:name=".CitySelectActivity" />
+        <activity android:name=".activity.FuwuOrderItemActivity" />
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -129,14 +132,15 @@
         <activity
             android:name=".activity.EvaluateActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity android:name=".activity.EmergencyOrderItemActivity" />
         <activity android:name=".activity.ItemActivity" />
         <activity android:name=".activity.FuWuItemActivity" />
         <activity android:name=".activity.MyOrderActivity" />
         <activity android:name=".activity.PayItemActivity" />
-        <activity android:name=".activity.PayEmergencyItemActivity" />
+        <activity android:name=".activity.PayEmergencyItemActivity"></activity>
         <activity android:name=".activitymi.ImageListActivity" />
-        <activity android:name=".activitymi.ImageActivity" />
-        <activity android:name=".activity.PayEmergencyItemActivity" />
+        <activity android:name=".activitymi.ImageActivity"></activity>
+        <activity android:name=".activity.PayEmergencyItemActivity"></activity>
         <activity android:name=".activity.AddressXQActivity" />
 
         <service
@@ -147,6 +151,59 @@
         <activity android:name=".activity.SpaceImageDetailActivity" />
         <activity android:name=".activitymi.ShowImageActivity" />
         <activity android:name=".activity.HuifuActivity"></activity>
+        <activity android:name=".activity.SpaceImageDetailActivity"></activity>
+        <activity android:name=".activity.aaaa">
+
+        </activity>
+        <!-- 会话界面 -->
+        <activity
+            android:name=".activity.ConversationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="com.example.administrator.myapplication"
+                    android:pathPrefix="/conversation/"
+                    android:scheme="rong" />
+            </intent-filter>
+        </activity>
+        <!-- 会话列表 -->
+        <activity
+            android:name=".activity.ConversationListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="com.example.administrator.myapplication"
+                    android:pathPrefix="/conversationlist"
+                    android:scheme="rong" />
+            </intent-filter>
+        </activity>
+        <!-- 聚合会话列表 -->
+        <activity
+            android:name=".activity.Subconversationlist"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+
+                <data
+                    android:host="com.example.administrator.myapplication"
+                    android:pathPrefix="/subconversationlist"
+                    android:scheme="rong" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

@@ -30,6 +30,29 @@ public class Order implements Parcelable {
     public Order() {
     }
 
+    public Order(int orderId, User user, Address address, Timestamp time, int state, float allprice, Housekeeper housekeeper, Category category, float price, Time arriveTime) {
+        this.orderId = orderId;
+        this.user = user;
+        this.address = address;
+        this.time = time;
+        this.state = state;
+        this.allprice = allprice;
+        this.housekeeper = housekeeper;
+        this.category = category;
+        this.price = price;
+        this.arriveTime = arriveTime;
+    }
+    public Order( User user, Address address, Timestamp time, int state, float allprice, Housekeeper housekeeper, Category category, float price, Time arriveTime) {
+        this.user = user;
+        this.address = address;
+        this.time = time;
+        this.state = state;
+        this.allprice = allprice;
+        this.housekeeper = housekeeper;
+        this.category = category;
+        this.price = price;
+        this.arriveTime = arriveTime;
+    }
     public Order(User user, Address address, Timestamp time, int state, float allprice, Category category, float price, Time arriveTime) {
 
         this.user = user;
@@ -42,7 +65,7 @@ public class Order implements Parcelable {
         this.arriveTime = arriveTime;
     }
 
-    public Order(int orderId, User user, Address address, Timestamp time, int state,Category category, float allprice, float price,  Time arriveTime) {
+    public Order(int orderId, User user, Address address, Timestamp time, int state, Category category, float allprice, float price, Time arriveTime) {
         this.orderId = orderId;
         this.user = user;
         this.address = address;

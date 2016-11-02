@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +20,7 @@ import android.widget.Toast;
 import com.example.administrator.myapplication.Application.MyApplication;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.activity.EvaluateActivity;
-import com.example.administrator.myapplication.activity.ItemActivity;
+import com.example.administrator.myapplication.activity.FuwuOrderItemActivity;
 import com.example.administrator.myapplication.activity.PayActivity;
 import com.example.administrator.myapplication.entity.Order;
 
@@ -47,7 +46,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 /**
  * Created by king on 2016/10/15.
@@ -114,19 +112,22 @@ public class AllOrderFragment extends Fragment implements RefreshListView.OnRefr
                         orders.clear();
                         orders.addAll(orderList);
                         if (orderApater == null) {
-                            orderApater = new CommonAdapter<Order>(getActivity(), orders, R.layout.order_layout) {
+                            orderApater = new CommonAdapter<Order>(getActivity(), orders, R.layout.yan_fuwu_allorder) {
                                 @Override
                                 public void convert(ViewHolder holder, Order order, int position) {
                                     //控件赋值
+
 
                                     initView(holder, order, position);
                                 }
 
                             };
+                            //切换listview底部
                             changeLayout();
                             listView.setAdapter(orderApater);
 
                         } else {
+                            //切换listview底部
                             changeLayout();
                             orderApater.notifyDataSetChanged();
                         }
@@ -167,9 +168,10 @@ public class AllOrderFragment extends Fragment implements RefreshListView.OnRefr
         TextView teAddress = holder.getView(R.id.tv_address);
         teAddress.setText(order.getAddress().getAddress());
         TextView teBegin = holder.getView(R.id.order_textview_5);
-        teBegin.setText("下单时间: " + order.getBegdate() + "");
+        String begdate = String.valueOf(order.getBegdate());
+        teBegin.setText("下单时间: " + begdate.substring(0, begdate.length() - 2));
         TextView tePrice = holder.getView(R.id.price);
-        tePrice.setText("￥" + order.getAllprice() + "");
+        tePrice.setText(order.getAllprice() + "");
         Button buttonLeft = holder.getView(R.id.button_left);
         Button buttonRight = holder.getView(R.id.button_right);
         //按钮控件初始化
@@ -372,7 +374,7 @@ public class AllOrderFragment extends Fragment implements RefreshListView.OnRefr
     //更新订单状态，更新界面
     public void changeState(Order order, final int position, final int changeState) {
 
-        RequestParams requestParams = new RequestParams( StringUtil.ip + "/UpdateOrderServlet");
+        RequestParams requestParams = new RequestParams(StringUtil.ip + "/UpdateOrderServlet");
 
         MyApplication myApplication = (MyApplication) getActivity().getApplication();
         requestParams.addQueryStringParameter("userId", myApplication.getUser().getUserId() + "");
@@ -487,14 +489,12 @@ public class AllOrderFragment extends Fragment implements RefreshListView.OnRefr
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //判断是否下拉，没有下拉执行点击事件
                 if (listView.isFlag() == false && i != ordrers.size() + 1) {
-
                     Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
                             .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
                     String orderJson = gson.toJson(ordrers.get(i - 1));
-                    Intent intent = new Intent(getActivity(), ItemActivity.class);
+                    Intent intent = new Intent(getActivity(), FuwuOrderItemActivity.class);
                     intent.putExtra("order", orderJson);
                     startActivityForResult(intent, TOITEM);
-
                 }
             }
         });
@@ -537,18 +537,21 @@ public class AllOrderFragment extends Fragment implements RefreshListView.OnRefr
                         }
                         orders.addAll(orderList);
                         if (orderApater == null) {
-                            orderApater = new CommonAdapter<Order>(getActivity(), orders, R.layout.order_layout) {
+                            orderApater = new CommonAdapter<Order>(getActivity(), orders, R.layout.yan_fuwu_allorder) {
                                 @Override
                                 public void convert(ViewHolder holder, Order order, int position) {
                                     //控件赋值
+
 
                                     initView(holder, order, position);
                                 }
 
                             };
+                            //切换listview底部
                             changeLayout();
                             listView.setAdapter(orderApater);
                         } else {
+                            //切换listview底部
                             changeLayout();
                             orderApater.notifyDataSetChanged();
                         }
@@ -583,7 +586,7 @@ public class AllOrderFragment extends Fragment implements RefreshListView.OnRefr
     @Override
     public void onRefresh() {
         //刷新
-        pageNo=1;
+        pageNo = 1;
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {

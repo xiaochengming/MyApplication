@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/my_product_item_bg"
+    android:descendantFocusability="blocksDescendants"
+    android:padding="4dp">
+
+    <LinearLayout
+        style="@style/buy_product_LinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            style="@style/style_user_relativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:background="@drawable/board_above">
+
+            <ImageView
+                android:id="@+id/image_id_1"
+                style="@style/style_allorder_imageView"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_weight="1"
+                android:focusable="false"
+                android:src="@mipmap/type" />
+
+            <TextView
+                android:id="@+id/Typeface_ServiceType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@+id/image_id_1"
+                android:background="@android:color/transparent"
+                android:focusable="false"
+
+                android:gravity="center|right"
+                android:text="@string/service_type"
+                android:textColor="#ff697279"
+                android:textSize="16sp" />
+
+
+            <TextView
+
+                android:id="@+id/State"
+                style="@style/style_allorder_imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@+id/image_id_1"
+                android:focusable="false"
+                android:text="@string/state"
+                android:textColor="@color/border_clo"
+                android:textSize="18dp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            style="@style/style_user_relativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:background="@drawable/board_middle">
+
+            <ImageView
+                android:id="@+id/image_id_2"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="-2dp"
+                android:layout_marginTop="5dp"
+                android:focusable="false"
+                android:src="@mipmap/location" />
+
+            <TextView
+                android:id="@+id/tv_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@+id/image_id_2"
+                android:background="@android:color/transparent"
+                android:focusable="false"
+                android:gravity="center|right"
+                android:text="@string/address"
+                android:textColor="#ff697279"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            style="@style/style_user_relativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:background="@drawable/board_middle">
+
+            <ImageView
+                android:id="@+id/place_an_order"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="5dp"
+                android:focusable="false"
+                android:src="@mipmap/place_an_order" />
+
+            <TextView
+                android:id="@+id/order_textview_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@+id/place_an_order"
+                android:background="@android:color/transparent"
+                android:focusable="false"
+                android:gravity="center|right"
+                android:text="@string/place_an_order_time"
+                android:textColor="#ff697279"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:background="@drawable/board_below"
+            android:paddingBottom="1dp">
+
+            <TextView
+                android:id="@+id/yang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerInParent="true"
+                android:text="￥"
+                android:textColor="@color/border_clo"
+
+                android:textSize="25dp" />
+
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_toRightOf="@+id/yang"
+                android:focusable="false"
+                android:gravity="center|right"
+                android:text="@string/price"
+                android:textColor="#ff697279"
+                android:textSize="16dp" />
+
+            <Button
+                android:id="@+id/button_left"
+                android:layout_width="85dp"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/middle"
+                android:background="@drawable/yan_t_button"
+                android:text="右按钮"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/middle"
+                android:layout_width="15dp"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/button_right" />
+
+            <Button
+                android:id="@+id/button_right"
+                android:layout_width="85dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/yan_t_button"
+
+                android:text="左按钮"
+                android:textSize="16dp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>
