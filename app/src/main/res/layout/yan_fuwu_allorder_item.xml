@@ -149,6 +149,7 @@
                             android:layout_width="120dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="16dp"
+                            android:drawableRight="@drawable/phone_blue"
                             android:background="@drawable/shape_white"
                             android:text="联系客服"
                             android:textColor="#141414"

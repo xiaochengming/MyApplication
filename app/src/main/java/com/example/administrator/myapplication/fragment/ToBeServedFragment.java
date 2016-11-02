@@ -165,9 +165,9 @@ public class ToBeServedFragment extends Fragment implements RefreshListView.OnRe
         teState.setText(initState(order.getState()));
         TextView teAddress = holder.getView(R.id.tv_address);
         teAddress.setText(order.getAddress().getAddress());
-        TextView teBegin = holder.getView(R.id.order_textview_5);
-        String begdate = String.valueOf(order.getBegdate());
-        teBegin.setText("下单时间: " + begdate.substring(0, begdate.length() - 2));
+        TextView time = holder.getView(R.id.order_textview_5);
+        String placeAnOrderTime = String.valueOf(order.getTime());
+        time.setText("下单时间: " + placeAnOrderTime.substring(0, placeAnOrderTime.length() - 2));
         TextView tePrice = holder.getView(R.id.price);
         tePrice.setText(order.getAllprice() + "");
         Button buttonLeft = holder.getView(R.id.button_left);
