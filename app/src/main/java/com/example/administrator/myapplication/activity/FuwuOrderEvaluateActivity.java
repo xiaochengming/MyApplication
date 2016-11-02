@@ -26,7 +26,6 @@ import android.widget.Toast;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.entity.Evaluate;
 import com.example.administrator.myapplication.entity.Order;
-
 import com.example.administrator.myapplication.util.StringUtil;
 import com.example.administrator.myapplication.util.TimesTypeAdapter;
 import com.example.administrator.myapplication.util.UrlAddress;
@@ -50,7 +49,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 //评价页面
-public class EvaluateActivity extends AppCompatActivity {
+public class FuwuOrderEvaluateActivity extends AppCompatActivity {
     //上传图片
     public static final int SELECT_PIC = 11;
     public static final int TAKE_PHOTO = 12;
@@ -64,36 +63,38 @@ public class EvaluateActivity extends AppCompatActivity {
     int numStar;
     //评价
     String eval;
+    @InjectView(R.id.id_prod_list_iv_left)
+    ImageView idProdListIvLeft;
+    @InjectView(R.id.id_prod_list_tv)
+    TextView idProdListTv;
+    @InjectView(R.id.line1)
+    LinearLayout line1;
     @InjectView(R.id.prod_list_item_iv)
     ImageView prodListItemIv;
     @InjectView(R.id.ed_category_name)
     TextView edCategoryName;
-    @InjectView(R.id.view1)
-    View view1;
+    @InjectView(R.id.rela1)
+    RelativeLayout rela1;
     @InjectView(R.id.textView2)
     TextView textView2;
     @InjectView(R.id.rat_star)
     RatingBar ratStar;
-    @InjectView(R.id.view2)
-    View view2;
-    @InjectView(R.id.im_2)
-    ImageView im2;
-    @InjectView(R.id.im_3)
-    ImageView im3;
-    @InjectView(R.id.im_4)
-    ImageView im4;
+    @InjectView(R.id.image_id_1)
+    ImageView imageId1;
+    @InjectView(R.id.image_id_2)
+    ImageView imageId2;
+    @InjectView(R.id.image_id_3)
+    ImageView imageId3;
+    @InjectView(R.id.textView13)
+    TextView textView13;
     @InjectView(R.id.linear)
     LinearLayout linear;
-    @InjectView(R.id.linear_id)
-    LinearLayout linearId;
     @InjectView(R.id.more_applyagent_content)
-    EditText comment;
+    EditText moreApplyagentContent;
     @InjectView(R.id.button_evaluate)
     Button buttonEvaluate;
     @InjectView(R.id.rela)
     RelativeLayout rela;
-
-
     private File file;
     private File file1;
     private File file2;
@@ -189,7 +190,7 @@ public class EvaluateActivity extends AppCompatActivity {
         //得到星级
         numStar = (int) ratStar.getRating();
         //评价的内容
-        eval = comment.getText().toString();
+        eval = moreApplyagentContent.getText().toString();
         Evaluate evaluate = new Evaluate(order, numStar, eval, timestamp, 0, 0);
         String ur1 = UrlAddress.url + "EvaluateServlet";
         //评价内容发送到数据库
@@ -211,11 +212,10 @@ public class EvaluateActivity extends AppCompatActivity {
         x.http().post(requestParams, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("EvaluateActivity", "onSuccess: " + result);
                 if (result.equals("true")) {
                     back();
                 } else {
-                    Toast.makeText(EvaluateActivity.this, "连接失败", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FuwuOrderEvaluateActivity.this, "连接失败", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -277,14 +277,14 @@ public class EvaluateActivity extends AppCompatActivity {
         saveImage(bitmap);
         switch (temp) {
             case 1:
-                checkImage(im2, file);
+                checkImage(imageId1, file);
                 break;
             case 2:
-                checkImage(im3, file1);
+                checkImage(imageId2, file1);
                 break;
 
             case 3:
-                checkImage(im4, file2);
+                checkImage(imageId3, file2);
                 break;
 
 
@@ -296,7 +296,6 @@ public class EvaluateActivity extends AppCompatActivity {
     //将bitmap保存在文件中
     public void saveImage(Bitmap bitmap) {
         FileOutputStream fos = null;
-        Log.d("EvaluateActivity", "saveImage: " + temp);
         try {
             switch (temp) {
                 case 1:
@@ -358,23 +357,23 @@ public class EvaluateActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick({R.id.im_2, R.id.im_3, R.id.im_4, R.id.button_evaluate})
+    @OnClick({R.id.image_id_1, R.id.image_id_2, R.id.image_id_3, R.id.button_evaluate})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.im_2:
+            case R.id.image_id_1:
                 temp = 1;
                 fileEstablish();
                 photoOnListener();
 
 
                 break;
-            case R.id.im_3:
+            case R.id.image_id_2:
                 temp = 2;
                 fileEstablish();
                 photoOnListener();
                 //  im3.setImageBitmap(bm);
                 break;
-            case R.id.im_4:
+            case R.id.image_id_3:
                 temp = 3;
                 fileEstablish();
                 photoOnListener();

@@ -217,7 +217,7 @@ public class EmergencyOrderItemActivity extends AppCompatActivity {
                         break;
                     case UNREMARK:
                         //评价
-                        Intent intent2 = new Intent(this, EvaluateActivity.class);
+                        Intent intent2 = new Intent(this, FuwuOrderEvaluateActivity.class);
 
                         Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
                                 .setDateFormat("yyyy-MM-dd HH:mm:ss").create();

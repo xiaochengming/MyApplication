@@ -21,7 +21,7 @@ import android.widget.Toast;
 
 import com.example.administrator.myapplication.Application.MyApplication;
 import com.example.administrator.myapplication.R;
-import com.example.administrator.myapplication.activity.EvaluateActivity;
+import com.example.administrator.myapplication.activity.FuwuOrderEvaluateActivity;
 import com.example.administrator.myapplication.activity.EmergencyOrderItemActivity;
 import com.example.administrator.myapplication.activity.PayActivity;
 import com.example.administrator.myapplication.entity.Order;
@@ -293,7 +293,7 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
                         break;
                     case UNREMARK:
                         //待评价
-                        Intent intent2 = new Intent(getActivity(), EvaluateActivity.class);
+                        Intent intent2 = new Intent(getActivity(), FuwuOrderEvaluateActivity.class);
                         Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
                                 .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 

@@ -130,7 +130,7 @@
         <activity android:name=".activity.OrderActivity" />
         <activity android:name=".activity.TimeActivity" />
         <activity
-            android:name=".activity.EvaluateActivity"
+            android:name=".activity.FuwuOrderEvaluateActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".activity.EmergencyOrderItemActivity" />
         <activity android:name=".activity.FuWuItemActivity" />

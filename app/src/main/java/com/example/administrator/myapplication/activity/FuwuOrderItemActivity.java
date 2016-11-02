@@ -17,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +26,6 @@ import com.example.administrator.myapplication.entity.Order;
 import com.example.administrator.myapplication.entity.Price;
 import com.example.administrator.myapplication.util.StringUtil;
 import com.example.administrator.myapplication.util.TimesTypeAdapter;
-import com.example.administrator.myapplication.util.UrlAddress;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -269,7 +267,7 @@ public class FuwuOrderItemActivity extends AppCompatActivity {
                         break;
                     case UNREMARK:
                         //评价
-                        Intent intent2 = new Intent(this, EvaluateActivity.class);
+                        Intent intent2 = new Intent(this, FuwuOrderEvaluateActivity.class);
 
                         Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
                                 .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
@@ -360,7 +358,7 @@ public class FuwuOrderItemActivity extends AppCompatActivity {
 
     public void changeState(final Order order, final int changeState) {
 
-        RequestParams requestParams = new RequestParams(UrlAddress.url + "UpdateEmergencyOrder");
+        RequestParams requestParams = new RequestParams(StringUtil.ip + "/UpdateEmergencyOrder");
 
         MyApplication myApplication = (MyApplication) getApplication();
         requestParams.addQueryStringParameter("userId", myApplication.getUser().getUserId() + "");
@@ -372,7 +370,6 @@ public class FuwuOrderItemActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess(String result) {
-                //  Log.i("OrderAllFragment", "onSuccess: " + result);
                 if (result.equals("success")) {
                     switch (changeState) {
                         case CLOSE:
