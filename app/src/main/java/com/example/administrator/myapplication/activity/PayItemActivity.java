@@ -117,21 +117,21 @@ public class PayItemActivity extends AppCompatActivity implements View.OnClickLi
             x.image().bind(imgHousekeeperPhoto, StringUtil.ip + order.getCategory().getIcon());
             edCategoryName.setText(order.getCategory().getName());
             String time = String.valueOf(order.getTime());
-            orderTime.setText(time.substring(0,19));
+            orderTime.setText(time.substring(0, 19));
             String begdate = String.valueOf(order.getBegdate());
             orderBegdate.setText(begdate.substring(0, begdate.length() - 2));
-            switch (order.getCategory().getType()){
+            switch (order.getCategory().getType()) {
                 case "保姆月嫂":
-                    orderWorker.setText(String.valueOf(order.getWorkerTime())+"月");
+                    orderWorker.setText(String.valueOf(order.getWorkerTime()) + "月");
                     break;
                 case "搬家服务":
-                    orderWorker.setText(String.valueOf(order.getWorkerTime())+"天");
+                    orderWorker.setText(String.valueOf(order.getWorkerTime()) + "天");
                     break;
                 case "居家换新":
-                    orderWorker.setText(String.valueOf(order.getWorkerTime())+"天");
+                    orderWorker.setText(String.valueOf(order.getWorkerTime()) + "天");
                     break;
                 default:
-                    orderWorker.setText(String.valueOf(order.getWorkerTime())+"小时");
+                    orderWorker.setText(String.valueOf(order.getWorkerTime()) + "小时");
             }
 
             orderPrice.setText("￥" + String.valueOf(order.getPrice()));
@@ -142,7 +142,7 @@ public class PayItemActivity extends AppCompatActivity implements View.OnClickLi
                     unit = price.getUnit();
                 }
             }
-            orderNumber.setText(String.valueOf(order.getNumber() + unit));
+            orderNumber.setText(String.valueOf(order.getNumber() + unit.substring(1, unit.length())));
             orderAllprice.setText("￥" + String.valueOf(order.getAllprice()));
             orderTotalMoney.setText(String.valueOf(order.getAllprice()));
             //

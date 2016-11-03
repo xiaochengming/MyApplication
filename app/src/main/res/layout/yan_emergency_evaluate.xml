@@ -51,9 +51,11 @@
             android:clickable="false"
             android:numStars="5"
             android:paddingTop="5dp"
-            android:rating="4.0" />
+            android:rating="2"
+            android:stepSize="1" />
 
     </LinearLayout>
+
     <TextView
         android:id="@+id/evaluate_string"
         style="@style/content"

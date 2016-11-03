@@ -129,12 +129,12 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
         getData();
         //初始控件
         getDataToAddress();
-
         //获取地址
         getDataToAddress();
         orderGoumai.setOnClickListener(this);
         orderDizhiRightTupian.setOnClickListener(this);
-
+        idProdListIvLeft.setOnClickListener(this);
+        orderDizhiRightTupian.setOnClickListener(this);
 
     }
 
@@ -173,15 +173,18 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
                             while (iterator.hasNext()) {
                                 Address address = iterator.next();
                                 if (address.getIsdefault() == 1) {
+                                    //默认地址
                                     addressIsefault = address;
 
                                 }
 
                             }
                             if (addressIsefault != null) {
-
                                 orderDizhiPhonenum.setText(addressIsefault.getUserName());
                                 orderDizhiDetaildizhi.setText(addressIsefault.getAddress());
+                            } else {
+                                orderDizhiPhonenum.setText(addressIsefault.getUserName());
+                                orderDizhiDetaildizhi.setText("暂无地址，快去添加吧");
                             }
                             //初始化服务类型
                             name.setText(category.getName());
@@ -314,61 +317,16 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
                 break;
             case R.id.order_dizhi_right_tupian:
                 //地址按钮
-                getEvaluates();
+
                 break;
             case R.id.id_prod_list_iv_left:
-                //地址按钮
+                //后退
                 finish();
                 break;
 
         }
     }
 
-    public void getEvaluates() {
-        String url = UrlAddress.url + "Yan_EmergencyEvaluate";
-        RequestParams requestParams = new RequestParams(url);
-        requestParams.addQueryStringParameter("categoryId", category.getName() + "");
-        x.http().get(requestParams, new Callback.CacheCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        if (result != null) {
-                            Log.d("Emergenc", "onSuccess: " + result);
-                            Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
-                                    .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
-                            evaluates = gson.fromJson(result, new TypeToken<List<Address>>() {
-                            }.getType());
-                            Iterator<Evaluate> iterator = evaluates.iterator();
-
-                        } else {
-
-
-                        }
-
-                    }
-
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
-
-                    }
-
-                    @Override
-                    public void onCancelled(CancelledException cex) {
-                    }
-
-                    @Override
-                    public void onFinished() {
-
-                    }
-
-                    @Override
-                    public boolean onCache(String result) {
-                        return false;
-                    }
-                }
-
-        );
-
-    }
 
     //spinner监听
     public void onListenerSpinner() {

@@ -168,7 +168,7 @@ public class FuwuOrderItemActivity extends AppCompatActivity {
                 unit = price.getUnit();
             }
         }
-        orderNumber.setText(String.valueOf(order.getNumber() + unit));
+        orderNumber.setText(String.valueOf(order.getNumber() + unit.substring(1, unit.length())));
         //总价
         orderAllprice.setText("￥" + order.getAllprice());
         initViewButton();
@@ -212,7 +212,7 @@ public class FuwuOrderItemActivity extends AppCompatActivity {
     }
 
 
-    @OnClick({R.id.order_right, R.id.order_left, R.id.order_bottom, R.id.button_right})
+    @OnClick({R.id.order_right, R.id.order_left, R.id.order_bottom, R.id.button_right,R.id.id_prod_list_iv_left})
     public void onClick(View view) {
         switch (view.getId()) {
 
@@ -280,9 +280,15 @@ public class FuwuOrderItemActivity extends AppCompatActivity {
 
                     case REFUND:
                         //退款查看
-
                         break;
                 }
+                break;
+            case R.id.order_bottom:
+                dialog(order, CLOSE);
+                break;
+            case R.id.id_prod_list_iv_left:
+               //后退
+              finish();
                 break;
         }
     }
@@ -438,7 +444,6 @@ public class FuwuOrderItemActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent();
-        Log.i("333", "onSuccess: " + order.toString());
         intent.putExtra("orderId", order.getOrderId() + "");
         intent.putExtra("orderState", order.getState() + "");
         setResult(BACK, intent);

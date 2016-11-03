@@ -21,7 +21,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:clickable="true"
-            android:src="@mipmap/nav_back" />
+            android:src="@mipmap/backs" />
 
         <TextView
             android:id="@+id/id_prod_list_tv"
@@ -89,20 +89,76 @@
             android:textSize="14dp"
 
             />
+
         <TextView
             android:id="@+id/housekeeper_sex"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/sex"
             android:layout_marginLeft="6dp"
-            android:layout_marginTop="4dp"
-
+            android:layout_marginTop="6dp"
             android:layout_toRightOf="@+id/sex"
-            android:text="王五"
+            android:text="男"
             android:textColor="@color/black"
             android:textSize="14dp"
 
             />
 
+        <TextView
+            android:id="@+id/age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sex"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="6dp"
+            android:layout_toRightOf="@+id/prod_list_item_iv"
+            android:text="年龄: "
+            android:textSize="14dp"
+
+            />
+
+        <TextView
+            android:id="@+id/housekeeper_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/age"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="6dp"
+            android:layout_toRightOf="@+id/age"
+            android:text="23岁"
+            android:textColor="@color/black"
+            android:textSize="14dp"
+
+            />
+
+        <TextView
+            android:id="@+id/serviceplevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="平均星级"
+            android:textColor="@color/border_clo"
+            android:textSize="18dp"
+
+            />
+
+        <TextView
+            android:id="@+id/star_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="14dp"
+            android:text="5"
+            android:textSize="55dp" />
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:src="@mipmap/star" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -112,10 +168,14 @@
         android:background="@drawable/board">
 
         <ImageView
+            android:id="@+id/imge_service"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:src="@mipmap/service"/>
 
         <TextView
+            android:layout_toRightOf="@+id/imge_service"
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

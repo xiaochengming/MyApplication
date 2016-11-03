@@ -20,7 +20,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:clickable="true"
-            android:src="@mipmap/nav_back" />
+            android:src="@mipmap/backs" />
 
         <TextView
             android:id="@+id/id_prod_list_tv"
