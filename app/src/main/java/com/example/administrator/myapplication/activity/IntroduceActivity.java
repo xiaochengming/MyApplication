@@ -371,14 +371,14 @@ public class IntroduceActivity extends AppCompatActivity {
                     Intent intent = new Intent(IntroduceActivity.this, SpaceImageDetailActivity.class);
                     intent.putExtra("images", (ArrayList<String>) datas2);
                     intent.putExtra("position", position);
-                    int[] location = new int[2];
-                    imageView.getLocationOnScreen(location);
-                    intent.putExtra("locationX", location[0]);
-                    intent.putExtra("locationY", location[1]);
-                    intent.putExtra("width", imageView.getWidth());
-                    intent.putExtra("height", imageView.getHeight());
+//                    int[] location = new int[2];
+//                    imageView.getLocationOnScreen(location);
+//                    intent.putExtra("locationX", location[0]);
+//                    intent.putExtra("locationY", location[1]);
+//                    intent.putExtra("width", imageView.getWidth());
+//                    intent.putExtra("height", imageView.getHeight());
                     startActivity(intent);
-                    overridePendingTransition(0, 0);
+                   // overridePendingTransition(0, 0);
                     Log.i("ImagesInner", "onClick  :" + datas2.get(position));
                 }
             });

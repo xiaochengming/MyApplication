@@ -122,10 +122,15 @@ public class OrderActivity extends AppCompatActivity {
         bt1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(OrderActivity.this, "选择地址", Toast.LENGTH_SHORT).show();
-                //跳转到预约地址界面
-                Intent intent=new Intent(OrderActivity.this,YuYueAddressActivity.class);
-                startActivityForResult(intent,1001);
+                if (myApplication.getUser().getUserId()>0){
+                    //跳转到预约地址界面
+                    Intent intent=new Intent(OrderActivity.this,YuYueAddressActivity.class);
+                    startActivityForResult(intent,1001);
+                }else {
+                    Toast.makeText(OrderActivity.this, "请先去登录", Toast.LENGTH_SHORT).show();
+                }
+
+
             }
         });
     }

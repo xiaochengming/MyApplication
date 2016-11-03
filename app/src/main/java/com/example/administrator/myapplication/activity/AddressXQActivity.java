@@ -66,6 +66,8 @@ public class AddressXQActivity extends AppCompatActivity {
     String addressStr=null;
     int position;
     int addressId;
+    double latitude;
+    double lontitude;
     // boolean flag=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,11 +167,15 @@ public class AddressXQActivity extends AppCompatActivity {
             if (data!=null&&data.getStringExtra("addressName")!=null){
                 //显示位置
                 tvDisplayXqAddress.setText(data.getStringExtra("addressName"));
+                latitude=data.getDoubleExtra("latitude",0);
+                lontitude=data.getDoubleExtra("lontitude",0);
                 Log.i("AddressXQActivity", "onActivityResult 11 ");
             }
         }else if (resultCode==RESULT_FIRST_USER&&requestCode==616){
             //显示位置
             tvDisplayXqAddress.setText(data.getStringExtra("addressName"));
+            latitude=data.getDoubleExtra("latitude",0);
+            lontitude=data.getDoubleExtra("lontitude",0);
             Log.i("AddressXQActivity", "onActivityResult 22 ");
         }
     }
@@ -179,6 +185,8 @@ public class AddressXQActivity extends AppCompatActivity {
         requestParams.addBodyParameter("addressId",addressId+"");
         requestParams.addBodyParameter("userName",etAddressXqName.getText().toString());
         requestParams.addBodyParameter("userPhone",etAddressPhone.getText().toString());
+        requestParams.addBodyParameter("latitude", latitude+"");
+        requestParams.addBodyParameter("lontitude", lontitude+"");
         addressStr=tvDisplayXqAddress.getText().toString();
         addressStr+=etXqDiZhi.getText().toString();
         requestParams.addBodyParameter("address",addressStr);
@@ -186,7 +194,7 @@ public class AddressXQActivity extends AppCompatActivity {
             @Override
             public void onSuccess(String result) {
                 Log.i("AddressXQActivity", "onSuccess  12345");
-                Address address2=new Address(addressId,addressStr,etAddressXqName.getText().toString(),etAddressPhone.getText().toString(),address.getUserId());
+                Address address2=new Address(addressId,addressStr,etAddressXqName.getText().toString(),etAddressPhone.getText().toString(),address.getUserId(),latitude,lontitude);
                 //成功执行跳转
                 Intent intent=new Intent();
                 Bundle bundle=new Bundle();

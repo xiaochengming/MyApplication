@@ -18,6 +18,7 @@ public class EmilFragment extends Fragment {
     MyApplication myApplication;
     String userEmil=null;
     View v;
+    TextView viewEmil;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -28,10 +29,10 @@ public class EmilFragment extends Fragment {
             }
             myApplication= (MyApplication) getActivity().getApplication();
             userEmil=myApplication.getUser().getEmail();
-            TextView viewEmil= (TextView) v.findViewById(R.id.view_emil);
-            if (userEmil!=null){
+            viewEmil= (TextView) v.findViewById(R.id.view_emil);
+            if (userEmil!=null&&userEmil.length()>0){
                 viewEmil.setText(myApplication.getUser().getEmail());
-            }else {
+            }else if (userEmil==null&&userEmil.length()==0){
                 viewEmil.setText("还没编辑邮箱");
             }
             return v;
@@ -40,12 +41,22 @@ public class EmilFragment extends Fragment {
         v=inflater.inflate(R.layout.fragment_emil,null);
         myApplication= (MyApplication) getActivity().getApplication();
         userEmil=myApplication.getUser().getEmail();
-        TextView viewEmil= (TextView) v.findViewById(R.id.view_emil);
-        if (userEmil!=null){
+        viewEmil= (TextView) v.findViewById(R.id.view_emil);
+        if (userEmil!=null&&userEmil.length()>0){
             viewEmil.setText(myApplication.getUser().getEmail());
-        }else {
+        }else if (userEmil==null&&userEmil.length()==0){
             viewEmil.setText("还没编辑邮箱");
         }
         return v;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (userEmil!=null&&userEmil.length()>0){
+            viewEmil.setText(myApplication.getUser().getEmail());
+        }else if (userEmil==null&&userEmil.length()==0){
+            viewEmil.setText("还没编辑邮箱");
+        }
     }
 }

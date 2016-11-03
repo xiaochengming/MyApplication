@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity
             getId = myApplication.getUser().getUserId();
             userPhone = myApplication.getUser().getNumber();
             if (myApplication.getUser().getPhoto() != null) {
+                Log.i("MainActivity", "userPhone  :"+myApplication.getUser().getPhoto());
                 userHang = StringUtil.ip + "/" + myApplication.getUser().getPhoto();
             }
         }
@@ -167,7 +168,7 @@ public class MainActivity extends AppCompatActivity
                     //设置加载过程的图片
                     .setLoadingDrawableId(R.mipmap.ic_launcher)
                     //设置加载失败后的图片
-                    .setFailureDrawableId(R.mipmap.ic_launcher)
+                    .setFailureDrawableId(R.mipmap.touxiang)
                     //设置使用圆形图片
                     .setCircular(true)
                     //设置支持gif
@@ -390,7 +391,7 @@ public class MainActivity extends AppCompatActivity
                                 //设置加载过程的图片
                                 .setLoadingDrawableId(R.mipmap.ic_launcher)
                                 //设置加载失败后的图片
-                                .setFailureDrawableId(R.mipmap.ic_launcher)
+                                .setFailureDrawableId(R.mipmap.touxiang)
                                 //设置使用圆形图片
                                 .setCircular(true)
                                 //设置支持gif
@@ -417,7 +418,7 @@ public class MainActivity extends AppCompatActivity
                                 //设置加载过程的图片
                                 .setLoadingDrawableId(R.mipmap.ic_launcher)
                                 //设置加载失败后的图片
-                                .setFailureDrawableId(R.mipmap.ic_launcher)
+                                .setFailureDrawableId(R.mipmap.touxiang)
                                 //设置使用圆形图片
                                 .setCircular(true)
                                 //设置支持gif
@@ -444,7 +445,7 @@ public class MainActivity extends AppCompatActivity
                                 //设置加载过程的图片
                                 .setLoadingDrawableId(R.mipmap.ic_launcher)
                                 //设置加载失败后的图片
-                                .setFailureDrawableId(R.mipmap.ic_launcher)
+                                .setFailureDrawableId(R.mipmap.touxiang)
                                 //设置使用圆形图片
                                 .setCircular(true)
                                 //设置支持gif
@@ -456,5 +457,102 @@ public class MainActivity extends AppCompatActivity
             }
 
         }
+    }
+    private static final String TAG = "LifeCycleActivity";
+    private int param = 1;
+    //Activity创建或者从后台重新回到前台时被调用
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.i(TAG, "onStart called.");
+    }
+
+    //Activity从后台重新回到前台时被调用
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.i(TAG, "onRestart called.");
+    }
+
+    //Activity创建或者从被覆盖、后台重新回到前台时被调用
+    @Override
+    protected void onResume() {
+        super.onResume();
+        userHang=StringUtil.ip + "/" + myApplication.getUser().getPhoto();
+        if (userHang != null) {
+            //头像赋值
+            ImageOptions imageOptions = new ImageOptions.Builder()
+                    //设置加载过程的图片
+                    .setLoadingDrawableId(R.mipmap.ic_launcher)
+                    //设置加载失败后的图片
+                    .setFailureDrawableId(R.mipmap.touxiang)
+                    //设置使用圆形图片
+                    .setCircular(true)
+                    //设置支持gif
+                    .setIgnoreGif(true).build();
+            x.image().bind(ivHeader, userHang, imageOptions);
+        }
+        userPhone=myApplication.getUser().getNumber();
+        //getId=myApplication.getUser().getUserId();
+        Log.i(TAG, "onResume called.userHang:"+userHang+",getId:"+myApplication.getUser().getUserId());
+    }
+
+    //Activity窗口获得或失去焦点时被调用,在onResume之后或onPause之后
+    /*@Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        Log.i(TAG, "onWindowFocusChanged called.");
+    }*/
+
+    //Activity被覆盖到下面或者锁屏时被调用
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i(TAG, "onPause called.");
+        //有可能在执行完onPause或onStop后,系统资源紧张将Activity杀死,所以有必要在此保存持久数据
+    }
+
+    //退出当前Activity或者跳转到新Activity时被调用
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i(TAG, "onStop called.");
+    }
+
+    //退出当前Activity时被调用,调用之后Activity就结束了
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG, "onDestory called.");
+    }
+
+    /**
+     * Activity被系统杀死时被调用.
+     * 例如:屏幕方向改变时,Activity被销毁再重建;当前Activity处于后台,系统资源紧张将其杀死.
+     * 另外,当跳转到其他Activity或者按Home键回到主屏时该方法也会被调用,系统是为了保存当前View组件的状态.
+     * 在onPause之前被调用.
+     */
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt("param", param);
+        Log.i(TAG, "onSaveInstanceState called. put param: " + param);
+        super.onSaveInstanceState(outState);
+        userHang=StringUtil.ip + "/" + myApplication.getUser().getPhoto();
+        if (userHang != null) {
+            //头像赋值
+            ImageOptions imageOptions = new ImageOptions.Builder()
+                    //设置加载过程的图片
+                    .setLoadingDrawableId(R.mipmap.ic_launcher)
+                    //设置加载失败后的图片
+                    .setFailureDrawableId(R.mipmap.touxiang)
+                    //设置使用圆形图片
+                    .setCircular(true)
+                    //设置支持gif
+                    .setIgnoreGif(true).build();
+            x.image().bind(ivHeader, userHang, imageOptions);
+        }
+        userPhone=myApplication.getUser().getNumber();
+        //getId=myApplication.getUser().getUserId();
+        Log.i(TAG, "onResume called.userHang:"+userHang+",getId:"+myApplication.getUser().getUserId());
     }
 }
