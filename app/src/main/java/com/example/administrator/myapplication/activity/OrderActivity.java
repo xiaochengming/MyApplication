@@ -122,10 +122,23 @@ public class OrderActivity extends AppCompatActivity {
         bt1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Toast.makeText(OrderActivity.this, "选择地址", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(OrderActivity.this, "选择地址", Toast.LENGTH_SHORT).show();
+                //跳转到预约地址界面
+                Intent intent=new Intent(OrderActivity.this,YuYueAddressActivity.class);
+                startActivityForResult(intent,1001);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode==RESULT_OK&&requestCode==1001){
+            if (data!=null&&data.getParcelableExtra("address")!=null){
+                address=data.getParcelableExtra("address");
+                tv1.setText(address.getAddress());
+            }
+        }
     }
 
     public void Event() {

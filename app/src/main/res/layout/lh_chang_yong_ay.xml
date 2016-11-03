@@ -9,11 +9,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal">
         <ImageView
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:id="@+id/iv_chang_yong"
-            android:layout_marginLeft="7dp"
-            android:layout_alignTop="@+id/tv_chang_yong_count"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_alignParentStart="true" />
 
         <RelativeLayout
@@ -28,27 +29,57 @@
                 android:text="显示姓名"
                 android:textSize="14sp"
                 android:layout_alignParentTop="true"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="7dp"
                 android:layout_marginLeft="7dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="显示服务次数"
+                android:id="@+id/tv_chang_yong_count"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
 
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/relativeLayout"
-            android:layout_toEndOf="@+id/iv_chang_yong"
+            android:layout_alignStart="@+id/relativeLayout"
+            android:layout_alignBottom="@+id/iv_chang_yong"
             android:id="@+id/relativeLayout2">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="显示年龄"
+                android:textSize="14sp"
+                android:id="@+id/tv_chang_yong_age"
+                android:layout_marginLeft="7dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="显示地址"
+                android:textSize="14sp"
+                android:id="@+id/tv_chang_yong_address"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/relativeLayout"
+            android:layout_below="@+id/relativeLayout"
+            android:layout_above="@+id/relativeLayout2">
             <RatingBar
                 style="@style/RatingStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:id="@+id/lh_rb"
                 android:numStars="5"
                 android:isIndicator="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginLeft="7dp"/>
+                android:layout_marginLeft="15dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -56,39 +87,8 @@
                 android:id="@+id/tv_chang_yong_size"
                 android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginRight="7dp"/>
-
+                android:layout_marginRight="20dp"/>
         </RelativeLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="显示年龄"
-            android:textSize="14sp"
-            android:id="@+id/tv_chang_yong_age"
-            android:layout_marginLeft="7dp"
-            android:layout_below="@+id/iv_chang_yong"
-            android:layout_toEndOf="@+id/iv_chang_yong" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="显示地址"
-            android:textSize="14sp"
-            android:id="@+id/tv_chang_yong_address"
-            android:layout_alignTop="@+id/tv_chang_yong_age"
-            android:layout_alignEnd="@+id/relativeLayout2"
-            android:layout_marginEnd="84dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="显示服务次数"
-            android:textSize="14sp"
-            android:id="@+id/tv_chang_yong_count"
-            android:layout_above="@+id/relativeLayout2"
-            android:layout_alignStart="@+id/tv_chang_yong_address" />
-
     </RelativeLayout>
 
 </LinearLayout>

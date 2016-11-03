@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/relative_layout_yuyue1"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="45dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="用户姓名"
+            android:textSize="16sp"
+            android:layout_marginTop="13dp"
+            android:layout_marginLeft="13dp"
+            android:id="@+id/tv_yu_yue_username"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="用户电话号码"
+            android:id="@+id/tv_yu_yue_phone"
+            android:layout_marginRight="13dp"
+            android:layout_marginEnd="98dp"
+            android:layout_alignBottom="@+id/tv_yu_yue_username"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="45dp"
+        android:layout_below="@+id/relative_layout_yuyue1"
+        android:layout_alignParentStart="true"
+        android:id="@+id/relativeLayout4">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="显示用户地址"
+            android:layout_marginLeft="13dp"
+            android:layout_marginTop="10dp"
+            android:textSize="14sp"
+            android:id="@+id/tv_address_yu_yue"/>
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="338dp"
+        android:layout_alignBottom="@+id/relativeLayout4"
+        android:layout_marginRight="3dp"
+        android:id="@+id/frameLayout">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@mipmap/edit2"
+            android:id="@+id/iv_yuyue_xiugai"/>
+    </FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignEnd="@+id/relative_layout_yuyue1"
+        android:layout_marginEnd="286dp"
+        android:layout_alignBottom="@+id/frameLayout"
+        android:id="@+id/relativeLayout5">
+
+    </RelativeLayout>
+<!--
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rb_yu_yue"
+        android:layout_alignBottom="@+id/relativeLayout5"
+        android:layout_alignEnd="@+id/relativeLayout5"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+-->
+</RelativeLayout>
