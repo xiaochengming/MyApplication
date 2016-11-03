@@ -95,7 +95,7 @@ public class AddAddressActivity extends AppCompatActivity {
             case R.id.but_save_address:
                 //点击保存地址
                 //存到数据库
-
+                Log.i("AddAddressActivity", "onClick  点击保存地址");
                 if (etAddressName.getText().toString().length() < 2) {
                     Toast.makeText(AddAddressActivity.this, "联系人至少输入两个字", Toast.LENGTH_SHORT).show();
                     return;

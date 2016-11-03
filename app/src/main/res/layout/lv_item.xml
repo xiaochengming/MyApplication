@@ -3,76 +3,105 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1">
-
-    <ImageView
-        android:layout_width="60dp"
-        android:layout_height="70dp"
-        android:id="@+id/imageViews"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="显示姓名"
-        android:textSize="15sp"
-        android:id="@+id/tv_names"
-        android:layout_alignTop="@+id/imageViews"
-        android:layout_toEndOf="@+id/imageViews"
-        android:layout_marginLeft="10dp" />
+        android:id="@+id/relative_layout_zong">
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:id="@+id/imageViews"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:layout_toEndOf="@+id/imageViews"
+            android:id="@+id/relative_layout_zong2"
+            android:layout_marginRight="55dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="显示姓名"
+                android:textSize="14sp"
+                android:id="@+id/tv_names"
+                android:layout_marginLeft="10dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="显示服务次数"
+                android:textSize="14sp"
+                android:id="@+id/tv_count"
+                android:layout_alignTop="@+id/tv_names"
+                android:layout_toEndOf="@+id/tv_names"
+                android:layout_marginLeft="50dp"/>
+        </RelativeLayout>
+     <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="显示服务次数"
-        android:textSize="15sp"
-        android:id="@+id/tv_count"
-        android:layout_alignTop="@+id/tv_names"
-        android:layout_toEndOf="@+id/tv_names"
-        android:layout_marginLeft="40dp"/>
+         android:id="@+id/relative_layout_zong3"
+         android:layout_alignBottom="@+id/imageViews"
+         android:layout_alignStart="@+id/relative_layout_zong2"
+         android:layout_marginRight="55dp">
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="地址"
+             android:id="@+id/tv_address"
+             android:textSize="15sp"
+             android:layout_marginLeft="10dp" />
 
-    <RatingBar
-        style="@style/RatingStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:id="@+id/ratingBar"
-        android:layout_below="@+id/tv_names"
-        android:layout_alignStart="@+id/tv_names"
-        android:numStars="5"
-        android:isIndicator="true"
-        android:layout_toStartOf="@+id/tv_ages"
-        android:layout_alignEnd="@+id/tv_ages" />
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="年龄"
+             android:textSize="15sp"
+             android:id="@+id/tv_ages"
+             android:layout_marginLeft="50dp"
+             android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="地址"
-        android:id="@+id/tv_address"
-        android:textSize="15sp"
-        android:layout_below="@+id/ratingBar"
-        android:layout_alignStart="@+id/ratingBar"
-         />
+     </RelativeLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="年龄"
-        android:textSize="15sp"
-        android:id="@+id/tv_ages"
-        android:layout_alignBottom="@+id/tv_address"
-        android:layout_alignStart="@+id/tv_count"
-        android:layout_marginLeft="40dp"
-        android:width="100dp"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/relative_layout_zong3"
+            android:layout_below="@+id/relative_layout_zong2"
+            android:layout_alignStart="@+id/relative_layout_zong3"
+            android:layout_marginRight="55dp"
+            android:id="@+id/relative_layout_zong4">
+            <RatingBar
+                style="@style/RatingStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ratingBar"
+                android:numStars="5"
+                android:isIndicator="true"
+                android:layout_marginLeft="30dp"/>
+        </RelativeLayout>
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="1dp"
+    android:background="#CCCCCC"
+    android:layout_below="@+id/imageViews"
+    android:layout_alignStart="@+id/imageViews"
+    android:id="@+id/textView13" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="详情"
-        android:textColor="#02BB9D"
-        android:id="@+id/but_details"
-        android:layout_alignTop="@+id/ratingBar"
-        android:layout_toEndOf="@+id/ratingBar"
-        android:layout_alignBottom="@+id/ratingBar"
-        android:layout_marginLeft="25dp"/>
+    </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="详情"
+            android:gravity="center"
+            android:textColor="#02BB9D"
+            android:id="@+id/but_details"
+            android:layout_marginStart="332dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignBottom="@+id/relative_layout_zong"
+            android:layout_alignParentTop="true" />
 
 </RelativeLayout>

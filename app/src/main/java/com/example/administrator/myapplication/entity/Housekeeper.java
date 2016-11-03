@@ -16,6 +16,15 @@ public class Housekeeper implements Parcelable {
 	private String placeOfOrigin;//籍贯
 	private String housePhoto;//照片
 	private String introduce;//介绍
+	private String housePhone;//保姆电话
+
+	public String getHousePhone() {
+		return housePhone;
+	}
+
+	public void setHousePhone(String housePhone) {
+		this.housePhone = housePhone;
+	}
 
 	public String getIntroduce() {
 		return introduce;
@@ -69,7 +78,7 @@ public class Housekeeper implements Parcelable {
 	}
 
 	public Housekeeper(int housekeeperId, int sex, String name, int age, int serviceplevel, int serviceTime, String placeOfOrigin,
-					   String housePhoto) {
+					   String housePhoto,String housePhone) {
 		super();
 		this.housekeeperId=housekeeperId;
 		this.sex = sex;
@@ -79,6 +88,7 @@ public class Housekeeper implements Parcelable {
 		this.serviceTime = serviceTime;
 		this.placeOfOrigin = placeOfOrigin;
 		this.housePhoto = housePhoto;
+		this.housePhone = housePhone;
 	}
 
 	public Housekeeper(int sex, int age, String name, int serviceplevel) {
@@ -154,6 +164,7 @@ public class Housekeeper implements Parcelable {
 		dest.writeString(this.placeOfOrigin);
 		dest.writeString(this.housePhoto);
 		dest.writeString(this.introduce);
+		dest.writeString(this.housePhone);
 	}
 
 	protected Housekeeper(Parcel in) {
@@ -166,6 +177,7 @@ public class Housekeeper implements Parcelable {
 		this.placeOfOrigin = in.readString();
 		this.housePhoto = in.readString();
 		this.introduce = in.readString();
+		this.housePhone = in.readString();
 	}
 
 	public static final Creator<Housekeeper> CREATOR = new Creator<Housekeeper>() {
