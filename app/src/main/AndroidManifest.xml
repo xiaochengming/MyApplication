@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.administrator.myapplication">
+
     <!-- 拨打电话请求 -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
@@ -135,9 +136,9 @@
         <activity android:name=".activity.FuWuItemActivity" />
         <activity android:name=".activity.MyOrderActivity" />
         <activity android:name=".activity.PayItemActivity" />
-        <activity android:name=".activity.PayEmergencyItemActivity"></activity>
+        <activity android:name=".activity.PayEmergencyItemActivity" />
         <activity android:name=".activitymi.ImageListActivity" />
-        <activity android:name=".activitymi.ImageActivity"></activity>
+        <activity android:name=".activitymi.ImageActivity" />
         <activity android:name=".activity.AddressXQActivity" />
 
         <service
@@ -147,10 +148,8 @@
 
         <activity android:name=".activity.SpaceImageDetailActivity" />
         <activity android:name=".activitymi.ShowImageActivity" />
-        <activity android:name=".activity.HuifuActivity"></activity>
-        <activity android:name=".activity.aaaa">
-
-        </activity>
+        <activity android:name=".activity.HuifuActivity" />
+        <activity android:name=".activity.aaaa"></activity>
         <!-- 会话界面 -->
         <activity
             android:name=".activity.ConversationActivity"
@@ -193,13 +192,13 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
 
-
                 <data
                     android:host="com.example.administrator.myapplication"
                     android:pathPrefix="/subconversationlist"
                     android:scheme="rong" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.YuYueAddressActivity"></activity>
     </application>
 
 </manifest>
