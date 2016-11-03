@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class FileTraversal implements Parcelable {
     private String filename;//所属图片的文件名称
-    private List<String> filecontent=new ArrayList<String>();
+    private List<String> filecontent=new ArrayList<String>();//文件下所有图片的绝对路径集合
 
     public String getFilename() {
         return filename;

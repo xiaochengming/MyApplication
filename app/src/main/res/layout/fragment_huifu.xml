@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tb_workerlist"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/zhuti"
+        android:title="">
+        <TextView
+            android:id="@+id/tv_tbTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="与我相关"
+            android:textSize="20dp"
+            android:layout_gravity="center"
+            />
+    </android.support.v7.widget.Toolbar>
+
+    <com.example.administrator.myapplication.widget.RefreshListView
+        android:id="@+id/lv_huifu"
+        android:layout_below="@+id/tb_workerlist"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <LinearLayout
+        android:id="@+id/dibubuju"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/mi_while_blue"
+        android:orientation="horizontal">
+        <!--android:visibility="gone"-->
+        <EditText
+            android:id="@+id/et_fasong_pinglun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="4"
+            android:background="@drawable/shape_edittext"
+            android:hint="我也说两句"
+            android:padding="8dp"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/show_luntan_text_enterpinglun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/shape_edittext"
+            android:drawableRight="@mipmap/liq"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="发送 "
+            android:textSize="16dp" />
+    </LinearLayout>
+</RelativeLayout>

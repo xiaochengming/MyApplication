@@ -34,8 +34,6 @@ public class MIMainShequFragment extends Fragment {
     Button btnAlltiezi;
     @InjectView(R.id.btn_wodetiezi)
     Button btnWodetiezi;
-    @InjectView(R.id.btn_huifutiezi)
-    Button btnHuifutiezi;
     @InjectView(R.id.fra_shequ)
     FrameLayout fraShequ;
 
@@ -46,9 +44,8 @@ public class MIMainShequFragment extends Fragment {
         ButterKnife.inject(this, v);
         sheQuFragment = new MiSheQuFragment();
         myTieFragment = new MiMyTieFragment();
-        huiFuFragment = new MiHuiFuFragment();
-        fragment = new Fragment[]{sheQuFragment, myTieFragment, huiFuFragment};
-        btn = new Button[]{btnAlltiezi, btnWodetiezi, btnHuifutiezi};
+        fragment = new Fragment[]{sheQuFragment, myTieFragment};
+        btn = new Button[]{btnAlltiezi, btnWodetiezi};
         //替换第一个fragment
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fra_shequ, sheQuFragment).commit();
         btnAlltiezi.setSelected(true);
@@ -62,7 +59,7 @@ public class MIMainShequFragment extends Fragment {
         ButterKnife.reset(this);
     }
 
-    @OnClick({R.id.btn_alltiezi, R.id.btn_wodetiezi, R.id.btn_huifutiezi})
+    @OnClick({R.id.btn_alltiezi, R.id.btn_wodetiezi})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_alltiezi:
@@ -70,9 +67,6 @@ public class MIMainShequFragment extends Fragment {
                 break;
             case R.id.btn_wodetiezi:
                 nownumber = 1;
-                break;
-            case R.id.btn_huifutiezi:
-                nownumber = 2;
                 break;
         }
         switchFragment();

@@ -146,7 +146,9 @@
             android:enabled="true"
             android:process=":remote" />
 
-        <activity android:name=".activity.SpaceImageDetailActivity"></activity>
+        <activity android:name=".activity.SpaceImageDetailActivity" />
+        <activity android:name=".activitymi.ShowImageActivity" />
+        <activity android:name=".activity.HuifuActivity"></activity>
         <activity android:name=".activity.aaaa">
 
         </activity>
@@ -202,4 +204,3 @@
     </application>
 
 </manifest>
-

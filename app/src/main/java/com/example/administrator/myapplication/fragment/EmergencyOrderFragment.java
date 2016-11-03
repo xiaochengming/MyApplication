@@ -129,7 +129,6 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
 
                             };
                             //切换listview底部
-
                             changeLayout();
                             listView.setAdapter(orderApater);
                         } else {
@@ -189,9 +188,14 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
         //按钮点击事件
         onButtonClick(buttonLeft, buttonRight, order, position);
         //倒计时控件
-        // long[] time = {9L, 9L, 9L};
         TextView textView = holder.getView(R.id.time_countc_down);
-        textView.setText(order.getArriveTime() + "");
+        if (order.getState() == 3 || order.getState() == 4) {
+            //订单已经完成
+            textView.setText("00:00:00");
+        } else {
+            textView.setText(order.getArriveTime() + "");
+        }
+
     }
 
 
@@ -596,10 +600,10 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
         DateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         String time1 = sdf.format(System.currentTimeMillis());
         //获取结束时间
-      /*  String time2 = sdf.format(orders.get(position).getEndtime());
-       if(Long.parseLong(time1)>=Long.parseLong(time2)){
-           return  true;
-       }*/
+        String time2 = sdf.format(orders.get(position).getEndtime());
+        if (Long.parseLong(time1) >= (Long.parseLong(time2) + 500000)) {
+            return true;
+        }
 
         return false;
     }
@@ -633,6 +637,7 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
         return changeOrder;
     }
 
+    //倒计时
     private Handler handler1 = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
@@ -641,20 +646,26 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
                     //①：其实在这块需要精确计算当前时间
                     for (int index = 0; index < orders.size(); index++) {
                         Order order = orders.get(index);
+                        //订单为支付时候不倒计时
+                        if (order.getState() == 1) {
 
-                        long time = order.getArriveTime().getTime();
-
-                        if (time > 1000) {//判断是否还有条目能够倒计时，如果能够倒计时的话，延迟一秒，让它接着倒计时
-                            isNeedCountTime = true;
-                            long arrive = order.getArriveTime().getTime() - 1000;
-                            // Log.d("EmergencyOrderFragment", "handleMessage: " + time);
-                            Time time1 = new Time(arrive);
-                            order.setArriveTime(time1);
 
                         } else {
-                            Time time2 = new Time(0);
-                            order.setArriveTime(time2);
+                            long time = order.getArriveTime().getTime();
+
+                            if (time > 1000) {//判断是否还有条目能够倒计时，如果能够倒计时的话，延迟一秒，让它接着倒计时
+                                isNeedCountTime = true;
+                                long arrive = order.getArriveTime().getTime() - 1000;
+                                // Log.d("EmergencyOrderFragment", "handleMessage: " + time);
+                                Time time1 = new Time(arrive);
+                                order.setArriveTime(time1);
+
+                            } else {
+                                Time time2 = new Time(0);
+                                order.setArriveTime(time2);
+                            }
                         }
+
                     }
                     //②：for循环执行的时间
                     if (orderApater != null) {
