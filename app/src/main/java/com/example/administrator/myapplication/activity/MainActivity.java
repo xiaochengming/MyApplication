@@ -39,6 +39,8 @@ import com.example.administrator.myapplication.fragment.ExitLoginFragment;
 import com.example.administrator.myapplication.fragment.FuWuFragment;
 import com.example.administrator.myapplication.fragment.MIMainShequFragment;
 import com.example.administrator.myapplication.fragment.MainPageFragment;
+import com.example.administrator.myapplication.fragment.MiMyTieFragment;
+import com.example.administrator.myapplication.fragment.MiSheQuFragment;
 import com.example.administrator.myapplication.fragment.OrderFragment;
 import com.example.administrator.myapplication.fragment.PaiHangFragment;
 import com.example.administrator.myapplication.fragment.RemindFragment;
@@ -56,7 +58,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     List<Fragment> fragmentList = new ArrayList<>();
     ViewPager vpMain;
-    RadioGroup radioGMain;
+   public RadioGroup radioGMain;
     TextView tvHeader;
     View headView;
     ImageView ivHeader;
@@ -303,7 +305,10 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.nav_xiao_xi) {
             //跳转到消息通知
+            Intent intent = new Intent(this, HuifuActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_dingdan) {
+            //跳到订单界面
             Intent intent = new Intent(this, MyOrderActivity.class);
             startActivity(intent);
         }
@@ -333,12 +338,39 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.i("MainActivity", "onActivityResult: " + requestCode + "--" + resultCode);
+        Log.i("MainActivity", "onActivityResult: " + requestCode + "-->" + resultCode);
         if (requestCode == 200 && resultCode == RESULT_OK) {
             ActionMenuItemView menu = (ActionMenuItemView) findViewById(R.id.action_settings);
             nowcity = data.getStringExtra("city");
             menu.setTitle(data.getStringExtra("city"));
             Log.i("MainActivity", "onActivityResult: " + data.getStringExtra("city"));
+            return;
+        }
+        if (requestCode == 100 && resultCode == RESULT_OK) {
+            //发表帖子回调
+            MIMainShequFragment miMainShequFragment = (MIMainShequFragment) fragmentList.get(3);
+            final MiSheQuFragment miSheQuFragment = (MiSheQuFragment) miMainShequFragment.fragment[0];
+            miSheQuFragment.pageNum = 1;
+            miSheQuFragment.initData();
+            return;
+        }
+        if (requestCode == 300 && resultCode == RESULT_OK) {
+            //我的帖子发表帖子回调
+            MIMainShequFragment miMainShequFragment = (MIMainShequFragment) fragmentList.get(3);
+            MiMyTieFragment miMyTieFragment = (MiMyTieFragment) miMainShequFragment.fragment[1];
+            miMyTieFragment.pageNum = 1;
+            new Thread() {
+                @Override
+                public void run() {
+                    super.run();
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }.start();
+            miMyTieFragment.initData();
             return;
         }
         //登录后回调

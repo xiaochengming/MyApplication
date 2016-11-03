@@ -27,8 +27,7 @@
                 android:layout_height="45dp"
                 android:layout_gravity="start"
                 android:layout_marginRight="5dp"
-                android:src="@mipmap/ic_launcher"
-                />
+                android:src="@mipmap/ic_launcher" />
 
 
             <RelativeLayout
@@ -98,7 +97,6 @@
                     android:textSize="16dp"
                     android:textStyle="bold" />
                 <!--  android:drawableRight="@mipmap/pic_btn_liked"-->
-
 
 
             </RelativeLayout>

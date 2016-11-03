@@ -69,9 +69,7 @@ public class RefreshListView extends ListView implements AbsListView.OnScrollLis
         this.setOnScrollListener(this);
     }
 
-    public RefreshListView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-    }
+
     //初始化头部
     public void initHead(Context context){
         //解析布局文件

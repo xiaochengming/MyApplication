@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,9 +21,11 @@ import com.example.administrator.myapplication.Application.MyApplication;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.activity.DongtaiActivity;
 import com.example.administrator.myapplication.activity.TianJiaTieziActivit;
+import com.example.administrator.myapplication.activitymi.ShowImageActivity;
 import com.example.administrator.myapplication.entity.Post;
 import com.example.administrator.myapplication.entityMi.Zan;
 import com.example.administrator.myapplication.util.StringUtil;
+import com.example.administrator.myapplication.widget.MyGridView;
 import com.example.administrator.myapplication.widget.RefreshListView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -52,12 +55,13 @@ public class MiSheQuFragment extends Fragment {
     RefreshListView listView;
 
 
-    private int pageNum = 1;
+    public int pageNum = 1;
     private int pagesize = 10;
 
     public List<Post> list = new ArrayList<Post>();
 
     public CommonAdapter<Post> adapter;
+    CommonAdapter<String> tupianadapter;
     boolean flag = false;//标志刷新是否是加载还是下拉 下拉为true
     MyApplication myApplication;
 
@@ -95,6 +99,7 @@ public class MiSheQuFragment extends Fragment {
             public void onPull() {
                 //上啦加载
                 getdata();
+
 
             }
         });
@@ -137,6 +142,7 @@ public class MiSheQuFragment extends Fragment {
                             TextView pinglunnum = viewHolder.getViewById(R.id.luntan_listitem_textView_cishu);
                             TextView zannum = viewHolder.getViewById(R.id.luntan_listitem_textView_geshu);
                             LinearLayout layoutTiezi = viewHolder.getViewById(R.id.layout_tiezhi);
+                            MyGridView image = viewHolder.getViewById(R.id.gv_tiezhi);
                             if (post.getUser() != null && post.getUser().getPhoto() != null) {
                                 ImageOptions imageOptions = new ImageOptions.Builder().
                                         setLoadingDrawableId(R.mipmap.ic_launcher).
@@ -147,7 +153,7 @@ public class MiSheQuFragment extends Fragment {
                             content.setText(post.getPostContent());
                             time.setText(post.getPostTimes() + "");
                             layoutTiezi.setTag(post);
-
+                            image.setTag(position);
                             pinglunnum.setText(post.getPingLunnum() + "");
                             //评论次数
                             pinglunnum.setText(post.getPingLunnum() + "");
@@ -168,7 +174,7 @@ public class MiSheQuFragment extends Fragment {
                                     //跳到贴子详情
 
                                     Intent intent = new Intent(getActivity(), DongtaiActivity.class);
-                                    Log.i("MiSheQuFragment", "onClick: 是否赞"+list.get(position).getiszan());
+                                    Log.i("MiSheQuFragment", "onClick: 是否赞" + list.get(position).getiszan());
                                     intent.putExtra("post", list.get(position));
                                     startActivity(intent);
                                 }
@@ -185,7 +191,7 @@ public class MiSheQuFragment extends Fragment {
                                     } else {
                                         flag = true;
                                     }
-                                    dianzan(v, flag,post);
+                                    dianzan(v, flag, post);
                                 }
                             });
 
@@ -194,12 +200,22 @@ public class MiSheQuFragment extends Fragment {
                                 @Override
                                 public void onClick(View v) {
                                     Log.i("MiSheQuFragment", "onClick: 点击评论");
+                                    //跳到贴子详情
+
+                                    Intent intent = new Intent(getActivity(), DongtaiActivity.class);
+                                    Log.i("MiSheQuFragment", "onClick: 是否赞" + list.get(position).getiszan());
+                                    intent.putExtra("post", list.get(position));
+                                    startActivity(intent);
                                 }
                             });
                             // initListItemEven(layoutTiezi,post);
 
                             //评论图片
-
+//                            if (list.get(position).getImageList().size() != 0) {
+                                grilvewXianshitupian(image);
+//                            }else {
+//                                grilvewXianshitupian(null);
+//                            }
                         }
                     });
                     listView.setAdapter(adapter);
@@ -212,6 +228,11 @@ public class MiSheQuFragment extends Fragment {
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 Log.i("MiSheQuFragment", "onError: " + ex);
+                if (flag) {
+                    listView.completeRefresh();
+                    flag = false;
+                }
+                Toast.makeText(getActivity(), "刷新失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -226,25 +247,50 @@ public class MiSheQuFragment extends Fragment {
         });
     }
 
+    public void grilvewXianshitupian(GridView gridView) {
+        final List<String> images = list.get((Integer) gridView.getTag()).getImageList();
+//        if (images.size() != 0) {
+            gridView.setAdapter(new CommonAdapter<String>(getActivity(), images, R.layout.imageitem) {
+                @Override
+                public void convert(ViewHolder viewHolder, String s, int position) {
+                    ImageView imageView = viewHolder.getViewById(R.id.iv_show);
+                    x.image().bind(imageView, StringUtil.ip + s);
+                    Log.i("MiSheQuFragment", "convert: " + StringUtil.ip + s);
+                    imageView.setTag(position);
+                    imageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int x= (int) v.getTag();
+                            Intent intent=new Intent(getActivity(), ShowImageActivity.class);
+                            intent.putStringArrayListExtra("image", (ArrayList<String>) images);
+                            intent.putExtra("postion",x);
+                            startActivity(intent);
+                        }
+                    });
+                }
+            });
+//        }
+    }
+
     //点赞后改变图标
     public void dianzan(final View v, final boolean flag, final Post post) {
         int a = 0;
         if (flag) {
-            post.setNumber(post.getNumber()+1);
+            post.setNumber(post.getNumber() + 1);
             a = 1;
         } else {
-            post.setNumber(post.getNumber()-1);
+            post.setNumber(post.getNumber() - 1);
             a = 0;
         }
         post.setIszan(flag);
-        Zan zan=new Zan(post.getPostId(),myApplication.getUser().getUserId(),a);
+        Zan zan = new Zan(post.getPostId(), myApplication.getUser().getUserId(), a);
         //更新界面
         adapter.notifyDataSetChanged();
         //修改数据库
         RequestParams params = new RequestParams(StringUtil.ip + "/DianzanServlet");
-        Gson gson=new Gson();
-        String str=gson.toJson(zan);
-        params.addQueryStringParameter("zan",str );
+        Gson gson = new Gson();
+        String str = gson.toJson(zan);
+        params.addQueryStringParameter("zan", str);
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
@@ -300,6 +346,7 @@ public class MiSheQuFragment extends Fragment {
             @Override
             public void onSuccess(String result) {
                 Log.i("MiSheQuFragment", "onSuccess: getdata" + result);
+                listView.completeLoad();
                 Type type = new TypeToken<List<Post>>() {
                 }.getType();
                 Gson gson = new Gson();
@@ -390,6 +437,8 @@ public class MiSheQuFragment extends Fragment {
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 Log.i("MiSheQuFragment", "onError: " + ex);
+                listView.completeLoad();
+                Toast.makeText(getActivity(), "网络错误", Toast.LENGTH_SHORT).show();
             }
 
             @Override

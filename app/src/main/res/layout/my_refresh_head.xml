@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <!-- 左边是箭头和进度条，右边是一个tv显示文字，一个tv显示时间 -->
+        <FrameLayout
+            android:layout_width="130dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="30dp">
+
+            <ImageView
+                android:id="@+id/iv_refresher"
+                android:layout_width="50dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:src="@drawable/arrow" />
+            <!-- 进度条一开始不显示 -->
+            <ProgressBar
+                android:id="@+id/pb_refresher"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="invisible" />
+
+        </FrameLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_refreshertext"
+                android:layout_width="wrap_content"
+
+                android:layout_height="0dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="下拉刷新" />
+
+
+            <TextView
+                android:id="@+id/tv_refreshtime"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="刷新时间" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+        <LinearLayout
+            android:id="@+id/layout_tiezhibuju"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tb_workerlist"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="#dfdcdc"></ImageView>
+
+            <LinearLayout
+                android:id="@+id/luntan_listitem_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/mi_while_blue"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/touxiang"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:src="@mipmap/ic_launcher" />
+
+
+                    <LinearLayout
+                        android:id="@+id/layout_tiezhi"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:clickable="true"
+                        android:orientation="vertical"
+                        android:padding="5dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+
+                                android:id="@+id/luntan_listitem_textView_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:text="Name"
+                                android:textColor="#19d719"
+                                android:textSize="16dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_gravity="right"
+                                android:gravity="center"
+                                android:text="评论"
+                                android:textColor="#238123"
+                                android:textSize="16dp"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
+
+
+                        <!-- android:ellipsize="end"-->
+                        <TextView
+                            android:id="@+id/luntan_listitem_textView_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="2015-10-18 13:38:45"
+                            android:textColor="#bcb4b4"
+                            android:textSize="14dp" />
+
+                        <!-- android:ellipsize="marquee"-->
+                        <TextView
+                            android:id="@+id/luntan_listitem_textView_content"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="marquee"
+                            android:text="content"
+                            android:textColor="#000000"
+                            android:textSize="15dp" />
+
+                        <com.example.administrator.myapplication.widget.MyGridView
+                            android:id="@+id/gv_tiezhixiangqing"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:numColumns="4"/>
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/mi_while_blue">
+
+                <TextView
+                    android:id="@+id/luntan_listitem_textView_pinglun"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginEnd="10dp"
+                    android:background="@mipmap/message" />
+
+                <TextView
+                    android:id="@+id/luntan_listitem_textView_cishu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/luntan_listitem_textView_pinglun"
+                    android:text="0 "
+                    android:textColor="#bcb4b4" />
+
+                <ImageView
+                    android:id="@+id/luntan_listitem_textView_dianzan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="50dp"
+                    android:layout_toLeftOf="@+id/luntan_listitem_textView_cishu"
+                    android:background="@mipmap/good"
+
+                    />
+
+                <TextView
+                    android:id="@+id/luntan_listitem_textView_geshu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/luntan_listitem_textView_dianzan"
+                    android:text="0 "
+                    android:textColor="#bcb4b4" />
+
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <com.example.administrator.myapplication.widget.NoScrollListview
+            android:id="@+id/lv_tiezi_pinglun"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:layout_below="@+id/layout_tiezhibuju"
+            android:layout_marginTop="10dp" />
+    </LinearLayout>
+
+</LinearLayout>

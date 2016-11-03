@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,7 @@ import android.widget.Toast;
 
 import com.example.administrator.myapplication.Application.MyApplication;
 import com.example.administrator.myapplication.R;
-import com.example.administrator.myapplication.activity.ItemActivity;
+import com.example.administrator.myapplication.activity.FuwuOrderItemActivity;
 import com.example.administrator.myapplication.activity.PayActivity;
 import com.example.administrator.myapplication.entity.Order;
 
@@ -27,7 +26,6 @@ import com.example.administrator.myapplication.util.CommonAdapter;
 import com.example.administrator.myapplication.util.RefreshListView;
 import com.example.administrator.myapplication.util.StringUtil;
 import com.example.administrator.myapplication.util.TimesTypeAdapter;
-import com.example.administrator.myapplication.util.UrlAddress;
 import com.example.administrator.myapplication.util.ViewHolder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -92,7 +90,7 @@ public class ToBePaidFragment extends Fragment implements RefreshListView.OnRefr
         requestParams.addQueryStringParameter("pageNo", pageSize + "");
 
 
-        Callback.Cancelable cancelable = x.http().get(requestParams, new Callback.CacheCallback<String>() {
+        x.http().get(requestParams, new Callback.CacheCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
                         Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
@@ -113,7 +111,7 @@ public class ToBePaidFragment extends Fragment implements RefreshListView.OnRefr
 
                         if (orderApater == null) {
                             orderApater = new CommonAdapter<Order>(getActivity(),
-                                    orders, R.layout.order_layout) {
+                                    orders, R.layout.yan_fuwu_allorder) {
                                 @Override
                                 public void convert(ViewHolder holder, Order order, int position) {
                                     //控件赋值
@@ -127,6 +125,7 @@ public class ToBePaidFragment extends Fragment implements RefreshListView.OnRefr
                             listView.setAdapter(orderApater);
 
                         } else {
+                            changeLayout();
                             orderApater.notifyDataSetChanged();
                         }
 
@@ -165,10 +164,11 @@ public class ToBePaidFragment extends Fragment implements RefreshListView.OnRefr
         teState.setText(initState(order.getState()));
         TextView teAddress = holder.getView(R.id.tv_address);
         teAddress.setText(order.getAddress().getAddress());
-        TextView teBegin = holder.getView(R.id.order_textview_5);
-        teBegin.setText("下单时间: " + order.getBegdate() + "");
+        TextView time = holder.getView(R.id.order_textview_5);
+        String placeAnOrderTime = String.valueOf(order.getTime());
+        time.setText("下单时间: " + placeAnOrderTime.substring(0, placeAnOrderTime.length() - 2));
         TextView tePrice = holder.getView(R.id.price);
-        tePrice.setText("￥" + order.getAllprice() + "");
+        tePrice.setText(order.getAllprice() + "");
         Button buttonLeft = holder.getView(R.id.button_left);
         Button buttonRight = holder.getView(R.id.button_right);
         //按钮控件初始化
@@ -383,7 +383,7 @@ public class ToBePaidFragment extends Fragment implements RefreshListView.OnRefr
                     Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
                             .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
                     String orderJson = gson.toJson(ordrers.get(i - 1));
-                    Intent intent = new Intent(getActivity(), ItemActivity.class);
+                    Intent intent = new Intent(getActivity(), FuwuOrderItemActivity.class);
                     intent.putExtra("order", orderJson);
                     startActivityForResult(intent, TOITEM);
                 }
@@ -426,7 +426,7 @@ public class ToBePaidFragment extends Fragment implements RefreshListView.OnRefr
                         orders.addAll(orderList);
 
                         if (orderApater == null) {
-                            orderApater = new CommonAdapter<Order>(getActivity(), orders, R.layout.order_layout) {
+                            orderApater = new CommonAdapter<Order>(getActivity(), orders, R.layout.yan_fuwu_allorder) {
                                 @Override
                                 public void convert(ViewHolder holder, Order order, int position) {
                                     //控件赋值
@@ -435,9 +435,11 @@ public class ToBePaidFragment extends Fragment implements RefreshListView.OnRefr
                                 }
 
                             };
+                            //切换listview底部
                             changeLayout();
                             listView.setAdapter(orderApater);
                         } else {
+                            //切换listview底部
                             changeLayout();
                             orderApater.notifyDataSetChanged();
                         }
@@ -485,7 +487,6 @@ public class ToBePaidFragment extends Fragment implements RefreshListView.OnRefr
     @Override
     public void onPull() {
         pageNo++;
-        Log.d("用户id", "fdsafdsafdsa");
 
         handler.postDelayed(new Runnable() {
             @Override

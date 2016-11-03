@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -13,21 +14,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.administrator.myapplication.Application.MyApplication;
 import com.example.administrator.myapplication.R;
-import com.example.administrator.myapplication.activity.EvaluateActivity;
-import com.example.administrator.myapplication.activity.ItemActivity;
+import com.example.administrator.myapplication.activity.FuwuOrderEvaluateActivity;
+import com.example.administrator.myapplication.activity.EmergencyOrderItemActivity;
 import com.example.administrator.myapplication.activity.PayActivity;
 import com.example.administrator.myapplication.entity.Order;
 
 import com.example.administrator.myapplication.util.CommonAdapter;
 import com.example.administrator.myapplication.util.RefreshListView;
+import com.example.administrator.myapplication.util.StringUtil;
 import com.example.administrator.myapplication.util.TimesTypeAdapter;
-import com.example.administrator.myapplication.util.UrlAddress;
 import com.example.administrator.myapplication.util.ViewHolder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -53,8 +55,8 @@ import java.util.List;
 public class EmergencyOrderFragment extends Fragment implements RefreshListView.OnRefreshUploadChangeListener {
     public static final Integer TOITEM = 10;
     public static final Integer TOEVALUATE = 1;
-    Handler handler = new Handler();
     LinearLayout headSelectView;
+    Handler handler = new Handler();
     RefreshListView listView;
     List<Order> orders = new ArrayList<Order>();//存放订单信息
     int pageNo = 1;// 页号
@@ -70,6 +72,9 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
     //删除弹出框
     private AlertDialog.Builder builder;
     TextView teState;
+    TextView typefaceServiceType;
+    ImageView imageView;
+    List<Order> orderList;
 
     @Nullable
     @Override
@@ -80,17 +85,18 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
         //控件初始化
         initData();
         //item点击事件
-        Log.d("EmergencyOrderFragment", "onCreateView: " + orders.size());
         listView.setOnRefreshUploadChangeListener(this);
         OnItemClickListener(orders);
+        //时间倒计时
+        Message message = handler1.obtainMessage(1);     // Message
+        handler1.sendMessageDelayed(message, 1000);
         return view;
     }
-
 
     //获取网路数据
     public void initData() {
 
-        String url = UrlAddress.url + "AllEmergencyOrderServlet";
+        String url = StringUtil.ip + "/AllEmergencyOrderServlet";
         RequestParams requestParams = new RequestParams(url);
         //发送用户id
         MyApplication myApplication = (MyApplication) getActivity().getApplication();
@@ -100,29 +106,35 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
         x.http().get(requestParams, new Callback.CacheCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        //Log.d("111", result);
                         Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
                                 .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
                         //把传输过来的json对象转换成UserText对象
                         List<Order> orderList = gson.fromJson(result, new TypeToken<List<Order>>() {
                         }.getType());
-
+                        /**
+                         * 对订单状态2的判断---》组长还未做endtime代码还未测试
+                         */
+                        //  changeOrderStateByTwo(orderList);
                         orders.clear();
                         orders.addAll(orderList);
                         if (orderApater == null) {
-                            orderApater = new CommonAdapter<Order>(getActivity(), orders, R.layout.order_layout) {
+                            orderApater = new CommonAdapter<Order>(getActivity(), orders, R.layout.yan_emergency_order) {
                                 @Override
                                 public void convert(ViewHolder holder, Order order, int position) {
                                     //控件赋值
 
                                     initView(holder, order, position);
+
                                 }
 
                             };
+                            //切换listview底部
+
                             changeLayout();
                             listView.setAdapter(orderApater);
-
                         } else {
+                            //切换listview底部
+                            changeLayout();
                             orderApater.notifyDataSetChanged();
 
                         }
@@ -154,25 +166,34 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
 
     }
 
+
     //控件初始化
     public void initView(ViewHolder holder, Order order, int position) {
-        TextView typefaceServiceType = holder.getView(R.id.Typeface_ServiceType);
+        typefaceServiceType = holder.getView(R.id.Typeface_ServiceType);
         typefaceServiceType.setText(order.getCategory().getName());
         teState = holder.getView(R.id.State);
         teState.setText(initState(order.getState()));
         TextView teAddress = holder.getView(R.id.tv_address);
         teAddress.setText(order.getAddress().getAddress());
-        TextView teBegin = holder.getView(R.id.order_textview_5);
-        teBegin.setText("下单时间: " + order.getBegdate() + "");
         TextView tePrice = holder.getView(R.id.price);
-        tePrice.setText("￥" + order.getAllprice() + "");
+        tePrice.setText(order.getAllprice() + "");
         Button buttonLeft = holder.getView(R.id.button_left);
         Button buttonRight = holder.getView(R.id.button_right);
+        if (order.getCategory() != null) {
+            imageView = holder.getView(R.id.img_housekeeper_photo);
+            x.image().bind(imageView, StringUtil.ip + order.getCategory().getIcon());
+
+        }
         //按钮控件初始化
         setButtonfromOrderState(buttonLeft, buttonRight, order);
         //按钮点击事件
         onButtonClick(buttonLeft, buttonRight, order, position);
+        //倒计时控件
+        // long[] time = {9L, 9L, 9L};
+        TextView textView = holder.getView(R.id.time_countc_down);
+        textView.setText(order.getArriveTime() + "");
     }
+
 
     //状态初始化
     public String initState(int orderState) {
@@ -203,9 +224,8 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
                 buttonRight.setText("立即支付");
                 break;
             case UNSERVICE:
-                buttonLeft.setVisibility(View.VISIBLE);
+                buttonLeft.setVisibility(View.INVISIBLE);
                 buttonRight.setVisibility(View.VISIBLE);
-                buttonLeft.setText("取消订单");
                 buttonRight.setText("确认订单");
                 break;
             case UNREMARK:
@@ -214,7 +234,7 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
                 buttonRight.setText("立即评价");
                 break;
             case COMPLETE:
-                buttonLeft.setVisibility(View.GONE);
+                buttonLeft.setVisibility(View.INVISIBLE);
                 buttonRight.setText("删除订单");
                 break;
             case COMPLAINT:
@@ -242,13 +262,7 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
                         //删除订单
                         dialog(order, position, CLOSE);
                         break;
-                    case UNSERVICE:
-                        if (ontimeListener(position) == false) {
-                            dialog(order, position, REFUND);
-                        } else {
-                            Toast.makeText(getActivity(), "已服务请联系客服", Toast.LENGTH_SHORT).show();
-                        }
-                        break;
+
                     case UNREMARK:
                         //删除订单
                         dialog(order, position, CLOSE);
@@ -264,8 +278,8 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
                 switch (order.getState()) {
                     case UNPAY:
                         //跳转到支付界面
-                        Intent intent=new Intent(getActivity(), PayActivity.class);
-                        intent.putExtra("order",order);
+                        Intent intent = new Intent(getActivity(), PayActivity.class);
+                        intent.putExtra("order", order);
                         startActivity(intent);
                         break;
                     case UNSERVICE:
@@ -279,7 +293,7 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
                         break;
                     case UNREMARK:
                         //待评价
-                        Intent intent2 = new Intent(getActivity(), EvaluateActivity.class);
+                        Intent intent2 = new Intent(getActivity(), FuwuOrderEvaluateActivity.class);
                         Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
                                 .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 
@@ -308,7 +322,7 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
                     Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
                             .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
                     String orderJson = gson.toJson(ordrers.get(i - 1));
-                    Intent intent = new Intent(getActivity(), ItemActivity.class);
+                    Intent intent = new Intent(getActivity(), EmergencyOrderItemActivity.class);
                     intent.putExtra("order", orderJson);
                     startActivityForResult(intent, TOITEM);
                 }
@@ -365,7 +379,7 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
     //更新订单状态，更新界面
     public void changeState(final Order order, final int position, final int changeState) {
 
-        RequestParams requestParams = new RequestParams(UrlAddress.url + "UpdateEmergencyOrder");
+        RequestParams requestParams = new RequestParams(StringUtil.ip + "/UpdateEmergencyOrder");
 
         MyApplication myApplication = (MyApplication) getActivity().getApplication();
         requestParams.addQueryStringParameter("userId", myApplication.getUser().getUserId() + "");
@@ -379,7 +393,7 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
             @Override
             public void onSuccess(String result) {
 
-                if (result.equals("success")) {
+                if (result.equals("success") && position != -1) {
                     switch (changeState) {
                         case CLOSE:
                             Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_SHORT).show();
@@ -425,7 +439,6 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("requestCode+resultCode", requestCode + "." + resultCode);
         if (requestCode == TOITEM && resultCode == 2) {
             // Log.d("requestCode+resultCode", "我执行了");
             //删除回调
@@ -479,7 +492,7 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
 
     //上拉加载
     public void topPullLoading() {
-        String url = UrlAddress.url + "AllEmergencyOrderServlet";
+        String url = StringUtil.ip + "/AllEmergencyOrderServlet";
         RequestParams requestParams = new RequestParams(url);
         //发送用户id
         MyApplication myApplication = (MyApplication) getActivity().getApplication();
@@ -502,7 +515,7 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
                         }
                         orders.addAll(orderList);
                         if (orderApater == null) {
-                            orderApater = new CommonAdapter<Order>(getActivity(), orders, R.layout.order_layout) {
+                            orderApater = new CommonAdapter<Order>(getActivity(), orders, R.layout.yan_fuwu_allorder) {
                                 @Override
                                 public void convert(ViewHolder holder, Order order, int position) {
                                     //控件赋值
@@ -511,9 +524,13 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
                                 }
 
                             };
+                            //切换listview底部
                             changeLayout();
                             listView.setAdapter(orderApater);
+
                         } else {
+                            //切换listview底部
+                            changeLayout();
                             orderApater.notifyDataSetChanged();
                         }
 
@@ -549,7 +566,7 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                //bug
+                pageNo = 1;
                 initData();
                 listView.completeRefresh();//刷新数据后，改变界面
             }
@@ -570,20 +587,21 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
 
     }
 
+
     //判断是否可以“确认下单”||是否可以取消订单
     public boolean ontimeListener(int position) {
         int newTime = 0;
         int endtime = 0;
+        //获取当前时间
         DateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         String time1 = sdf.format(System.currentTimeMillis());
-        newTime = Integer.parseInt(time1.substring(0, time1.length() - 6));
-        String time2 = sdf.format(orders.get(position).getEndtime());
-        endtime = Integer.parseInt(time2.substring(0, time2.length() - 6));
-        if (newTime > endtime) {
-            return true;
-        } else {
-            return false;
-        }
+        //获取结束时间
+      /*  String time2 = sdf.format(orders.get(position).getEndtime());
+       if(Long.parseLong(time1)>=Long.parseLong(time2)){
+           return  true;
+       }*/
+
+        return false;
     }
 
     //是否有订单的布局切换
@@ -591,7 +609,72 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
         listView.isShowOrder(orders, getContext());
     }
 
+    /**
+     * 判断订单状态是2（待服务时候）若已经服务而用户未确定则改变订单状态
+     */
 
+    public List<Order> changeOrderStateByTwo(List<Order> changeOrder) {
+        Iterator<Order> iterator = changeOrder.iterator();
+        while (iterator.hasNext()) {
+            Order order = iterator.next();
+            if (order.getState() == 2) {
+                //获取当前时间&&订单结束时间
+                DateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+                String newTime = sdf.format(System.currentTimeMillis());
+                String endTime = sdf.format(order.getEndtime());
+                if (Long.parseLong(newTime) >= Long.parseLong(endTime)) {
+                    //更新数据库
+                    changeState(order, -1, 3);
+                    order.setState(3);
+                }
+            }
+
+        }
+        return changeOrder;
+    }
+
+    private Handler handler1 = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            switch (msg.what) {
+                case 1:
+                    boolean isNeedCountTime = false;
+                    //①：其实在这块需要精确计算当前时间
+                    for (int index = 0; index < orders.size(); index++) {
+                        Order order = orders.get(index);
+
+                        long time = order.getArriveTime().getTime();
+
+                        if (time > 1000) {//判断是否还有条目能够倒计时，如果能够倒计时的话，延迟一秒，让它接着倒计时
+                            isNeedCountTime = true;
+                            long arrive = order.getArriveTime().getTime() - 1000;
+                            // Log.d("EmergencyOrderFragment", "handleMessage: " + time);
+                            Time time1 = new Time(arrive);
+                            order.setArriveTime(time1);
+
+                        } else {
+                            Time time2 = new Time(0);
+                            order.setArriveTime(time2);
+                        }
+                    }
+                    //②：for循环执行的时间
+                    if (orderApater != null) {
+                        orderApater.notifyDataSetChanged();
+                        if (isNeedCountTime) {
+                            //TODO 然后用1000-（②-①），就赢延迟的时间
+                            handler.sendEmptyMessageDelayed(1, 1000);
+                            Message message = handler1.obtainMessage(1);
+                            handler1.sendMessageDelayed(message, 1000);
+                            break;
+                        }
+                    } else {
+                        Message message = handler1.obtainMessage(1);
+                        handler1.sendMessageDelayed(message, 1000);
+                    }
+            }
+
+        }
+
+    };
 }
 
 

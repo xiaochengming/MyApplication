@@ -144,15 +144,19 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="6" />
 
+
                         <Button
                             android:id="@+id/button_right"
                             android:layout_width="120dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="16dp"
+                            android:layout_marginLeft="6dp"
                             android:background="@drawable/shape_white"
+                            android:drawableRight="@drawable/phone_blue"
                             android:text="联系客服"
                             android:textColor="#141414"
                             android:textSize="16sp" />
+
+
                     </LinearLayout>
                 </RelativeLayout>
 
@@ -239,6 +243,7 @@
                     android:background="@drawable/board_middle">
 
                     <TextView
+                        android:id="@+id/text1"
                         style="@style/style_user_text_view"
                         android:text="数量" />
 

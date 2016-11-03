@@ -26,56 +26,77 @@ public class Housekeeper implements Parcelable {
 		this.housePhone = housePhone;
 	}
 
-	public String getIntroduce() {
-		return introduce;
-	}
+    public Housekeeper(int housekeeperId, int sex, int age, String name, int serviceplevel, int serviceTime, String placeOfOrigin, String housePhoto, String introduce) {
+        this.housekeeperId = housekeeperId;
+        this.sex = sex;
+        this.age = age;
+        this.name = name;
+        this.serviceplevel = serviceplevel;
+        this.serviceTime = serviceTime;
+        this.placeOfOrigin = placeOfOrigin;
+        this.introduce = introduce;
+        this.housePhoto = housePhoto;
+    }
 
-	public void setIntroduce(String introduce) {
-		this.introduce = introduce;
-	}
+    public String getIntroduce() {
+        return introduce;
+    }
 
-	public String getHousePhoto() {
-		return housePhoto;
-	}
+    public void setIntroduce(String introduce) {
+        this.introduce = introduce;
+    }
 
-	public void setHousePhoto(String housePhoto) {
-		this.housePhoto = housePhoto;
-	}
+    public String getHousePhoto() {
+        return housePhoto;
+    }
 
-	public String getPlaceOfOrigin() {
-		return placeOfOrigin;
-	}
+    public void setHousePhoto(String housePhoto) {
+        this.housePhoto = housePhoto;
+    }
 
-	public void setPlaceOfOrigin(String placeOfOrigin) {
-		this.placeOfOrigin = placeOfOrigin;
-	}
+    public String getPlaceOfOrigin() {
+        return placeOfOrigin;
+    }
 
-	public int getServiceTime() {
-		return serviceTime;
-	}
+    public void setPlaceOfOrigin(String placeOfOrigin) {
+        this.placeOfOrigin = placeOfOrigin;
+    }
 
-	public void setServiceTime(int serviceTime) {
-		this.serviceTime = serviceTime;
-	}
+    public int getServiceTime() {
+        return serviceTime;
+    }
 
-	public Housekeeper() {
-	}
+    public void setServiceTime(int serviceTime) {
+        this.serviceTime = serviceTime;
+    }
 
-	public Housekeeper(int sex,String name, int age, int serviceplevel, int serviceTime, String placeOfOrigin,
-			String housePhoto) {
-		super();
-		this.sex = sex;
-		this.age = age;
-		this.name = name;
-		this.serviceplevel = serviceplevel;
-		this.serviceTime = serviceTime;
-		this.placeOfOrigin = placeOfOrigin;
-		this.housePhoto = housePhoto;
-	}
+    public Housekeeper() {
+    }
 
-	public Housekeeper(int housekeeperId) {
-		this.housekeeperId = housekeeperId;
-	}
+    public Housekeeper(int housekeeperId, int sex, String name, int age, int serviceplevel, int serviceTime) {
+        this.housekeeperId = housekeeperId;
+        this.sex = sex;
+        this.name = name;
+        this.age = age;
+        this.serviceplevel = serviceplevel;
+        this.serviceTime = serviceTime;
+    }
+
+    public Housekeeper(int sex, String name, int age, int serviceplevel, int serviceTime, String placeOfOrigin,
+                       String housePhoto) {
+        super();
+        this.sex = sex;
+        this.age = age;
+        this.name = name;
+        this.serviceplevel = serviceplevel;
+        this.serviceTime = serviceTime;
+        this.placeOfOrigin = placeOfOrigin;
+        this.housePhoto = housePhoto;
+    }
+
+    public Housekeeper(int housekeeperId) {
+        this.housekeeperId = housekeeperId;
+    }
 
 	public Housekeeper(int housekeeperId, int sex, String name, int age, int serviceplevel, int serviceTime, String placeOfOrigin,
 					   String housePhoto,String housePhone) {
@@ -91,67 +112,67 @@ public class Housekeeper implements Parcelable {
 		this.housePhone = housePhone;
 	}
 
-	public Housekeeper(int sex, int age, String name, int serviceplevel) {
-		this.sex = sex;
-		this.age = age;
-		this.name = name;
-		this.serviceplevel = serviceplevel;
-	}
+    public Housekeeper(int sex, int age, String name, int serviceplevel) {
+        this.sex = sex;
+        this.age = age;
+        this.name = name;
+        this.serviceplevel = serviceplevel;
+    }
 
-	public Housekeeper(int housekeeperId, int sex, int age, String name,
-			int serviceplevel) {
-		this.housekeeperId = housekeeperId;
-		this.sex = sex;
-		this.age = age;
-		this.name = name;
-		this.serviceplevel = serviceplevel;
-	}
+    public Housekeeper(int housekeeperId, int sex, int age, String name,
+                       int serviceplevel) {
+        this.housekeeperId = housekeeperId;
+        this.sex = sex;
+        this.age = age;
+        this.name = name;
+        this.serviceplevel = serviceplevel;
+    }
 
 
-	public int getHousekeeperId() {
-		return housekeeperId;
-	}
+    public int getHousekeeperId() {
+        return housekeeperId;
+    }
 
-	public void setHousekeeperId(int housekeeperId) {
-		this.housekeeperId = housekeeperId;
-	}
+    public void setHousekeeperId(int housekeeperId) {
+        this.housekeeperId = housekeeperId;
+    }
 
-	public int getSex() {
-		return sex;
-	}
+    public int getSex() {
+        return sex;
+    }
 
-	public void setSex(int sex) {
-		this.sex = sex;
-	}
+    public void setSex(int sex) {
+        this.sex = sex;
+    }
 
-	public int getAge() {
-		return age;
-	}
+    public int getAge() {
+        return age;
+    }
 
-	public void setAge(int age) {
-		this.age = age;
-	}
+    public void setAge(int age) {
+        this.age = age;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public int getServiceplevel() {
-		return serviceplevel;
-	}
+    public int getServiceplevel() {
+        return serviceplevel;
+    }
 
-	public void setServiceplevel(int serviceplevel) {
-		this.serviceplevel = serviceplevel;
-	}
+    public void setServiceplevel(int serviceplevel) {
+        this.serviceplevel = serviceplevel;
+    }
 
-	@Override
-	public int describeContents() {
-		return 0;
-	}
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
@@ -180,15 +201,15 @@ public class Housekeeper implements Parcelable {
 		this.housePhone = in.readString();
 	}
 
-	public static final Creator<Housekeeper> CREATOR = new Creator<Housekeeper>() {
-		@Override
-		public Housekeeper createFromParcel(Parcel source) {
-			return new Housekeeper(source);
-		}
+    public static final Creator<Housekeeper> CREATOR = new Creator<Housekeeper>() {
+        @Override
+        public Housekeeper createFromParcel(Parcel source) {
+            return new Housekeeper(source);
+        }
 
-		@Override
-		public Housekeeper[] newArray(int size) {
-			return new Housekeeper[size];
-		}
-	};
+        @Override
+        public Housekeeper[] newArray(int size) {
+            return new Housekeeper[size];
+        }
+    };
 }

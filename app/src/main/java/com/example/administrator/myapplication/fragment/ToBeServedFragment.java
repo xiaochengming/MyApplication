@@ -19,13 +19,12 @@ import android.widget.Toast;
 
 import com.example.administrator.myapplication.Application.MyApplication;
 import com.example.administrator.myapplication.R;
-import com.example.administrator.myapplication.activity.ItemActivity;
+import com.example.administrator.myapplication.activity.FuwuOrderItemActivity;
 import com.example.administrator.myapplication.entity.Order;
 import com.example.administrator.myapplication.util.CommonAdapter;
 import com.example.administrator.myapplication.util.RefreshListView;
 import com.example.administrator.myapplication.util.StringUtil;
 import com.example.administrator.myapplication.util.TimesTypeAdapter;
-import com.example.administrator.myapplication.util.UrlAddress;
 import com.example.administrator.myapplication.util.ViewHolder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -113,7 +112,7 @@ public class ToBeServedFragment extends Fragment implements RefreshListView.OnRe
 
                         orders.addAll(orderList);
                         if (orderApater == null) {
-                            orderApater = new CommonAdapter<Order>(getActivity(), orders, R.layout.order_layout) {
+                            orderApater = new CommonAdapter<Order>(getActivity(), orders, R.layout.yan_fuwu_allorder) {
                                 @Override
                                 public void convert(ViewHolder holder, Order order, int position) {
                                     //控件赋值
@@ -121,10 +120,12 @@ public class ToBeServedFragment extends Fragment implements RefreshListView.OnRe
                                 }
 
                             };
+                            //切换listview底部
                             changeLayout();
                             listView.setAdapter(orderApater);
 
                         } else {
+                            //切换listview底部
                             changeLayout();
                             orderApater.notifyDataSetChanged();
                         }
@@ -164,10 +165,11 @@ public class ToBeServedFragment extends Fragment implements RefreshListView.OnRe
         teState.setText(initState(order.getState()));
         TextView teAddress = holder.getView(R.id.tv_address);
         teAddress.setText(order.getAddress().getAddress());
-        TextView teBegin = holder.getView(R.id.order_textview_5);
-        teBegin.setText("下单时间: " + order.getBegdate() + "");
+        TextView time = holder.getView(R.id.order_textview_5);
+        String placeAnOrderTime = String.valueOf(order.getTime());
+        time.setText("下单时间: " + placeAnOrderTime.substring(0, placeAnOrderTime.length() - 2));
         TextView tePrice = holder.getView(R.id.price);
-        tePrice.setText("￥" + order.getAllprice() + "");
+        tePrice.setText(order.getAllprice() + "");
         Button buttonLeft = holder.getView(R.id.button_left);
         Button buttonRight = holder.getView(R.id.button_right);
         //按钮控件初始化
@@ -425,7 +427,7 @@ public class ToBeServedFragment extends Fragment implements RefreshListView.OnRe
                     Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
                             .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
                     String orderJson = gson.toJson(ordrers.get(i - 1));
-                    Intent intent = new Intent(getActivity(), ItemActivity.class);
+                    Intent intent = new Intent(getActivity(), FuwuOrderItemActivity.class);
                     intent.putExtra("order", orderJson);
                     startActivityForResult(intent, TOITEM);
                 }
@@ -475,7 +477,7 @@ public class ToBeServedFragment extends Fragment implements RefreshListView.OnRe
 
 
                         if (orderApater == null) {
-                            orderApater = new CommonAdapter<Order>(getActivity(), orders, R.layout.order_layout) {
+                            orderApater = new CommonAdapter<Order>(getActivity(), orders, R.layout.yan_fuwu_allorder) {
                                 @Override
                                 public void convert(ViewHolder holder, Order order, int position) {
                                     //控件赋值
@@ -484,9 +486,11 @@ public class ToBeServedFragment extends Fragment implements RefreshListView.OnRe
                                 }
 
                             };
+                            //切换listview底部
                             changeLayout();
                             listView.setAdapter(orderApater);
                         } else {
+                            //切换listview底部
                             changeLayout();
                             orderApater.notifyDataSetChanged();
                         }

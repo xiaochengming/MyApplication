@@ -8,12 +8,19 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.example.administrator.myapplication.Adapter.CommonAdapter;
 import com.example.administrator.myapplication.Adapter.JiageBaseAdapter;
+import com.example.administrator.myapplication.Adapter.ViewHolder;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.entity.Category;
 import com.example.administrator.myapplication.entity.Price;
@@ -53,14 +60,35 @@ public class ServiceInformationActivity extends AppCompatActivity {
 
     Category category;
     int Hid;
+    @InjectView(R.id.tv_jiage)
+    TextView tvJiage;
+    @InjectView(R.id.btn_yuyue)
+    Button btnYuyue;
+    @InjectView(R.id.layout_duojiage)
+    RelativeLayout layoutDuojiage;
+    @InjectView(R.id.scrollView)
+    ScrollView scrollView;
+
+
+    float jiage;
+    @InjectView(R.id.rbtn_1)
+    RadioButton rbtn1;
+    @InjectView(R.id.rbtn_2)
+    RadioButton rbtn2;
+    @InjectView(R.id.rbtn_3)
+    RadioButton rbtn3;
+    @InjectView(R.id.rbtn_4)
+    RadioButton rbtn4;
+    @InjectView(R.id.rg_xuanze)
+    RadioGroup rgXuanze;
+    RadioButton[] radioButtons;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_information);
         ButterKnife.inject(this);
-
-
+        radioButtons = new RadioButton[]{rbtn1, rbtn2, rbtn3, rbtn4};
         tbTitle.setTitle("");
         tbTitle.setNavigationIcon(R.mipmap.backs);
         setSupportActionBar(tbTitle);
@@ -103,28 +131,89 @@ public class ServiceInformationActivity extends AppCompatActivity {
                 tvJiesao.setText(category.getProfile());
             }
             if (category.getPrices() != null) {
-                List<Price> list = category.getPrices();
-                Log.i("Service", "onCreate: " + list.size());
-                JiageBaseAdapter jiage = new JiageBaseAdapter(list, this);
-                lvYuyue.setAdapter(jiage);
-                fixListViewHeight(lvYuyue);
+                if (category.getPrices().size() > 1) {
+                    lvYuyue.setVisibility(View.GONE);
+                    rgXuanze.setVisibility(View.VISIBLE);
+                    layoutDuojiage.setVisibility(View.VISIBLE);
+                    even();
+                } else {
+                    List<Price> list = category.getPrices();
+                    Log.i("Service", "onCreate: " + list.size());
+                    JiageBaseAdapter jiage = new JiageBaseAdapter(list, this);
+                    lvYuyue.setAdapter(jiage);
+                    fixListViewHeight(lvYuyue);
+                    lvYuyue.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            //跳转到预约界面
+                            Log.i("Service", "onItemClick: 跳转到预约");
+                            Intent intent1 = new Intent(ServiceInformationActivity.this, OrderActivity.class);
+                            intent1.putExtra("category", category);
+                            intent1.putExtra("price", position);
+                            if (Hid != 0) {
+                                intent1.putExtra("hid", Hid);
+                            }
+                            startActivity(intent1);
+                        }
+                    });
+                }
                 //jiage.notifyDataSetChanged();
             }
-            lvYuyue.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    //跳转到预约界面
-                    Log.i("Service", "onItemClick: 跳转到预约");
-                    Intent intent1 = new Intent(ServiceInformationActivity.this, OrderActivity.class);
-                    intent1.putExtra("category", category);
-                    intent1.putExtra("price", position);
-                    if (Hid != 0) {
-                        intent1.putExtra("hid", Hid);
-                    }
-                    startActivity(intent1);
-                }
-            });
+
         }
+    }
+
+    public void even() {
+        for (int i = 0; i < radioButtons.length; i++) {
+            if (i >= category.getPrices().size()) {
+                radioButtons[i].setVisibility(View.INVISIBLE);
+            } else {
+                Log.i("Service", "even: " + category.getPrices().get(i).getSubname());
+                radioButtons[i].setText("￥" + category.getPrices().get(i).getSubname());
+            }
+        }
+        rgXuanze.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case (R.id.rbtn_1):
+                        jiage=category.getPrices().get(0).getPrice();
+                        tvJiage.setText("￥"+jiage);
+                        break;
+                    case (R.id.rbtn_2):
+                        jiage=category.getPrices().get(1).getPrice();
+                        tvJiage.setText("￥"+jiage);
+                        break;
+                    case (R.id.rbtn_3):
+                        jiage=category.getPrices().get(2).getPrice();
+                        tvJiage.setText("￥"+jiage);
+                        break;
+                    case (R.id.rbtn_4):
+                        jiage=category.getPrices().get(3).getPrice();
+                        tvJiage.setText("￥"+jiage);
+                        break;
+                }
+            }
+        });
+        rbtn1.setChecked(true);
+        btnYuyue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(ServiceInformationActivity.this, OrderActivity.class);
+                intent1.putExtra("category", category);
+                int i = 0;
+                for (; i < category.getPrices().size(); i++) {
+                    if (category.getPrices().get(i).getPrice() == jiage) {
+                        break;
+                    }
+                }
+                intent1.putExtra("price", i);
+                if (Hid != 0) {
+                    intent1.putExtra("hid", Hid);
+                }
+                startActivity(intent1);
+            }
+        });
     }
 
     public void fixListViewHeight(ListView listView) {

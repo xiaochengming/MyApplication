@@ -22,10 +22,10 @@
     </android.support.v7.widget.Toolbar>
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tb_title"
-        android:id="@+id/scrollView">
+        android:layout_below="@+id/tb_title">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -42,8 +42,86 @@
                 android:id="@+id/lv_yuyue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:layout_marginRight="10dp"/>
+                android:layout_marginRight="10dp"
+                android:padding="5dp" />
+
+            <RadioGroup
+                android:id="@+id/rg_xuanze"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <RadioButton
+                    android:id="@+id/rbtn_1"
+                    android:layout_width="wrap_content"
+                    android:button="@null"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="aaa"
+                    android:textColor="@color/bottom_text_color" />
+
+                <RadioButton
+                    android:id="@+id/rbtn_2"
+                    android:layout_width="wrap_content"
+                    android:button="@null"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="aaa"
+                    android:textColor="@color/bottom_text_color" />
+
+                <RadioButton
+                    android:id="@+id/rbtn_3"
+                    android:layout_width="wrap_content"
+                    android:button="@null"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="aaa"
+                    android:textColor="@color/bottom_text_color" />
+
+                <RadioButton
+                    android:id="@+id/rbtn_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="aaa"
+                    android:textColor="@color/bottom_text_color" />
+            </RadioGroup>
+
+            <RelativeLayout
+                android:id="@+id/layout_duojiage"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv_jiage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="70dp"
+                    android:layout_marginLeft="100dp"
+                    android:gravity="center"
+                    android:text="￥200"
+                    android:textColor="@color/red" />
+
+                <Button
+                    android:id="@+id/btn_yuyue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="80dp"
+                    android:layout_marginLeft="@dimen/ershi"
+                    android:layout_marginRight="@dimen/ershi"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/shape1"
+                    android:text="立即预约"
+                    android:textColor="#ffffff" />
+            </RelativeLayout>
 
             <TextView
                 android:layout_width="match_parent"
@@ -67,9 +145,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:layout_marginTop="5dp"
                 android:text="业务介绍："
                 android:textColor="@color/black"
                 android:textSize="14sp" />
@@ -80,7 +158,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="20dp"
                 android:paddingRight="15dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black" />
 
         </LinearLayout>
     </ScrollView>
@@ -89,10 +167,10 @@
         android:id="@+id/iv_head"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:layout_marginRight="20dp"
-        android:src="@mipmap/fenxiang"
-        android:layout_gravity="end"
         android:layout_above="@+id/scrollView"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="end"
+        android:layout_marginRight="20dp"
+        android:padding="8dp"
+        android:src="@mipmap/fenxiang" />
 </RelativeLayout>

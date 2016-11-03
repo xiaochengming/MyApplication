@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,10 +22,13 @@ import com.example.administrator.myapplication.Adapter.CommonAdapter;
 import com.example.administrator.myapplication.Adapter.ViewHolder;
 import com.example.administrator.myapplication.Application.MyApplication;
 import com.example.administrator.myapplication.R;
+import com.example.administrator.myapplication.activitymi.ShowImageActivity;
 import com.example.administrator.myapplication.entity.Dynamic;
 import com.example.administrator.myapplication.entity.Post;
 import com.example.administrator.myapplication.entityMi.Zan;
 import com.example.administrator.myapplication.util.StringUtil;
+import com.example.administrator.myapplication.widget.MyGridView;
+import com.example.administrator.myapplication.widget.MyRefreshListView;
 import com.example.administrator.myapplication.widget.NoScrollListview;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -55,16 +59,12 @@ public class DongtaiActivity extends AppCompatActivity {
     TextView luntanListitemTextViewTime;
     @InjectView(R.id.luntan_listitem_textView_content)
     TextView luntanListitemTextViewContent;
-    @InjectView(R.id.luntan_listitem_photo_list)
-    LinearLayout luntanListitemPhotoList;
-    @InjectView(R.id.luntan_listitem_horizontalview)
-    HorizontalScrollView luntanListitemHorizontalview;
     @InjectView(R.id.layout_tiezhi)
     LinearLayout layoutTiezhi;
     @InjectView(R.id.luntan_listitem_layout)
     LinearLayout luntanListitemLayout;
     @InjectView(R.id.lv_tiezi_pinglun)
-    NoScrollListview lvTieziPinglun;
+    MyRefreshListView lvTieziPinglun;
     @InjectView(R.id.tv_tbTitle)
     TextView tvTbTitle;
     @InjectView(R.id.tb_workerlist)
@@ -87,18 +87,28 @@ public class DongtaiActivity extends AppCompatActivity {
     LinearLayout dibubuju;
 
 
+    TextView tvFloor;
+    MyGridView image;
+
     Post post;
     List<Dynamic> list = new ArrayList<Dynamic>();
+    List<Dynamic> showlist = new ArrayList<Dynamic>();
     CommonAdapter<Dynamic> adapter;
     MyApplication myApplication;
     InputMethodManager imm;
     int louceng;
+    int page;
+    int pageSize = 10;
+    boolean flag = false;//下拉刷新的标志
+    int xuanzhong;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dongtai);
         ButterKnife.inject(this);
+        tvFloor = (TextView) findViewById(R.id.tv_footer);
+        image= (MyGridView) findViewById(R.id.gv_tiezhixiangqing);
         imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(etFasongPinglun.getWindowToken(), 0);
         myApplication = (MyApplication) getApplication();
@@ -107,14 +117,39 @@ public class DongtaiActivity extends AppCompatActivity {
         inittoobar();//初始化toolbar
         initEven();//初始化事件
 
+        tvFloor.setText("暂无更多评论");
+
     }
 
+
     public void initEven() {
+        //上拉加载下拉刷新
+        lvTieziPinglun.setOnRefreshUploadChangeListener(new MyRefreshListView.OnRefreshUploadChangeListener() {
+            @Override
+            public void onRefresh() {
+                //刷新
+
+                getPinglun();
+                flag = true;
+            }
+
+            @Override
+            public void onPull() {
+                //加载
+                lvTieziPinglun.completeLoad();
+                Toast.makeText(DongtaiActivity.this, "已经到底了", Toast.LENGTH_SHORT).show();
+            }
+        });
         //评论帖子
         layoutTiezhi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //dibubuju.setVisibility(View.VISIBLE);
+                if (flag) {
+                    flag = false;
+                    return;
+                }
+                louceng = 0;
                 imm.showSoftInput(etFasongPinglun, InputMethodManager.SHOW_FORCED);
             }
         });
@@ -122,9 +157,8 @@ public class DongtaiActivity extends AppCompatActivity {
         lvTieziPinglun.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               // dibubuju.setVisibility(View.VISIBLE);
-                imm.showSoftInput(etFasongPinglun, InputMethodManager.SHOW_FORCED);
-                louceng = position + 1;
+                // dibubuju.setVisibility(View.VISIBLE);
+                Log.i("DongtaiActivity", "onItemClick: " + position);
             }
         });
     }
@@ -153,7 +187,32 @@ public class DongtaiActivity extends AppCompatActivity {
         }
         luntanListitemTextViewContent.setText(post.getPostContent());
         luntanListitemTextViewTime.setText(post.getPostTimes() + "");
+        grilvewXianshitupian(image);
         gengxintiezhi();
+    }
+    public void grilvewXianshitupian(GridView gridView) {
+        final List<String> images = post.getImageList();
+//        if (images.size() != 0) {
+        gridView.setAdapter(new CommonAdapter<String>(this, images, R.layout.imageitem) {
+            @Override
+            public void convert(ViewHolder viewHolder, String s, int position) {
+                ImageView imageView = viewHolder.getViewById(R.id.iv_show);
+                x.image().bind(imageView, StringUtil.ip + s);
+                Log.i("MiSheQuFragment", "convert: " + StringUtil.ip + s);
+                imageView.setTag(position);
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int x= (int) v.getTag();
+                        Intent intent=new Intent(DongtaiActivity.this, ShowImageActivity.class);
+                        intent.putStringArrayListExtra("image", (ArrayList<String>) images);
+                        intent.putExtra("postion",x);
+                        startActivity(intent);
+                    }
+                });
+            }
+        });
+//        }
     }
 
     public void gengxintiezhi() {
@@ -178,14 +237,18 @@ public class DongtaiActivity extends AppCompatActivity {
                 Type type = new TypeToken<List<Dynamic>>() {
                 }.getType();
                 List<Dynamic> listTemp = gson.fromJson(result, type);
+
                 list.clear();
                 list.addAll(listTemp);
+                lvTieziPinglun.completeRefresh();
                 listViewshezhishipeiqi();
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 Log.i("DongtaiActivity", "onError: " + ex);
+                lvTieziPinglun.completeRefresh();
+                Toast.makeText(DongtaiActivity.this, "网络错误", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -200,17 +263,25 @@ public class DongtaiActivity extends AppCompatActivity {
         });
     }
 
+    ////listview 添加页数据
+//    public  void add(){
+//        if (0<page*pageSize&&page*pageSize<showlist.size()){
+//            showlist.clear();
+//            for(int i=0;i<page*)
+//        }
+//    }
     //listview s设置适配器
     public void listViewshezhishipeiqi() {
         if (adapter == null) {
             lvTieziPinglun.setAdapter(new CommonAdapter<Dynamic>(DongtaiActivity.this, list, R.layout.pinglun_item) {
                 @Override
-                public void convert(ViewHolder viewHolder, Dynamic dynamic, int position) {
+                public void convert(ViewHolder viewHolder, Dynamic dynamic, final int position) {
                     ImageView touxiang = viewHolder.getViewById(R.id.listview_pinglun_item_imageview_icon);
                     TextView name = viewHolder.getViewById(R.id.listview_pinglun_item_textView_name);
                     TextView lou = viewHolder.getViewById(R.id.listview_pinglun_item_textView_lou);
                     TextView pinglun = viewHolder.getViewById(R.id.listview_pinglun_item_textView_location);
                     TextView shijian = viewHolder.getViewById(R.id.listview_pinglun_item_textView_time);
+                    TextView huifu = viewHolder.getViewById(R.id.listview_pinglun_item_textView_zan);
                     if (dynamic.getUser() != null && dynamic.getUser().getPhoto() != null) {
                         ImageOptions imageOptions = new ImageOptions.Builder().
                                 setLoadingDrawableId(R.mipmap.ic_launcher).
@@ -218,6 +289,7 @@ public class DongtaiActivity extends AppCompatActivity {
                         x.image().bind(touxiang, StringUtil.ip + "/" + dynamic.getUser().getPhoto(), imageOptions);
                         name.setText(dynamic.getUser().getName());
                     }
+                    huifu.setTag(position);
                     int x = position + 1;
                     int b = findParent(dynamic.getParent());
                     if (b != 0) {
@@ -227,10 +299,25 @@ public class DongtaiActivity extends AppCompatActivity {
                     }
                     pinglun.setText(dynamic.getDynamicContent());
                     shijian.setText(dynamic.getDynamicTime() + "");
+                    huifu.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+//                            if (flag){
+//                                flag=false;
+//                                return;x
+//                            }
+                            int x = (int) v.getTag();
+                            Log.i("DongtaiActivity", "onClick: 回复点击" + x);
+
+                            imm.showSoftInput(etFasongPinglun, InputMethodManager.SHOW_FORCED);
+                            louceng = x + 1;
+                        }
+                    });
                 }
             });
         } else {
             adapter.notifyDataSetChanged();
+            lvTieziPinglun.setSelection(xuanzhong);
         }
     }
 
@@ -269,9 +356,10 @@ public class DongtaiActivity extends AppCompatActivity {
                 imm.hideSoftInputFromWindow(etFasongPinglun.getWindowToken(), 0);
                 //etFasongPinglun.clearComposingText();//清空文本
                 etFasongPinglun.setText("");
-               // dibubuju.setVisibility(View.GONE);
+                // dibubuju.setVisibility(View.GONE);
                 //刷新界面和插入数据库
                 insertPinglun(dynamic);
+                louceng=0;
                 break;
         }
     }
@@ -291,28 +379,30 @@ public class DongtaiActivity extends AppCompatActivity {
                 Log.i("DongtaiActivity", "onSuccess: ");
                 Gson gson = new GsonBuilder().enableComplexMapKeySerialization().setDateFormat("yyyy-MM-dd HH:mm:ss")
                         .create();
-                Type type=new TypeToken<List<Dynamic>>(){}.getType();
-                List<Dynamic> newlist = gson.fromJson(result,type);
-                Log.i("DongtaiActivity", "onSuccess: newlist"+newlist.size());
+                Type type = new TypeToken<List<Dynamic>>() {
+                }.getType();
+                List<Dynamic> newlist = gson.fromJson(result, type);
+                Log.i("DongtaiActivity", "onSuccess: newlist" + newlist.size());
                 //新加入的评论id
-                int a=list.get(list.size()-1).getDynamicId();
+                //int a = list.get(list.size() - 1).getDynamicId();
                 list.clear();
 
                 post.setPingLunnum(post.getPingLunnum() + 1);
                 gengxintiezhi();
                 list.addAll(newlist);
-                list.remove(list.size()-1);
-                Log.i("DongtaiActivity", "onSuccess:list"+list.size());
+                list.remove(list.size() - 1);
+                Log.i("DongtaiActivity", "onSuccess:list" + list.size());
+
+                //  int a = 0;
+//                int x = 0;
+//                for (int i = 0; i < list.size(); i++) {
+//                    if (list.get(i).getDynamicId() == a) {
+//                        x = i;
+//                        break;
+//                    }
+//                }
+//                xuanzhong = x;
                 listViewshezhishipeiqi();
-              //  int a = 0;
-                int x=0;
-                for (int i = 0; i < list.size(); i++) {
-                    if (list.get(i).getDynamicId() == a) {
-                        x = i;
-                        break;
-                    }
-                }
-                lvTieziPinglun.setSelection(x);
             }
 
             @Override
@@ -426,13 +516,13 @@ public class DongtaiActivity extends AppCompatActivity {
     }
 
     public boolean onTouchEvent(MotionEvent event) {
-        if(null != this.getCurrentFocus()){
+        if (null != this.getCurrentFocus()) {
             /**
              * 点击空白位置 隐藏软键盘
              */
             InputMethodManager mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             return mInputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
         }
-        return super .onTouchEvent(event);
+        return super.onTouchEvent(event);
     }
 }

@@ -10,6 +10,8 @@ import org.xutils.x;
 
 import java.util.Date;
 
+import io.rong.imkit.RongIM;
+
 /**
  * Created by luhai on 2016/10/3.
  */
@@ -50,5 +52,9 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         x.Ext.init(this);
+        /**
+         * 初始化融云
+         */
+        RongIM.init(this);
     }
 }

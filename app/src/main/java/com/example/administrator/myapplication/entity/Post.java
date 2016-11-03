@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * 帖子
@@ -20,6 +21,19 @@ public class Post implements Parcelable {
     private int number;// 点赞数
     private int pingLunnum;
     private boolean iszan;// 是否点赞
+    private List<String> imageList;//图片地址
+
+    public Post(int postId, User user, String postContent, Timestamp postTimes, Dynamic firstDynamic, int number, int pingLunnum, boolean iszan, List<String> imageList) {
+        this.postId = postId;
+        this.user = user;
+        this.postContent = postContent;
+        this.postTimes = postTimes;
+        this.firstDynamic = firstDynamic;
+        this.number = number;
+        this.pingLunnum = pingLunnum;
+        this.iszan = iszan;
+        this.imageList = imageList;
+    }
 
     public Post(int postId, User user, String postContent, Timestamp postTimes, Dynamic firstDynamic, int number, int pingLunnum, boolean iszan) {
         this.postId = postId;
@@ -136,23 +150,21 @@ public class Post implements Parcelable {
         this.number = number;
     }
 
+    public boolean iszan() {
+        return iszan;
+    }
+
+    public List<String> getImageList() {
+        return imageList;
+    }
+
+    public void setImageList(List<String> imageList) {
+        this.imageList = imageList;
+    }
+
     public Post() {
         super();
         // TODO Auto-generated constructor stub
-    }
-
-    @Override
-    public String toString() {
-        return "Post{" +
-                "postId=" + postId +
-                ", user=" + user +
-                ", postContent='" + postContent + '\'' +
-                ", postTimes=" + postTimes +
-                ", firstDynamic=" + firstDynamic +
-                ", number=" + number +
-                ", pingLunnum=" + pingLunnum +
-                ", iszan=" + iszan +
-                '}';
     }
 
 
@@ -171,6 +183,7 @@ public class Post implements Parcelable {
         dest.writeInt(this.number);
         dest.writeInt(this.pingLunnum);
         dest.writeByte(this.iszan ? (byte) 1 : (byte) 0);
+        dest.writeStringList(this.imageList);
     }
 
     protected Post(Parcel in) {
@@ -182,6 +195,7 @@ public class Post implements Parcelable {
         this.number = in.readInt();
         this.pingLunnum = in.readInt();
         this.iszan = in.readByte() != 0;
+        this.imageList = in.createStringArrayList();
     }
 
     public static final Parcelable.Creator<Post> CREATOR = new Parcelable.Creator<Post>() {
