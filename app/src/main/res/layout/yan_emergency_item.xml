@@ -165,7 +165,8 @@
                 android:background="@drawable/board_middle">
 
                 <TextView
-                    style="@style/style_user_text_view"
+                    style="@style/style_tv"
+
                     android:text="单价" />
 
                 <TextView
@@ -182,7 +183,7 @@
                 android:background="@drawable/board_middle">
 
                 <TextView
-                    style="@style/style_user_text_view"
+                    style="@style/style_tv"
                     android:text="总价" />
 
                 <TextView
@@ -250,32 +251,34 @@
             android:id="@+id/order_left"
             android:layout_width="160dp"
             android:layout_height="56dp"
-            android:layout_marginLeft="16dp"
             android:layout_alignParentLeft="true"
+            android:layout_marginLeft="16dp"
             android:background="@drawable/g_button_gree"
             android:text="左按钮"
             android:textColor="@color/white" />
 
         <Button
-            android:layout_marginRight="16dp"
             android:id="@+id/order_right"
             android:layout_width="160dp"
             android:layout_height="56dp"
             android:layout_alignParentRight="true"
+            android:layout_marginRight="16dp"
             android:background="@drawable/g_button_gree"
             android:text="右按钮"
             android:textColor="@color/white" />
+
         <Button
 
             android:id="@+id/order_bottom"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_marginRight="12dp"
             android:layout_marginLeft="12dp"
-          android:background="@drawable/g_button_gree"
+            android:layout_marginRight="12dp"
+            android:background="@drawable/g_button_gree"
             android:text="中按钮"
             android:textColor="@color/white"
-            android:visibility="gone"/>
+            android:visibility="gone" />
+
         <TextView
             android:id="@+id/te_1"
             android:layout_width="match_parent"

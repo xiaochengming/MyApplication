@@ -1,7 +1,5 @@
 package com.example.administrator.myapplication.activity;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,7 +14,6 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ViewFlipper;
 
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.entity.Category;
@@ -56,24 +53,38 @@ public class FuWuItemActivity extends AppCompatActivity implements View.OnClickL
     User user;
     @InjectView(R.id.id_prod_list_iv_left)
     ImageView idProdListIvLeft;
+    @InjectView(R.id.prod_info_tv_des_name)
+    TextView prodInfoTvDesName;
+    @InjectView(R.id.prod_info_tv_price)
+    TextView prodInfoTvPrice;
+    @InjectView(R.id.prod_info_cart)
+    Button prodInfoCart;
+    @InjectView(R.id.prod_info_nowbuy)
+    Button prodInfoNowbuy;
+    @InjectView(R.id.housekeeper_num)
+    TextView housekeeperNum;
+
+
+    ListView listView;
+    String categoryName;
+    List<Evaluate> evaluates = new ArrayList<>();
+    CommonAdapter evaluateAdapter;
+    TextView textView;
+    List<Housekeeper> housekeepers = new ArrayList<>();
     @InjectView(R.id.id_prod_list_tv)
     TextView idProdListTv;
     @InjectView(R.id.line1)
     LinearLayout line1;
-    @InjectView(R.id.flipper_photo)
-    ViewFlipper flipperPhoto;
+    @InjectView(R.id.img_photo)
+    ImageView imgPhoto;
     @InjectView(R.id.prod_info_linearly)
     LinearLayout prodInfoLinearly;
-    @InjectView(R.id.prod_info_tv_des)
-    TextView prodInfoTvDes;
-    @InjectView(R.id.prod_info_tv_des_name)
-    TextView prodInfoTvDesName;
     @InjectView(R.id.line2)
     LinearLayout line2;
-    @InjectView(R.id.prod_info_tv_price)
-    TextView prodInfoTvPrice;
-    @InjectView(R.id.prod_info_tv_pnum)
-    TextView prodInfoTvPnum;
+    @InjectView(R.id.price)
+    TextView price;
+    @InjectView(R.id.num)
+    TextView num;
     @InjectView(R.id.rela1)
     RelativeLayout rela1;
     @InjectView(R.id.prod_info_tv_prod_record)
@@ -84,20 +95,8 @@ public class FuWuItemActivity extends AppCompatActivity implements View.OnClickL
     MyListNoScroll lvUserRemark;
     @InjectView(R.id.text)
     TextView text;
-    @InjectView(R.id.prod_info_cart)
-    Button prodInfoCart;
-    @InjectView(R.id.prod_info_nowbuy)
-    Button prodInfoNowbuy;
     @InjectView(R.id.prod_info_bottom)
     RelativeLayout prodInfoBottom;
-
-    private FragmentManager manager;
-    private FragmentTransaction transaction;
-    ListView listView;
-    String categoryName;
-    List<Evaluate> evaluates = new ArrayList<>();
-    CommonAdapter evaluateAdapter;
-    TextView textView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -106,16 +105,10 @@ public class FuWuItemActivity extends AppCompatActivity implements View.OnClickL
         ButterKnife.inject(this);
         listView = (ListView) findViewById(R.id.lv_user_remark);
         textView = (TextView) listView.findViewById(R.id.prod_info_tv_prod_comment);
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pageNo++;
-                initDataEvaluate();
-
-            }
-        });
+        textView.setOnClickListener(this);
         prodInfoCart.setOnClickListener(this);
         prodInfoNowbuy.setOnClickListener(this);
+        idProdListIvLeft.setOnClickListener(this);
 
         //获取数据
         getData();
@@ -131,18 +124,21 @@ public class FuWuItemActivity extends AppCompatActivity implements View.OnClickL
         Intent intent = getIntent();
         String categoriesJson = intent.getStringExtra("categoriesJson");
         String userJson = intent.getStringExtra("userJson");
+        String housekeeperJson = intent.getStringExtra("housekeeperJson");
 
         Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
                 .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
         category = gson.fromJson(categoriesJson, Category.class);
         user = gson.fromJson(userJson, User.class);
-
+        housekeepers = gson.fromJson(housekeeperJson, new TypeToken<List<Housekeeper>>() {
+        }.getType());
     }
 
     public void initView() {
-
+        x.image().bind(imgPhoto, StringUtil.ip + category.getPhoto());
         prodInfoTvDesName.setText(category.getName());
         prodInfoTvPrice.setText(category.getPrices().get(0).getPrice() + "");
+        housekeeperNum.setText(housekeepers.size() + "");
     }
 
     @Override
@@ -159,7 +155,19 @@ public class FuWuItemActivity extends AppCompatActivity implements View.OnClickL
             case R.id.prod_info_nowbuy:
                 //转到下单页面
                 if (user.getUserId() != 0) {
-                    getHousekeeper();
+                    //跳转到下单页面
+                    Intent intent = new Intent(FuWuItemActivity.this, EmergencyPlaceAnOrderActivity.class);
+                    Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
+                            .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+                    String categoryJson = gson.toJson(category);
+                    String userJson = gson.toJson(user);
+                    String housekeepersJson = gson.toJson(housekeepers);
+                    intent.putExtra("categoryJson", categoryJson);
+                    intent.putExtra("userJson", userJson);
+                    intent.putExtra("housekeepersJson", housekeepersJson);
+
+                    startActivity(intent);
+
 
                 } else {
                     Toast.makeText(this, "未登入", Toast.LENGTH_SHORT).show();
@@ -169,7 +177,10 @@ public class FuWuItemActivity extends AppCompatActivity implements View.OnClickL
             case R.id.id_prod_list_iv_left:
                 finish();
                 break;
-
+            case R.id.prod_info_tv_prod_comment:
+                pageNo++;
+                initDataEvaluate();
+                break;
 
         }
 
@@ -201,7 +212,6 @@ public class FuWuItemActivity extends AppCompatActivity implements View.OnClickL
                         evaluates.addAll(evaluateList);
 
                         if (evaluates != null) {
-
 
                         }
                         if (evaluateAdapter == null) {
@@ -257,7 +267,9 @@ public class FuWuItemActivity extends AppCompatActivity implements View.OnClickL
         userPhone.setText(uPhone);
         TextView evaluateTime = holder.getView(R.id.guzhu_time);
         evaluateTime.setText(evaluate.getTime() + "");
+        //星级
         RatingBar ratingBar = holder.getView(R.id.guzhu_rating);
+        Log.d("FuWuItemActivity", "initView: " + evaluate.getGrade());
         ratingBar.setNumStars(evaluate.getGrade());
         TextView userContent = holder.getView(R.id.evaluate_string);
         userContent.setText(evaluate.getEvaluate());
@@ -353,50 +365,5 @@ public class FuWuItemActivity extends AppCompatActivity implements View.OnClickL
         );
     }
 
-    //获取应急服务对应的保姆
-    public void getHousekeeper() {
-        String url = StringUtil.ip + "/Yan_HousekeeperCategory";
-        RequestParams requestParams = new RequestParams(url);
-        //发送用户id
-        requestParams.addQueryStringParameter("categoryId", category.getCategoryId() + "");
-        x.http().get(requestParams, new Callback.CacheCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        //跳转到下单页面
-                        Intent intent = new Intent(FuWuItemActivity.this, EmergencyPlaceAnOrderActivity.class);
-                        Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
-                                .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
-                        String categoryJson = gson.toJson(category);
-                        String userJson = gson.toJson(user);
-                        intent.putExtra("categoryJson", categoryJson);
-                        intent.putExtra("userJson", userJson);
-                        //提供服务的保姆|维修工
-                        intent.putExtra("housekeepersJson", result);
-                        startActivity(intent);
-                    }
 
-
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
-                        Log.d("Main2Activity", "onError: " + ex);
-                    }
-
-                    @Override
-                    public void onCancelled(CancelledException cex) {
-
-                    }
-
-                    @Override
-                    public void onFinished() {
-
-                    }
-
-                    @Override
-                    public boolean onCache(String result) {
-                        return false;
-                    }
-                }
-
-        );
-    }
 }

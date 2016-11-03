@@ -25,7 +25,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:clickable="true"
-                android:src="@mipmap/nav_back" />
+                android:src="@mipmap/backs" />
 
             <TextView
                 android:id="@+id/id_prod_list_tv"
@@ -58,8 +58,8 @@
                     android:layout_below="@+id/line1"
                     android:orientation="vertical">
                     <!--图片切换 -->
-                    <ViewFlipper
-                        android:id="@+id/flipper_photo"
+                    <ImageView
+                        android:id="@+id/img_photo"
                         android:layout_width="match_parent"
                         android:layout_height="240dp"
                         android:layout_centerInParent="true" />
@@ -78,30 +78,14 @@
                     android:orientation="horizontal">
                     <!--商品名称-->
                     <TextView
-                        android:id="@+id/prod_info_tv_des"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-
-                        android:background="#EEEEEE"
-                        android:maxLines="2"
-                        android:minLines="1"
-                        android:padding="8dp"
-                        android:text="应急名称:"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp" />
-
-                    <TextView
                         android:id="@+id/prod_info_tv_des_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="#EEEEEE"
-                        android:maxLines="2"
-                        android:minLines="1"
-
                         android:padding="8dp"
                         android:text="名称"
                         android:textColor="@color/colorAccent"
-                        android:textSize="16sp" />
+                        android:textSize="19sp" />
                 </LinearLayout>
 
                 <RelativeLayout
@@ -112,23 +96,48 @@
                     android:background="#ffffff">
                     <!--商品价格-->
                     <TextView
+                        android:id="@+id/price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:paddingLeft="5dp"
+                        android:text="￥"
+                        android:textColor="@color/red"
+                        android:textSize="24sp" />
+
+                    <TextView
                         android:id="@+id/prod_info_tv_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:text="￥240.00"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/price"
+                      android:paddingTop="5dp"
+                        android:text="240.00"
                         android:textColor="@color/red"
-                        android:textSize="20sp" />
+                        android:textSize="17dp" />
 
                     <TextView
-                        android:id="@+id/prod_info_tv_pnum"
+                        android:id="@+id/housekeeper_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/num"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/num"
+                        android:text="0"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="21dp" />
+
+                    <TextView
+                        android:id="@+id/num"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:padding="10dp"
-                        android:text="0位空闲师傅"
+                        android:layout_centerVertical="true"
+                        android:paddingRight="4dp"
+                        android:paddingTop="1dp"
+                        android:text="位空闲师傅"
                         android:textColor="@color/text_clo"
-                        android:textSize="14sp" />
+                        android:textSize="16dp" />
                 </RelativeLayout>
 
                 <View
@@ -195,8 +204,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@drawable/tab_bg"
-        android:padding="8dp"
-       >
+        android:padding="8dp">
 
         <Button
             android:id="@+id/prod_info_cart"
@@ -218,7 +226,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="16dp"
             android:background="@drawable/shape_red"
-            android:text="立即下单"
+            android:text="立即预约"
             android:textColor="#ffffff"
             android:textSize="16sp" />
     </RelativeLayout>

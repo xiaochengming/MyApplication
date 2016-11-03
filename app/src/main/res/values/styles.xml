@@ -105,12 +105,25 @@
         <item name="android:minWidth">63.0dip</item>
         <item name="android:layout_centerVertical">true</item>
     </style>
+
+    <style name="style_tv" parent="@android:style/Widget.Holo.TextView">
+        <item name="android:textSize">16.0sp</item>
+        <item name="android:textColor">#ff697279</item>
+        <item name="android:gravity">center|left</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minWidth">63.0dip</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
     <style name="style_allorder_imageView" parent="@android:style/Widget.Holo.TextView">
         <item name="android:gravity">center|right</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="android:minWidth">63.0dip</item>
         <item name="android:layout_centerVertical">true</item>
     </style>
+
     <style name="style_user_edit_text">
         <item name="android:textSize">16.0sp</item>
         <item name="android:textColor">#ff111213</item>
@@ -140,6 +153,7 @@
         <item name="android:minHeight">20dp</item>
         <item name="android:isIndicator">true</item>
     </style>
+
     <style name="yan_styles_emergency" parent="@android:style/Widget.Holo.TextView">
         <item name="android:textSize">16.0sp</item>
         <item name="android:textColor">#ff697279</item>

@@ -107,8 +107,6 @@ public class AllOrderFragment extends Fragment implements RefreshListView.OnRefr
                         //把传输过来的json对象转换成UserText对象
                         List<Order> orderList = gson.fromJson(result, new TypeToken<List<Order>>() {
                         }.getType());
-
-
                         orders.clear();
                         orders.addAll(orderList);
                         if (orderApater == null) {
@@ -514,7 +512,7 @@ public class AllOrderFragment extends Fragment implements RefreshListView.OnRefr
 
     //上拉加载
     public void topPullLoading() {
-        String url = UrlAddress.url + "AllOrderServlet";
+        String url = StringUtil.ip + "/AllOrderServlet";
         RequestParams requestParams = new RequestParams(url);
         //发送用户id
         MyApplication myApplication = (MyApplication) getActivity().getApplication();

@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="D:\xiangmu\MyApplication\IMKit\src\main\assets"/></dataSet><dataSet config="debug"><source path="D:\xiangmu\MyApplication\IMKit\src\debug\assets"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="D:\AndroidStudioProjects\MyApplication\IMKit\src\main\assets"/></dataSet><dataSet config="debug"><source path="D:\AndroidStudioProjects\MyApplication\IMKit\src\debug\assets"/></dataSet></merger>

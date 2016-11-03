@@ -487,7 +487,6 @@ public class ToBePaidFragment extends Fragment implements RefreshListView.OnRefr
     @Override
     public void onPull() {
         pageNo++;
-
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {

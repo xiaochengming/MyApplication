@@ -141,11 +141,11 @@ public class EmergencyOrderItemActivity extends AppCompatActivity {
         if (order.getCategory() != null) {
             x.image().bind(imgHousekeeperPhoto, StringUtil.ip + order.getCategory().getIcon());
         }
-        orderProfile.setText("￥"+order.getCategory().getProfile());
+        orderProfile.setText("￥" + order.getCategory().getProfile());
         String time = String.valueOf(order.getTime());
-        orderTime.setText(time.substring(0, time.length() - 3));
-        orderPrice.setText("￥"+String.valueOf(order.getPrice()));
-        orderAllprice.setText("￥"+String.valueOf(order.getAllprice()));
+        orderTime.setText(time.substring(0, 19));
+        orderPrice.setText("￥" + String.valueOf(order.getPrice()));
+        orderAllprice.setText("￥" + String.valueOf(order.getAllprice()));
         //到达时间
         DateFormat sdf = new SimpleDateFormat("HH小时mm分钟ss秒");
         String time1 = sdf.format(order.getArriveTime());
@@ -185,7 +185,7 @@ public class EmergencyOrderItemActivity extends AppCompatActivity {
     }
 
 
-    @OnClick({R.id.order_left, R.id.order_right,R.id.order_bottom})
+    @OnClick({R.id.order_left, R.id.order_right, R.id.order_bottom})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.order_left:

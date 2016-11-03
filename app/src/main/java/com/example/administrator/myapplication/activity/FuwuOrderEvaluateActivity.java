@@ -11,9 +11,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -71,8 +69,24 @@ public class FuwuOrderEvaluateActivity extends AppCompatActivity {
     LinearLayout line1;
     @InjectView(R.id.prod_list_item_iv)
     ImageView prodListItemIv;
-    @InjectView(R.id.ed_category_name)
-    TextView edCategoryName;
+    @InjectView(R.id.name)
+    TextView name;
+    @InjectView(R.id.housekeeper_name)
+    TextView housekeeperName;
+    @InjectView(R.id.sex)
+    TextView sex;
+    @InjectView(R.id.housekeeper_sex)
+    TextView housekeeperSex;
+    @InjectView(R.id.age)
+    TextView age;
+    @InjectView(R.id.housekeeper_age)
+    TextView housekeeperAge;
+    @InjectView(R.id.serviceplevel)
+    TextView serviceplevel;
+    @InjectView(R.id.star_num)
+    TextView starNum;
+    @InjectView(R.id.imageView6)
+    ImageView imageView6;
     @InjectView(R.id.rela1)
     RelativeLayout rela1;
     @InjectView(R.id.textView2)
@@ -109,11 +123,37 @@ public class FuwuOrderEvaluateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.emergency_evaluate);
         ButterKnife.inject(this);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-
-        orderComment();
+        //获取数据
+        getData();
+        //初始化控件
         initView();
 
+
+    }
+
+    //获取数据
+    public void getData() {
+        Intent intent1 = getIntent();
+        String or = intent1.getStringExtra("Order");
+        Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
+                .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+        order = gson.fromJson(or, Order.class);
+    }
+
+    //初始化控件
+    public void initView() {
+        if (order.getHousekeeper() != null) {
+            x.image().bind(prodListItemIv, StringUtil.ip + order.getHousekeeper().getHousePhoto());
+            housekeeperName.setText(order.getHousekeeper().getName());
+            if (order.getHousekeeper().getSex() == 1) {
+                housekeeperSex.setText("男");
+            } else {
+                housekeeperSex.setText("女");
+            }
+            housekeeperAge.setText(order.getHousekeeper().getAge() + "岁");
+            starNum.setText(order.getHousekeeper().getServiceplevel() + "");
+
+        }
 
     }
 
@@ -140,23 +180,7 @@ public class FuwuOrderEvaluateActivity extends AppCompatActivity {
         }
 
     }
-    //初始化控件
 
-    public void initView() {
-        if (order.getHousekeeper() != null) {
-            x.image().bind(prodListItemIv, StringUtil.ip + order.getHousekeeper().getHousePhoto());
-        }
-        edCategoryName.setText(order.getCategory().getName());
-    }
-
-    //评价
-    public void orderComment() {
-        Intent intent1 = getIntent();
-        String or = intent1.getStringExtra("Order");
-        Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
-                .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
-        order = gson.fromJson(or, Order.class);
-    }
 
     //传回订单页信息
     public void back() {
@@ -192,7 +216,7 @@ public class FuwuOrderEvaluateActivity extends AppCompatActivity {
         //评价的内容
         eval = moreApplyagentContent.getText().toString();
         Evaluate evaluate = new Evaluate(order, numStar, eval, timestamp, 0, 0);
-        String ur1 = UrlAddress.url + "EvaluateServlet";
+        String ur1 = StringUtil.ip + "/EvaluateServlet";
         //评价内容发送到数据库
         final RequestParams requestParams = new RequestParams(ur1);
         Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
@@ -357,7 +381,7 @@ public class FuwuOrderEvaluateActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick({R.id.image_id_1, R.id.image_id_2, R.id.image_id_3, R.id.button_evaluate})
+    @OnClick({R.id.image_id_1, R.id.image_id_2, R.id.image_id_3, R.id.button_evaluate,R.id.id_prod_list_iv_left})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.image_id_1:
@@ -382,6 +406,10 @@ public class FuwuOrderEvaluateActivity extends AppCompatActivity {
             case R.id.button_evaluate:
                 uploadImage();
 
+                break;
+            case R.id.id_prod_list_iv_left:
+                //后退
+                finish();
                 break;
 
         }
