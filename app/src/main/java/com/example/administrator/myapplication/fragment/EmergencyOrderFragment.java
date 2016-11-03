@@ -40,9 +40,11 @@ import org.xutils.http.RequestParams;
 import org.xutils.x;
 
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -192,8 +194,23 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
         if (order.getState() == 3 || order.getState() == 4) {
             //订单已经完成
             textView.setText("00:00:00");
-        } else {
+        } else if (order.getState() == 1) {
             textView.setText(order.getArriveTime() + "");
+        } else {
+            //订单状态为2的时候
+            //获取当前时间
+            Date dt = new Date();
+            Long newTime = dt.getTime();//这就是距离1970年1月1日0点0分0秒的毫秒数
+            //获得结束时间
+            long endTime = order.getEndtime().getTime();
+            if (endTime > newTime) {
+                Time remainingTime = new Time(endTime - newTime);
+                textView.setText(remainingTime + "");
+            } else {
+                Time arriveTime = new Time(0l);
+                textView.setText(arriveTime + "");
+            }
+
         }
 
     }
@@ -646,25 +663,19 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
                     //①：其实在这块需要精确计算当前时间
                     for (int index = 0; index < orders.size(); index++) {
                         Order order = orders.get(index);
-                        //订单为支付时候不倒计时
-                        if (order.getState() == 1) {
-
-
-                        } else {
-                            long time = order.getArriveTime().getTime();
-
-                            if (time > 1000) {//判断是否还有条目能够倒计时，如果能够倒计时的话，延迟一秒，让它接着倒计时
+                        if (order.getState() == 2) {
+                            //订单状态为2--时间处理
+                            if (order.getArriveTime().getTime() > 1000) {
                                 isNeedCountTime = true;
-                                long arrive = order.getArriveTime().getTime() - 1000;
-                                // Log.d("EmergencyOrderFragment", "handleMessage: " + time);
-                                Time time1 = new Time(arrive);
-                                order.setArriveTime(time1);
-
+                                isToDownTime(order);
                             } else {
-                                Time time2 = new Time(0);
-                                order.setArriveTime(time2);
+                                isNeedCountTime = true;
+                                Time arriveTime = new Time(0l);
+                                order.setArriveTime(arriveTime);
+
                             }
                         }
+
 
                     }
                     //②：for循环执行的时间
@@ -686,6 +697,25 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
         }
 
     };
+
+
+    public void isToDownTime(Order order) {
+        //获取当前时间
+        Date dt = new Date();
+        Long newTime = dt.getTime();//这就是距离1970年1月1日0点0分0秒的毫秒数
+        //获得结束时间
+        long endTime = order.getEndtime().getTime();
+
+        //  Log.d("isToDownTime", "结束时间" + sdf.format(endTime) + "开始时间" + sdf.format(newTime));
+        if (endTime > newTime) {
+            //结束时间大于当前时间可以继续倒计
+            Time arriveTime = new Time((endTime - newTime) - 1000);  //每次减一秒
+
+            Log.d("isToDownTime", "isToDownTime: " + arriveTime);
+            order.setArriveTime(arriveTime);
+        } else {
+            Time arriveTime = new Time(0l);
+            order.setArriveTime(arriveTime);
+        }
+    }
 }
-
-
