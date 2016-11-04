@@ -30,6 +30,12 @@ public class Order implements Parcelable {
     public Order() {
     }
 
+    public Order(Timestamp begdate, User user, Category category) {
+        this.begdate = begdate;
+        this.user = user;
+        this.category = category;
+    }
+
     public Order(int orderId, User user, Address address, Timestamp time, int state, float allprice, Housekeeper housekeeper, Category category, float price, Time arriveTime) {
         this.orderId = orderId;
         this.user = user;

@@ -62,9 +62,7 @@ public class MiMybaseAdapter extends BaseAdapter {
         hundle.tvWorkerTitle.setText(list.get(position).getName());
         hundle.tvWorketJiesao.setText(list.get(position).getSlogan());
         if (list.get(position).getIcon() != null) {
-            Log.i("Service", "onCreate: "+"getphoto");
             String url = StringUtil.ip + list.get(position).getIcon();
-            Log.i("Service", "onCreate: "+url);
             x.image().bind(hundle.imageView, url);
         }
         /*int x=position+1;

@@ -21,15 +21,19 @@ import com.example.administrator.myapplication.entity.Order;
 import com.example.administrator.myapplication.util.StringUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
+import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -84,9 +88,9 @@ public class TimeActivity extends AppCompatActivity {
     MyApplication myApplication;
     Timestamp time;
     Order order;
-
+    int nowbutton;
     Button[] buttons;
-
+    List<Boolean> haslist; //订单是否存在集合
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,10 +98,10 @@ public class TimeActivity extends AppCompatActivity {
         myApplication = (MyApplication) getApplication();
         ButterKnife.inject(this);
         buttons = new Button[]{time3, time4, time5, time6, time7, time8, time9, time10, time11, time12, time13, time14};
-
         Intent intent = getIntent();
         order = intent.getParcelableExtra("order");
-        category=order.getCategory();
+        category = order.getCategory();
+        orderhas();
         Toolbar toolbar = (Toolbar) findViewById(R.id.tb2);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
@@ -121,8 +125,11 @@ public class TimeActivity extends AppCompatActivity {
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                         date = sdf.format(new Date());
                         date1 = null;
+                        nowbutton=0;
                         initview();
-                        Log.i("aa", date);
+                        if (haslist!=null&&haslist.get(0)==true){
+                            closeButton();
+                        }
                         break;
                     case R.id.time1:
                         Calendar c = Calendar.getInstance();
@@ -131,7 +138,10 @@ public class TimeActivity extends AppCompatActivity {
                         date = sdf1.format(c.getTime());
                         date1 = null;
                         allCheck();
-                        Log.i("aa", date);
+                        nowbutton = 1;
+                        if (haslist!=null&&haslist.get(1)==true){
+                            closeButton();
+                        }
                         break;
                     case R.id.time2:
                         Calendar c1 = Calendar.getInstance();
@@ -140,7 +150,10 @@ public class TimeActivity extends AppCompatActivity {
                         date = sdf2.format(c1.getTime());
                         date1 = null;
                         allCheck();
-                        Log.i("aa", date);
+                        nowbutton = 2;
+                        if (haslist!=null&&haslist.get(2)==true){
+                            closeButton();
+                        }
                         break;
                 }
             }
@@ -178,7 +191,13 @@ public class TimeActivity extends AppCompatActivity {
             buxian(i);
         }
     }
-
+//设置所有按钮不能点
+    public void  closeButton(){
+        for (int i = 0; i < buttons.length; i++) {
+            buttons[i].setEnabled(false);
+            buxian(i);
+        }
+    }
 
     public void xian(int key) {
         if (key == 0) {
@@ -347,9 +366,9 @@ public class TimeActivity extends AppCompatActivity {
             order.setBegdate(time);
             Log.i("aa", "转化的时间 " + time);
 
-            Calendar calendar=Calendar.getInstance();
+            Calendar calendar = Calendar.getInstance();
             calendar.setTime(time);
-            calendar.add(Calendar.HOUR_OF_DAY,order.getWorkerTime());
+            calendar.add(Calendar.HOUR_OF_DAY, order.getWorkerTime());
 
             order.setEndtime(new Timestamp(calendar.getTimeInMillis()));
 //        SimpleDateFormat sim=new SimpleDateFormat("hh:mm:ss");
@@ -407,6 +426,49 @@ public class TimeActivity extends AppCompatActivity {
         }
     }
 
+    public void orderhas() {
+        List<Order> orders = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        Calendar calendar2 = Calendar.getInstance();
+        Calendar calendar3 = Calendar.getInstance();
+        calendar2.add(Calendar.DAY_OF_MONTH, 1);
+        calendar3.add(Calendar.DAY_OF_MONTH, 2);
+        orders.add(new Order(new Timestamp(calendar.getTimeInMillis()), order.getUser(), order.getCategory()));
+        orders.add(new Order(new Timestamp(calendar2.getTimeInMillis()), order.getUser(), order.getCategory()));
+        orders.add(new Order(new Timestamp(calendar3.getTimeInMillis()), order.getUser(), order.getCategory()));
+        RequestParams params = new RequestParams(StringUtil.ip + "/HasOrderServlet");
+        Gson gson = new GsonBuilder().enableComplexMapKeySerialization()
+                .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+        String string=gson.toJson(orders);
+        params.addQueryStringParameter("orders",string);
+        x.http().get(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.i("TimeActivity", "onSuccess: "+result);
+                Gson gson=new Gson();
+                Type type=new TypeToken<List<Boolean>>(){}.getType();
+                haslist=gson.fromJson(result,type);
+                if (haslist.get(nowbutton)){
+                    closeButton();
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
 }
 
 
