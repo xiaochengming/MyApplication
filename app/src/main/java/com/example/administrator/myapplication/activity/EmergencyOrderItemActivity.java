@@ -147,9 +147,9 @@ public class EmergencyOrderItemActivity extends AppCompatActivity {
         orderPrice.setText("￥" + String.valueOf(order.getPrice()));
         orderAllprice.setText("￥" + String.valueOf(order.getAllprice()));
         //到达时间
-        DateFormat sdf = new SimpleDateFormat("HH小时mm分钟ss秒");
-        String time1 = sdf.format(order.getArriveTime());
-        orderArriveTime.setText(time1);
+        //   DateFormat sdf = new SimpleDateFormat("HH小时mm分钟ss秒");
+        //  String time1 = sdf.format(order.getArriveTime());
+        orderArriveTime.setText(order.getArriveTime()+"");
         initViewButton();
     }
 

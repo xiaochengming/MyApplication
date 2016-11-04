@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.entity.Address;
@@ -313,11 +314,18 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
         switch (view.getId()) {
             case R.id.order_goumai:
                 //下单按钮
-                toMySqlOder();
+                if ("暂无地址，快去添加吧".equals(orderDizhiDetaildizhi.getText().toString())) {
+                    Toast.makeText(this, "暂无地址，快去添加吧", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    toMySqlOder();
+                }
+
                 break;
             case R.id.order_dizhi_right_tupian:
                 //地址按钮
-
+                Intent intent = new Intent(EmergencyPlaceAnOrderActivity.this, YuYueAddressActivity.class);
+                startActivityForResult(intent, 1);
                 break;
             case R.id.id_prod_list_iv_left:
                 //后退
@@ -327,9 +335,18 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
         }
     }
 
-
-    //spinner监听
-    public void onListenerSpinner() {
+    //从页面返回
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("onActivityResult", "on " + requestCode + resultCode);
+        if (requestCode == 1 && resultCode == 2) {
+            if (data != null) {
+                Address address = data.getParcelableExtra("address");
+                addressIsefault = address;
+                orderDizhiDetaildizhi.setText(addressIsefault.getAddress());
+            }
+        }
 
     }
 }
