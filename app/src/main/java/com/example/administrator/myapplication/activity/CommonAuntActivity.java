@@ -28,6 +28,7 @@ import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -42,6 +43,7 @@ public class CommonAuntActivity extends AppCompatActivity {
     Toolbar commonAuntToolbar;
     @InjectView(R.id.lv_common_aunt)
     ListView lvCommonAunt;
+    List<QueryHouserkeeperSize> queryHouserkeeperSizes=new ArrayList<>();
     MyApplication myApplication;
     CommonAdapter<QueryHouserkeeperSize> queryhouserkeeperAdapter=null;
     String photoUrl;
@@ -82,8 +84,9 @@ public class CommonAuntActivity extends AppCompatActivity {
                 //获得服务器传过来的值
                 Gson gson=new Gson();
                 Type type=new TypeToken<List<QueryHouserkeeperSize>>(){}.getType();
-                final List<QueryHouserkeeperSize> queryHouserkeeperSizes=gson.fromJson(result,type);
+                queryHouserkeeperSizes=gson.fromJson(result,type);
                 if (queryHouserkeeperSizes.size()==0){
+                    Log.i("CommonAuntActivity", "queryHouserkeeperSizes :"+queryHouserkeeperSizes.size());
                     ArrayAdapter arrayAdapter=new ArrayAdapter(CommonAuntActivity.this,R.layout.lh_chushi_changyong_ay,R.id.tv_chu_shi,str);
                     lvCommonAunt.setAdapter(arrayAdapter);
                 }

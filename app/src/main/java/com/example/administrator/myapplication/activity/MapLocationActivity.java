@@ -64,7 +64,8 @@ public class MapLocationActivity extends AppCompatActivity {
     BitmapDescriptor mCurrentMarker;
     BaiduMap mBaiduMap;
     boolean isFirstLoc = true; // 是否首次定位
-
+    double latitude;
+    double lontitude;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -156,6 +157,8 @@ public class MapLocationActivity extends AppCompatActivity {
                 //返回到前一个界面
                 Intent intent = new Intent();
                 intent.putExtra("addressName",etMap.getText().toString());
+                intent.putExtra("latitude",latitude);
+                intent.putExtra("lontitude",lontitude);
                 setResult(RESULT_FIRST_USER, intent);
                 finish();
                 break;
@@ -191,7 +194,7 @@ public class MapLocationActivity extends AppCompatActivity {
     public class MyLocationListener implements BDLocationListener {
 
         @Override
-        public void onReceiveLocation(BDLocation location) {
+        public void onReceiveLocation(final BDLocation location) {
             if (location == null || mapView == null) {
                 return;
             }
@@ -240,6 +243,8 @@ public class MapLocationActivity extends AppCompatActivity {
 
             } else if (location.getLocType() == BDLocation.TypeNetWorkLocation) {// 网络定位结果
                 etMap.setText(location.getAddrStr());
+                latitude=location.getLatitude();
+                lontitude=location.getLongitude();
                 sb.append("\naddr : ");
                 sb.append(location.getAddrStr());
                 //运营商信息
@@ -271,6 +276,7 @@ public class MapLocationActivity extends AppCompatActivity {
                     ls.add(p.getName());
                     sb.append("\npoi= : ");
                     sb.append(p.getId() + " " + p.getName() + " " + p.getRank());
+
                 }
             }
             ArrayAdapter arrayAdapter = new ArrayAdapter(MapLocationActivity.this, R.layout.lh_poi_dizhi,R.id.tv_dian,ls);
@@ -279,9 +285,13 @@ public class MapLocationActivity extends AppCompatActivity {
             lvMap.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    latitude=location.getLatitude();
+                    lontitude=location.getLongitude();
                     //返回到前一个界面
                     Intent intent = new Intent();
                     intent.putExtra("addressName", ls.get(position));
+                    intent.putExtra("latitude",latitude);
+                    intent.putExtra("lontitude",lontitude);
                     setResult(RESULT_OK, intent);
                     finish();
                 }

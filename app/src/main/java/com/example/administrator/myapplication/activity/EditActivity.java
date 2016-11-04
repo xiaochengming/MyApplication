@@ -125,7 +125,7 @@ public class EditActivity extends AppCompatActivity {
     public static final int CROP = 13;
     private File file;
     private Uri imageUri;
-
+    Date data;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -205,6 +205,9 @@ public class EditActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         c.set(year, monthOfYear, dayOfMonth);
+                        data=new Date(c.getTimeInMillis());
+                        Log.i("EditActivity", "onDateSet  data:"+data);
+                        Log.i("EditActivity", "onDateSet  data:"+dateToString(data));
                         etEditBirthday.setText(DateFormat.format("yyyy-MM-dd", c));
                     }
                 }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
@@ -293,7 +296,12 @@ public class EditActivity extends AppCompatActivity {
                         map.put("number", etEditPhone.getText().toString());
                         map.put("age", etEditAge.getText().toString());
                         map.put("sex", etEditSex.getText().toString());
-                        map.put("birthday", etEditBirthday.getText().toString());
+                        if (data!=null){
+                            map.put("birthday",dateToString(data));
+                        }else {
+                            map.put("birthday",etEditBirthday.getText().toString());
+                        }
+
                         map.put("emil", etEditEmil.getText().toString());
                         return map;
                     }
@@ -301,6 +309,7 @@ public class EditActivity extends AppCompatActivity {
                 requestQueue.add(stringRequest);
                 break;
         }
+
     }
     //显示图片，上传服务器
     public void showImage(Bitmap bitmap) {

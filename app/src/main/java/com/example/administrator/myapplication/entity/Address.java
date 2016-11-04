@@ -13,6 +13,24 @@ public class Address implements Parcelable {
 	private String phone;// 订单联系电话
 	private int userId;
 	private int isdefault;
+	private double latitude;
+	private double lontitude;
+
+	public double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
+
+	public double getLontitude() {
+		return lontitude;
+	}
+
+	public void setLontitude(double lontitude) {
+		this.lontitude = lontitude;
+	}
 
 	public Address() {
 	}
@@ -36,13 +54,15 @@ public class Address implements Parcelable {
 		this.userId = userId;
 	}
 	public Address(int addressId,String address, String userName,
-				   String phone, int userId) {
+				   String phone, int userId,double latitude,double lontitude) {
 		super();
 		this.addressId = addressId;
 		this.address = address;
 		this.userName = userName;
 		this.phone = phone;
 		this.userId = userId;
+		this.latitude=latitude;
+		this.lontitude=lontitude;
 	}
 	@Override
 	public String toString() {
@@ -112,6 +132,8 @@ public class Address implements Parcelable {
 		dest.writeString(this.phone);
 		dest.writeInt(this.userId);
 		dest.writeInt(this.isdefault);
+		dest.writeDouble(this.latitude);
+		dest.writeDouble(this.lontitude);
 	}
 
 	protected Address(Parcel in) {
@@ -121,6 +143,8 @@ public class Address implements Parcelable {
 		this.phone = in.readString();
 		this.userId = in.readInt();
 		this.isdefault = in.readInt();
+		this.latitude = in.readDouble();
+		this.lontitude = in.readDouble();
 	}
 
 	public static final Creator<Address> CREATOR = new Creator<Address>() {

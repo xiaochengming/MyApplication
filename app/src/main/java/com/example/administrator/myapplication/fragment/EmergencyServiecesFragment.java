@@ -143,8 +143,9 @@ public class EmergencyServiecesFragment extends Fragment implements RefreshListV
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.i("EmergencyServieces", "onItemClick  ");
                 if (listView.isFlag() == false && i != categories.size() + 1) {
-
+                    Log.i("EmergencyServieces", "onItemClick  ");
                     getHousekeeper(categories.get(i - 1), i);
 
                 }
