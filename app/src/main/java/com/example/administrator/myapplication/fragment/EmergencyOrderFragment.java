@@ -40,9 +40,11 @@ import org.xutils.http.RequestParams;
 import org.xutils.x;
 
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -129,7 +131,6 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
 
                             };
                             //切换listview底部
-
                             changeLayout();
                             listView.setAdapter(orderApater);
                         } else {
@@ -189,9 +190,29 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
         //按钮点击事件
         onButtonClick(buttonLeft, buttonRight, order, position);
         //倒计时控件
-        // long[] time = {9L, 9L, 9L};
         TextView textView = holder.getView(R.id.time_countc_down);
-        textView.setText(order.getArriveTime() + "");
+        if (order.getState() == 3 || order.getState() == 4) {
+            //订单已经完成
+            textView.setText("00:00:00");
+        } else if (order.getState() == 1) {
+            textView.setText(order.getArriveTime() + "");
+        } else {
+            //订单状态为2的时候
+            //获取当前时间
+            Date dt = new Date();
+            Long newTime = dt.getTime();//这就是距离1970年1月1日0点0分0秒的毫秒数
+            //获得结束时间
+            long endTime = order.getEndtime().getTime();
+            if (endTime > newTime) {
+                Time remainingTime = new Time(endTime - newTime);
+                textView.setText(remainingTime + "");
+            } else {
+                Time arriveTime = new Time(0l);
+                textView.setText(arriveTime + "");
+            }
+
+        }
+
     }
 
 
@@ -284,11 +305,11 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
                         break;
                     case UNSERVICE:
                         //在服务完成时候可以确认订单
-                        if (ontimeListener(position)) {
-                            dialog(order, position, UNREMARK);
-                        } else {
-
+                        if (ontimeListener(order)) {
                             Toast.makeText(getActivity(), "未服务", Toast.LENGTH_SHORT).show();
+                        } else {
+                            dialog(order, position, UNREMARK);
+
                         }
                         break;
                     case UNREMARK:
@@ -589,19 +610,20 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
 
 
     //判断是否可以“确认下单”||是否可以取消订单
-    public boolean ontimeListener(int position) {
-        int newTime = 0;
-        int endtime = 0;
-        //获取当前时间
-        DateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-        String time1 = sdf.format(System.currentTimeMillis());
-        //获取结束时间
-      /*  String time2 = sdf.format(orders.get(position).getEndtime());
-       if(Long.parseLong(time1)>=Long.parseLong(time2)){
-           return  true;
-       }*/
+    public boolean ontimeListener(Order order) {
+        //获取当前时间&&订单结束时间
+        Date dt = new Date();
+        Long newTime = dt.getTime();//这就是距离1970年1月1日0点0分0秒的毫秒数
+        //获得结束时间
+        long endTime = order.getEndtime().getTime();
 
-        return false;
+        if (newTime > endTime) {
+            return false;
+
+        } else {
+            return true;
+        }
+
     }
 
     //是否有订单的布局切换
@@ -609,30 +631,8 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
         listView.isShowOrder(orders, getContext());
     }
 
-    /**
-     * 判断订单状态是2（待服务时候）若已经服务而用户未确定则改变订单状态
-     */
 
-    public List<Order> changeOrderStateByTwo(List<Order> changeOrder) {
-        Iterator<Order> iterator = changeOrder.iterator();
-        while (iterator.hasNext()) {
-            Order order = iterator.next();
-            if (order.getState() == 2) {
-                //获取当前时间&&订单结束时间
-                DateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-                String newTime = sdf.format(System.currentTimeMillis());
-                String endTime = sdf.format(order.getEndtime());
-                if (Long.parseLong(newTime) >= Long.parseLong(endTime)) {
-                    //更新数据库
-                    changeState(order, -1, 3);
-                    order.setState(3);
-                }
-            }
-
-        }
-        return changeOrder;
-    }
-
+    //倒计时
     private Handler handler1 = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
@@ -641,20 +641,20 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
                     //①：其实在这块需要精确计算当前时间
                     for (int index = 0; index < orders.size(); index++) {
                         Order order = orders.get(index);
+                        if (order.getState() == 2) {
+                            //订单状态为2--时间处理
+                            if (order.getArriveTime().getTime() > 1000) {
+                                isNeedCountTime = true;
+                                isToDownTime(order);
+                            } else {
+                                isNeedCountTime = true;
+                                Time arriveTime = new Time(0l);
+                                order.setArriveTime(arriveTime);
 
-                        long time = order.getArriveTime().getTime();
-
-                        if (time > 1000) {//判断是否还有条目能够倒计时，如果能够倒计时的话，延迟一秒，让它接着倒计时
-                            isNeedCountTime = true;
-                            long arrive = order.getArriveTime().getTime() - 1000;
-                            // Log.d("EmergencyOrderFragment", "handleMessage: " + time);
-                            Time time1 = new Time(arrive);
-                            order.setArriveTime(time1);
-
-                        } else {
-                            Time time2 = new Time(0);
-                            order.setArriveTime(time2);
+                            }
                         }
+
+
                     }
                     //②：for循环执行的时间
                     if (orderApater != null) {
@@ -675,6 +675,23 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
         }
 
     };
+
+
+    public void isToDownTime(Order order) {
+        //获取当前时间
+        Date dt = new Date();
+        Long newTime = dt.getTime();//这就是距离1970年1月1日0点0分0秒的毫秒数
+        //获得结束时间
+        long endTime = order.getEndtime().getTime();
+
+
+        if (endTime > newTime) {
+            //结束时间大于当前时间可以继续倒计
+            Time arriveTime = new Time((endTime - newTime) - 1000);  //每次减一秒
+            order.setArriveTime(arriveTime);
+        } else {
+            Time arriveTime = new Time(0l);
+            order.setArriveTime(arriveTime);
+        }
+    }
 }
-
-

@@ -13,11 +13,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="个人介绍:"
+            android:text="员工详情:"
             android:textSize="25sp"
             android:layout_gravity="center"/>
     </android.support.v7.widget.Toolbar>
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,51 +25,103 @@
         android:id="@+id/relative_layout_introduce1">
 
         <ImageView
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:id="@+id/iv_introduce"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="7dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
             android:src="@mipmap/ic_launcher"/>
 
-        <TextView
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="显示名称"
-            android:textSize="15sp"
-            android:id="@+id/tv_in_name"
-            android:layout_alignTop="@+id/iv_introduce"
             android:layout_toEndOf="@+id/iv_introduce"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginTop="7dp"
+            android:id="@+id/relative_layout_introduce2">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="显示名称"
+                android:textSize="14sp"
+                android:id="@+id/tv_in_name"
+                android:layout_marginLeft="10dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="显示年龄"
+                android:textSize="14sp"
+                android:id="@+id/tv_in_age"
+                android:layout_alignTop="@+id/tv_in_name"
+                android:layout_toEndOf="@+id/tv_in_name"
+                android:layout_marginLeft="40dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="显示性别"
+                android:textSize="14sp"
+                android:id="@+id/tv_in_sex"
+                android:layout_marginLeft="35dp"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/tv_in_age"
+                android:layout_marginStart="40dp" />
+        </RelativeLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="显示年龄"
-            android:textSize="15sp"
-            android:id="@+id/tv_in_age"
-            android:layout_alignTop="@+id/tv_in_name"
-            android:layout_toEndOf="@+id/tv_in_name"
-            android:layout_marginLeft="40dp"/>
-        <RatingBar
-            style="@style/RatingStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/ratingBar2"
-            android:layout_below="@+id/tv_in_name"
-            android:layout_alignStart="@+id/tv_in_name"
-            android:numStars="5"
-            android:isIndicator="true" />
+            android:layout_toEndOf="@+id/iv_introduce"
+            android:layout_alignBottom="@+id/iv_introduce"
+            android:id="@+id/relative_layout_introduce4">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="服务过多少个家庭"
+                android:textSize="14sp"
+                android:id="@+id/tv_in_count"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="50dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="显示地址"
+                android:textSize="14sp"
+                android:id="@+id/tv_in_address"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="10dp"/>
+        </RelativeLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="服务过多少个家庭"
-            android:textSize="15sp"
-            android:id="@+id/tv_in_count"
-            android:layout_below="@id/ratingBar2"
-            android:layout_alignStart="@id/tv_in_name"/>
+            android:layout_toEndOf="@+id/iv_introduce"
+            android:layout_below="@+id/relative_layout_introduce2"
+            android:layout_above="@+id/relative_layout_introduce4"
+            android:id="@+id/relative_layout_introduce5">
+            <RatingBar
+                style="@style/RatingStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ratingBar2"
+                android:numStars="5"
+                android:isIndicator="true"
+                android:layout_marginLeft="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="显示电话号码"
+                android:textSize="14sp"
+                android:id="@+id/tv_in_phone"
+                android:layout_alignBottom="@+id/ratingBar2"
+                android:layout_toEndOf="@+id/ratingBar2"
+                android:layout_marginStart="45dp" />
+        </RelativeLayout>
+
     </RelativeLayout>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -82,7 +133,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:id="@+id/relative_layout_introduce2"
+        android:id="@+id/relative_layout_introduce6"
         android:layout_below="@id/text_view_introduct1">
         <TextView
             android:layout_width="wrap_content"
@@ -90,25 +141,27 @@
             android:text="人物介绍:"
             android:textColor="#02BB9D"
             android:textSize="15sp"
-            android:layout_centerHorizontal="true"/>
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="10dp"/>
     </RelativeLayout>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#CCCCCC"
         android:id="@+id/text_view_introduct2"
-        android:layout_below="@id/relative_layout_introduce2"/>
+        android:layout_below="@id/relative_layout_introduce6"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/text_view_introduct2"
         android:layout_centerHorizontal="true"
-        android:id="@+id/relative_layout_introduce3">
+        android:id="@+id/relative_layout_introduce7">
         <jaydenxiao.com.expandabletextview.ExpandableTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/etv_jie_shao"
-            android:textSize="15sp"
+            android:textSize="14sp"
             app:animDuration="200"
             android:padding="8dp"
             app:collapseExpandGrarity="right"
@@ -120,7 +173,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/relative_layout_introduce3"
+        android:layout_below="@+id/relative_layout_introduce7"
         android:text="有关评论:"
         android:textSize="15sp"
         android:textColor="#02BB9D"
@@ -145,10 +198,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="预约"
-        android:textSize="14sp"
+        android:textSize="15sp"
         android:id="@+id/but_introduce"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         />
-
 </RelativeLayout>

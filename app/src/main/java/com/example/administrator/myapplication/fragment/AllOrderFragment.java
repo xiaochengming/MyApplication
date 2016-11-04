@@ -42,6 +42,7 @@ import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -107,8 +108,6 @@ public class AllOrderFragment extends Fragment implements RefreshListView.OnRefr
                         //把传输过来的json对象转换成UserText对象
                         List<Order> orderList = gson.fromJson(result, new TypeToken<List<Order>>() {
                         }.getType());
-
-
                         orders.clear();
                         orders.addAll(orderList);
                         if (orderApater == null) {
@@ -265,9 +264,14 @@ public class AllOrderFragment extends Fragment implements RefreshListView.OnRefr
                 switch (order.getState()) {
                     case UNPAY:
                         //跳转到支付界面
-                        Intent intent = new Intent(getActivity(), PayActivity.class);
-                        intent.putExtra("order", order);
-                        startActivity(intent);
+                        if (isCanPay(order)) {
+                            Intent intent = new Intent(getActivity(), PayActivity.class);
+                            intent.putExtra("order", order);
+                            startActivity(intent);
+                        }else {
+                            Toast.makeText(getActivity(),"订单已过期，请重新下单",Toast.LENGTH_SHORT).show();
+                        }
+
                         break;
                     case UNSERVICE:
                         //在服务完成时候可以确认订单
@@ -514,7 +518,7 @@ public class AllOrderFragment extends Fragment implements RefreshListView.OnRefr
 
     //上拉加载
     public void topPullLoading() {
-        String url = UrlAddress.url + "AllOrderServlet";
+        String url = StringUtil.ip + "/AllOrderServlet";
         RequestParams requestParams = new RequestParams(url);
         //发送用户id
         MyApplication myApplication = (MyApplication) getActivity().getApplication();
@@ -618,5 +622,20 @@ public class AllOrderFragment extends Fragment implements RefreshListView.OnRefr
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+    }
+
+    //判断订单是否可以支付--》
+    public boolean isCanPay(Order order) {
+        //获取当前时间
+        Date dt = new Date();
+        Long newTime = dt.getTime();//这就是距离1970年1月1日0点0分0秒的毫秒数
+        //获取开始服务时间
+        long begdate = order.getBegdate().getTime();
+        if (newTime > begdate) {
+            return false;
+
+        } else {
+            return true;
+        }
     }
 }

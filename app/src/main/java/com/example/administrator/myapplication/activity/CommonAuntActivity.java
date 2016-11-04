@@ -28,6 +28,7 @@ import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -42,10 +43,11 @@ public class CommonAuntActivity extends AppCompatActivity {
     Toolbar commonAuntToolbar;
     @InjectView(R.id.lv_common_aunt)
     ListView lvCommonAunt;
+    List<QueryHouserkeeperSize> queryHouserkeeperSizes=new ArrayList<>();
     MyApplication myApplication;
     CommonAdapter<QueryHouserkeeperSize> queryhouserkeeperAdapter=null;
-    ImageView imageView;
     String photoUrl;
+    String[] str=new String[]{"亲，您还没有预约过哦。。。"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i("CommonAuntActivity", "onCreate  ");
@@ -82,9 +84,10 @@ public class CommonAuntActivity extends AppCompatActivity {
                 //获得服务器传过来的值
                 Gson gson=new Gson();
                 Type type=new TypeToken<List<QueryHouserkeeperSize>>(){}.getType();
-                final List<QueryHouserkeeperSize> queryHouserkeeperSizes=gson.fromJson(result,type);
+                queryHouserkeeperSizes=gson.fromJson(result,type);
                 if (queryHouserkeeperSizes.size()==0){
-                    ArrayAdapter arrayAdapter=new ArrayAdapter(CommonAuntActivity.this,R.layout.lh_chushi_changyong_ay);
+                    Log.i("CommonAuntActivity", "queryHouserkeeperSizes :"+queryHouserkeeperSizes.size());
+                    ArrayAdapter arrayAdapter=new ArrayAdapter(CommonAuntActivity.this,R.layout.lh_chushi_changyong_ay,R.id.tv_chu_shi,str);
                     lvCommonAunt.setAdapter(arrayAdapter);
                 }
                 Log.i("CommonAuntActivity", "queryHouserkeeperSizes: "+queryHouserkeeperSizes);
@@ -115,7 +118,7 @@ public class CommonAuntActivity extends AppCompatActivity {
                             TextView tvSize=viewHolder.getViewById(R.id.tv_chang_yong_size);
                             tvSize.setText("预约过"+queryHouserkeeperSize.getCount()+""+"次");
                             //用户头像赋值
-                            imageView=viewHolder.getViewById(R.id.iv_chang_yong);
+                            ImageView imageView=viewHolder.getViewById(R.id.iv_chang_yong);
                             //头像赋值
                             ImageOptions imageOptions=new ImageOptions.Builder()
                                     //设置加载过程的图片
@@ -126,7 +129,7 @@ public class CommonAuntActivity extends AppCompatActivity {
                                     .setCircular(true)
                                     //设置支持gif
                                     .setIgnoreGif(true).build();
-                            photoUrl =StringUtil.ip+queryHouserkeeperSize.getHousekeeper().getHousePhoto();
+                            photoUrl =StringUtil.ip+"/"+queryHouserkeeperSize.getHousekeeper().getHousePhoto();
                             Log.i("CommonAuntActivity", "convert : "+photoUrl);
                             x.image().bind(imageView,photoUrl,imageOptions);
 

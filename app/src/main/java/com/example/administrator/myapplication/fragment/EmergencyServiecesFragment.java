@@ -16,8 +16,10 @@ import android.widget.Toast;
 
 import com.example.administrator.myapplication.Application.MyApplication;
 import com.example.administrator.myapplication.R;
+import com.example.administrator.myapplication.activity.EmergencyPlaceAnOrderActivity;
 import com.example.administrator.myapplication.activity.FuWuItemActivity;
 import com.example.administrator.myapplication.entity.Category;
+import com.example.administrator.myapplication.entity.Housekeeper;
 import com.example.administrator.myapplication.entity.User;
 import com.example.administrator.myapplication.util.CommonAdapter;
 import com.example.administrator.myapplication.util.RefreshListView;
@@ -46,9 +48,9 @@ public class EmergencyServiecesFragment extends Fragment implements RefreshListV
     int pageSize = 5;// 页大小
     CommonAdapter<Category> categoryAdapter;
     Handler handler = new Handler();
-    // Category category;
     List<Category> categories = new ArrayList<Category>();//应急服务类型
     RefreshListView listView;
+
 
     @Nullable
     @Override
@@ -72,7 +74,6 @@ public class EmergencyServiecesFragment extends Fragment implements RefreshListV
 
                     @Override
                     public void onSuccess(String result) {
-                        Log.i("EmergencyServieces", "onSuccess: 应急服务" + result);
                         Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
                                 .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
                         List<Category> cat = gson.fromJson(result, new TypeToken<List<Category>>() {
@@ -100,7 +101,7 @@ public class EmergencyServiecesFragment extends Fragment implements RefreshListV
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-                        Log.i("onError", "onError: ");
+
                     }
 
                     @Override
@@ -121,15 +122,15 @@ public class EmergencyServiecesFragment extends Fragment implements RefreshListV
 
     //控件初始化
     public void initView(ViewHolder holder, Category category, int position) {
-        TextView categoryName = holder.getView(R.id.prod_list_item_tv);
+        TextView categoryName = holder.getView(R.id.tv_name);
         categoryName.setText(category.getName());
-        TextView categoryPrice = holder.getView(R.id.prod_list_item_tv2);
+        TextView categoryPrice = holder.getView(R.id.tv_price);
         categoryPrice.setText(category.getPrices().get(0).getPrice() + "");
-        TextView prompt = holder.getView(R.id.prod_list_item_tv4);
+        TextView prompt = holder.getView(R.id.tv_reminder);
         prompt.setText(category.getPrompt() + "");
-        TextView profile = holder.getView(R.id.prod_list_item_tv3);
+        TextView profile = holder.getView(R.id.introduction);
         profile.setText(category.getProfile());
-        ImageView imageView = holder.getView(R.id.prod_list_item_iv);
+        ImageView imageView = holder.getView(R.id.img_photo);
         if (category != null) {
             x.image().bind(imageView, StringUtil.ip + category.getIcon());
         }
@@ -142,19 +143,11 @@ public class EmergencyServiecesFragment extends Fragment implements RefreshListV
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.i("EmergencyServieces", "onItemClick  ");
                 if (listView.isFlag() == false && i != categories.size() + 1) {
+                    Log.i("EmergencyServieces", "onItemClick  ");
+                    getHousekeeper(categories.get(i - 1), i);
 
-                    Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
-                            .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
-                    MyApplication myApplication = (MyApplication) getActivity().getApplication();
-                    User user = myApplication.getUser();
-
-                    String categoriesJson = gson.toJson(categories.get(i - 1));
-                    String userJson = gson.toJson(user);
-                    Intent intent = new Intent(getActivity(), FuWuItemActivity.class);
-                    intent.putExtra("categoriesJson", categoriesJson);
-                    intent.putExtra("userJson", userJson);
-                    startActivity(intent);
                 }
 
             }
@@ -168,6 +161,7 @@ public class EmergencyServiecesFragment extends Fragment implements RefreshListV
             @Override
             public void run() {
                 //bug
+                pageNo = 1;
                 initData();
                 listView.completeRefresh();//刷新数据后，改变界面
             }
@@ -192,7 +186,7 @@ public class EmergencyServiecesFragment extends Fragment implements RefreshListV
     }
 
     public void topPullLoading() {
-        String url = UrlAddress.url + "AllEmergencyServiceServlet";
+        String url = StringUtil.ip + "/AllEmergencyServiceServlet";
         RequestParams requestParams = new RequestParams(url);
         //发送用户id
         MyApplication myApplication = (MyApplication) getActivity().getApplication();
@@ -255,5 +249,52 @@ public class EmergencyServiecesFragment extends Fragment implements RefreshListV
         );
     }
 
+    //获取应急服务对应的保姆
+    public void getHousekeeper(Category category, final int i) {
+        String url = StringUtil.ip + "/Yan_HousekeeperCategory";
+        RequestParams requestParams = new RequestParams(url);
+        //发送用户id
+        requestParams.addQueryStringParameter("categoryId", category.getCategoryId() + "");
+        Log.d("getHousekeeper", "getHousekeeper: " + category.getCategoryId());
+        x.http().get(requestParams, new Callback.CacheCallback<String>() {
+                    @Override
+                    public void onSuccess(String result) {
+                        Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
+                                .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+                        MyApplication myApplication = (MyApplication) getActivity().getApplication();
+                        User user = myApplication.getUser();
+                        String categoriesJson = gson.toJson(categories.get(i - 1));
+                        String userJson = gson.toJson(user);
+                        Intent intent = new Intent(getActivity(), FuWuItemActivity.class);
+                        intent.putExtra("housekeeperJson", result);
+                        intent.putExtra("categoriesJson", categoriesJson);
+                        intent.putExtra("userJson", userJson);
+                        startActivity(intent);
+                    }
+
+
+                    @Override
+                    public void onError(Throwable ex, boolean isOnCallback) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(CancelledException cex) {
+
+                    }
+
+                    @Override
+                    public void onFinished() {
+
+                    }
+
+                    @Override
+                    public boolean onCache(String result) {
+                        return false;
+                    }
+                }
+
+        );
+    }
 
 }

@@ -2,20 +2,16 @@ package com.example.administrator.myapplication.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.administrator.myapplication.Application.MyApplication;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.entity.User;
-import com.example.administrator.myapplication.fragment.ExitLoginFragment;
 
 import java.util.Date;
 
@@ -27,53 +23,20 @@ public class SettingActivity extends AppCompatActivity {
 
     @InjectView(R.id.set_toolbar)
     Toolbar setToolbar;
-    @InjectView(R.id.tv_1)
-    TextView tv1;
-    @InjectView(R.id.tv_agreement)
-    TextView tvAgreement;
-    @InjectView(R.id.iv_agreement)
-    ImageView ivAgreement;
-    @InjectView(R.id.iv_into_agreement)
-    ImageView ivIntoAgreement;
-    @InjectView(R.id.tv_2)
-    TextView tv2;
-    @InjectView(R.id.tv_problem)
-    TextView tvProblem;
-    @InjectView(R.id.iv_problem)
-    ImageView ivProblem;
-    @InjectView(R.id.iv_into_problem)
-    ImageView ivIntoProblem;
-    @InjectView(R.id.tv_3)
-    TextView tv3;
-    @InjectView(R.id.tv_customer)
-    TextView tvCustomer;
-    @InjectView(R.id.iv_customer)
-    ImageView ivCustomer;
-    @InjectView(R.id.iv_into_coutomer)
-    ImageView ivIntoCoutomer;
-    @InjectView(R.id.tv_4)
-    TextView tv4;
-    @InjectView(R.id.tv_new_version)
-    TextView tvNewVersion;
-    @InjectView(R.id.iv_new_version)
-    ImageView ivNewVersion;
-    @InjectView(R.id.iv_into_new_version)
-    ImageView ivIntoNewVersion;
-    @InjectView(R.id.tv_5)
-    TextView tv5;
-    @InjectView(R.id.tv_about)
-    TextView tvAbout;
-    @InjectView(R.id.iv_about)
-    ImageView ivAbout;
-    @InjectView(R.id.iv_into_about)
-    ImageView ivIntoAbout;
-    @InjectView(R.id.tv_6)
-    TextView tv6;
     @InjectView(R.id.tv_exit_login)
     TextView tvExitLogin;
-    Integer setId=null;
     MyApplication myApplication;
-    ExitLoginFragment exitLoginFragment;
+    @InjectView(R.id.relative_layout_set1)
+    RelativeLayout relativeLayoutSet1;
+    @InjectView(R.id.relative_layout_set2)
+    RelativeLayout relativeLayoutSet2;
+    @InjectView(R.id.relative_layout_set3)
+    RelativeLayout relativeLayoutSet3;
+    @InjectView(R.id.relative_layout_set4)
+    RelativeLayout relativeLayoutSet4;
+    @InjectView(R.id.relative_layout_set5)
+    RelativeLayout relativeLayoutSet5;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,17 +66,26 @@ public class SettingActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Log.i("SettingActivity", "onClick  ");
-//                    Intent intent=new Intent(SettingActivity.this,MainActivity.class);
-//                    setResult(RESULT_OK,intent);
+////                    Intent intent=new Intent(SettingActivity.this,MainActivity.class);
+////                    setResult(RESULT_OK,intent);
+//                    myApplication.setFlag(false);
+//                    //  myApplication.setUser(null);
+//                    myApplication.setUser(new User(0, null, 0, null, 2, null, null, getDate("0000-00-00"), null));
+//                    finish();
+//                    Intent startMain = new Intent(Intent.ACTION_MAIN);
+//                    startMain.addCategory(Intent.CATEGORY_HOME);
+//                    startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    Intent intent=new Intent(SettingActivity.this,MainActivity.class);
                     myApplication.setFlag(false);
-                    //  myApplication.setUser(null);
-                    myApplication.setUser(new User(0,null,0,null,2,null,null,getDate("0000-00-00"),null));
-                    finish();
+                    myApplication.setUser(new User(0, null, 0, null, 2, null, null, getDate("0000-00-00"), null));
+                    startActivity(intent);
+                    System.exit(0);
                     tvExitLogin.setVisibility(View.INVISIBLE);
                 }
             });
         }
     }
+
     public Date getDate(String dateSte) {
         Date date = new Date(0);
         return date;
@@ -125,20 +97,24 @@ public class SettingActivity extends AppCompatActivity {
 //        }
 //        return null;
     }
-    @OnClick({R.id.iv_into_agreement, R.id.iv_into_problem, R.id.iv_into_coutomer, R.id.iv_into_new_version, R.id.iv_into_about})
-    public void onClick (View view){
+
+    @OnClick({R.id.relative_layout_set1, R.id.relative_layout_set2, R.id.relative_layout_set3, R.id.relative_layout_set4, R.id.relative_layout_set5})
+    public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.iv_into_agreement:
+            case R.id.relative_layout_set1:
+                //用户协议
                 break;
-            case R.id.iv_into_problem:
+            case R.id.relative_layout_set2:
+                //清除缓存
                 break;
-            case R.id.iv_into_coutomer:
+            case R.id.relative_layout_set3:
+                //联系客服
                 break;
-            case R.id.iv_into_new_version:
+            case R.id.relative_layout_set4:
+                //检查新版本
                 break;
-            case R.id.iv_into_about:
-                break;
-            case R.id.tv_exit_login:
+            case R.id.relative_layout_set5:
+                //关于我们
                 break;
         }
     }

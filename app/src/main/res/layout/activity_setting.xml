@@ -17,214 +17,209 @@
             android:textSize="20sp"
             android:layout_gravity="center"/>
     </android.support.v7.widget.Toolbar>
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="1dp"
+    android:layout_below="@+id/set_toolbar"
+    android:id="@+id/tv_view_set"
+    android:background="#CCCCCC"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/tv_view_set"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/relative_layout_set1">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="用户协议"
+            android:textSize="18sp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/tv_agreement" />
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/iv_into_agreement"
+            android:layout_alignParentEnd="true"
+            android:src="@mipmap/sertting"
+            android:layout_alignTop="@+id/tv_agreement"
+            android:layout_alignBottom="@+id/tv_agreement"
+            android:layout_marginRight="10dp"/>
+
+    </RelativeLayout>
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="5dp"
+        android:layout_height="1dp"
         android:background="#CCCCCC"
         android:id="@+id/tv_1"
-        android:layout_below="@+id/set_toolbar"
+        android:layout_below="@+id/relative_layout_set1"
         android:layout_centerHorizontal="true" />
 
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="用户协议"
-        android:textSize="30sp"
-        android:gravity="center"
-        android:id="@+id/tv_agreement"
-        android:layout_below="@+id/tv_1" />
+        android:layout_height="50dp"
+        android:layout_below="@+id/tv_1"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/relative_layout_set2">
 
-    <ImageView
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/iv_agreement"
-        android:layout_alignParentStart="true"
-        android:src="@mipmap/agreement"
-        android:layout_alignBottom="@+id/tv_agreement"
-        android:layout_alignTop="@+id/tv_agreement" />
-
-    <ImageView
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/iv_into_agreement"
-        android:layout_alignTop="@+id/tv_agreement"
-        android:layout_alignParentEnd="true"
-        android:src="@mipmap/sertting"
-        android:layout_alignBottom="@+id/tv_agreement" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:background="#CCCCCC"
-        android:id="@+id/tv_2"
-        android:layout_below="@+id/tv_agreement"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="常见问题"
-        android:textSize="30sp"
-        android:gravity="center"
-        android:id="@+id/tv_problem"
-        android:layout_below="@+id/tv_2"
-        android:layout_centerHorizontal="true" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/iv_problem"
-        android:src="@mipmap/problem"
-        android:layout_alignTop="@+id/tv_problem"
-        android:layout_alignParentStart="true"
-        android:layout_alignBottom="@+id/tv_problem"
-        android:layout_alignEnd="@+id/iv_agreement" />
-
-    <ImageView
-        android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="清除缓存"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:id="@+id/tv_problem"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="10dp"/>
+        <ImageView
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:id="@+id/iv_into_problem"
-        android:layout_alignTop="@+id/tv_problem"
-        android:layout_alignEnd="@+id/iv_into_agreement"
-        android:src="@mipmap/sertting"
-        android:layout_alignBottom="@+id/tv_problem"
-        android:layout_alignStart="@+id/iv_into_agreement" />
+            android:src="@mipmap/sertting"
+            android:layout_alignTop="@+id/tv_problem"
+            android:layout_alignParentEnd="true"
+            android:layout_alignBottom="@+id/tv_problem"
+            android:layout_marginRight="10dp"/>
+    </RelativeLayout>
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="5dp"
+        android:layout_height="1dp"
         android:background="#CCCCCC"
         android:id="@+id/tv_3"
-        android:layout_below="@+id/tv_problem"
+        android:layout_below="@+id/relative_layout_set2"
         android:layout_centerHorizontal="true" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/tv_3"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/relative_layout_set3">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="联系客服"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:id="@+id/tv_customer"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="10dp"/>
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/iv_into_coutomer"
+            android:src="@mipmap/sertting"
+            android:layout_alignParentEnd="true"
+            android:layout_alignBottom="@+id/tv_customer"
+            android:layout_marginRight="10dp"
+            android:layout_alignTop="@+id/tv_customer" />
+
+    </RelativeLayout>
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="联系客服"
-        android:textSize="30sp"
-        android:gravity="center"
-        android:id="@+id/tv_customer"
-        android:layout_below="@+id/tv_3"
-        android:layout_centerHorizontal="true" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/iv_customer"
-        android:src="@mipmap/customer"
-        android:layout_below="@+id/tv_3"
-        android:layout_alignParentStart="true"
-        android:layout_alignBottom="@+id/tv_customer"
-        android:layout_alignEnd="@+id/iv_problem" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/iv_into_coutomer"
-        android:src="@mipmap/sertting"
-        android:layout_below="@+id/tv_3"
-        android:layout_alignParentEnd="true"
-        android:layout_alignBottom="@+id/tv_customer"
-        android:layout_alignStart="@+id/iv_into_problem" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
+        android:layout_height="1dp"
         android:background="#CCCCCC"
         android:id="@+id/tv_4"
-        android:layout_below="@+id/tv_customer"
+        android:layout_below="@+id/relative_layout_set3"
         android:layout_centerHorizontal="true" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/tv_4"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/relative_layout_set4">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="检查新版本"
+            android:textSize="18sp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/tv_new_banben" />
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/iv_into_new_version"
+            android:src="@mipmap/sertting"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp"
+            android:layout_alignBottom="@+id/tv_new_banben"
+            android:layout_alignTop="@+id/tv_new_banben" />
+    </RelativeLayout>
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="检查新版本"
-        android:textSize="30sp"
-        android:gravity="center"
-        android:id="@+id/tv_new_version"
-        android:layout_below="@+id/tv_4"
-        android:layout_centerHorizontal="true" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/iv_new_version"
-        android:src="@mipmap/new_version"
-        android:layout_below="@+id/tv_4"
-        android:layout_alignParentStart="true"
-        android:layout_alignBottom="@+id/tv_new_version"
-        android:layout_alignEnd="@+id/iv_customer" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/iv_into_new_version"
-        android:src="@mipmap/sertting"
-        android:layout_below="@+id/tv_4"
-        android:layout_alignParentEnd="true"
-        android:layout_alignBottom="@+id/tv_new_version"
-        android:layout_alignStart="@+id/iv_into_coutomer" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
+        android:layout_height="1dp"
         android:background="#CCCCCC"
         android:id="@+id/tv_5"
-        android:layout_below="@+id/tv_new_version"
+        android:layout_below="@+id/relative_layout_set4"
         android:layout_centerHorizontal="true" />
 
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="关于我们"
-        android:textSize="30sp"
-        android:gravity="center"
-        android:id="@+id/tv_about"
-        android:layout_below="@+id/tv_5"
-        android:layout_centerHorizontal="true" />
+        android:layout_height="50dp"
+        android:layout_alignTop="@+id/tv_5"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/relative_layout_set5">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/iv_about"
-        android:src="@mipmap/about"
-        android:layout_below="@+id/tv_5"
-        android:layout_alignParentStart="true"
-        android:layout_alignBottom="@+id/tv_about"
-        android:layout_alignEnd="@+id/iv_new_version" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="关于我们"
+            android:textSize="18sp"
+            android:id="@+id/tv_about"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="10dp"/>
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/iv_into_about"
+            android:src="@mipmap/sertting"
+            android:layout_alignParentEnd="true"
+            android:layout_alignBottom="@+id/tv_about"
+            android:layout_alignTop="@+id/tv_about"
+            android:layout_marginRight="10dp"/>
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/iv_into_about"
-        android:src="@mipmap/sertting"
-        android:layout_below="@+id/tv_5"
-        android:layout_alignEnd="@+id/iv_into_new_version"
-        android:layout_alignBottom="@+id/tv_about"
-        android:layout_alignStart="@+id/iv_into_new_version" />
+    </RelativeLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="5dp"
         android:background="#CCCCCC"
         android:id="@+id/tv_6"
-        android:layout_below="@+id/tv_about"
+        android:layout_below="@+id/relative_layout_set5"
         android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:text="退出登录"
-        android:textColor="#009966"
-        android:textSize="30sp"
         android:gravity="center"
+        android:textColor="#009966"
+        android:textSize="18sp"
         android:id="@+id/tv_exit_login"
-        android:layout_gravity="center_horizontal"
-        android:layout_centerVertical="true"
-        android:layout_alignEnd="@+id/iv_into_about"
+        android:layout_below="@+id/tv_6"
+        android:layout_centerHorizontal="true"
         android:visibility="invisible"/>
-
-
+<!--
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#CCCCCC"
+        android:id="@+id/tv_7"
+        android:layout_below="@+id/tv_exit_login"
+        android:layout_centerHorizontal="true" />
+-->
 </RelativeLayout>

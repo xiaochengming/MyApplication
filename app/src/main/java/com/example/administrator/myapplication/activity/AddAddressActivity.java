@@ -52,7 +52,8 @@ public class AddAddressActivity extends AppCompatActivity {
     String addressStr = null;
     @InjectView(R.id.et_add_di_zhi)
     EditText etAddDiZhi;
-
+    double latitude;
+    double lontitude;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,7 +96,7 @@ public class AddAddressActivity extends AppCompatActivity {
             case R.id.but_save_address:
                 //点击保存地址
                 //存到数据库
-
+                Log.i("AddAddressActivity", "onClick  点击保存地址");
                 if (etAddressName.getText().toString().length() < 2) {
                     Toast.makeText(AddAddressActivity.this, "联系人至少输入两个字", Toast.LENGTH_SHORT).show();
                     return;
@@ -120,11 +121,16 @@ public class AddAddressActivity extends AppCompatActivity {
             if (data != null && data.getStringExtra("addressName") != null) {
                 //显示位置
                 tvDisplayAddress.setText(data.getStringExtra("addressName"));
+                //获得坐标
+                latitude=data.getDoubleExtra("latitude",0);
+                lontitude=data.getDoubleExtra("lontitude",0);
                 Log.i("AddAddressActivity", "onActivityResult  11");
             }
         } else if (resultCode == RESULT_FIRST_USER && requestCode == 212) {
             //显示位置
             tvDisplayAddress.setText(data.getStringExtra("addressName"));
+            latitude=data.getDoubleExtra("latitude",0);
+            lontitude=data.getDoubleExtra("lontitude",0);
             Log.i("AddAddressActivity", "onActivityResult  22");
         }
     }
@@ -134,6 +140,8 @@ public class AddAddressActivity extends AppCompatActivity {
         requestParams.addBodyParameter("userId", myApplication.getUser().getUserId() + "");
         requestParams.addBodyParameter("userName", etAddressName.getText().toString());
         requestParams.addBodyParameter("userPhone", etAddressPhone.getText().toString());
+        requestParams.addBodyParameter("latitude", latitude+"");
+        requestParams.addBodyParameter("lontitude", lontitude+"");
         addressStr = tvDisplayAddress.getText().toString();
         addressStr += etAddDiZhi.getText().toString();
         requestParams.addBodyParameter("address", addressStr);
@@ -144,7 +152,7 @@ public class AddAddressActivity extends AppCompatActivity {
                 Log.i("AddAddressActivity", "onSuccess 1122: " + addressId);
                 //成功执行跳转
                 Intent intent = new Intent();
-                Address address = new Address(addressId, addressStr, etAddressName.getText().toString(), etAddressPhone.getText().toString(), myApplication.getUser().getUserId());
+                Address address = new Address(addressId, addressStr, etAddressName.getText().toString(), etAddressPhone.getText().toString(), myApplication.getUser().getUserId(),latitude,lontitude);
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("address", address);
                 intent.putExtras(bundle);

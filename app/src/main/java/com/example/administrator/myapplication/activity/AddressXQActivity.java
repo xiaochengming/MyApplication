@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.entity.Address;
 import com.example.administrator.myapplication.util.StringUtil;
+import com.example.administrator.myapplication.widget.CustomDialog;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -65,6 +66,8 @@ public class AddressXQActivity extends AppCompatActivity {
     String addressStr=null;
     int position;
     int addressId;
+    double latitude;
+    double lontitude;
     // boolean flag=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,21 +108,24 @@ public class AddressXQActivity extends AppCompatActivity {
             case R.id.tv_shan_chu:
                 //删除当前地址
                 //显示对话框
-                new AlertDialog.Builder(this).setIcon(R.mipmap.ic_launcher).setTitle("提醒").
-                        setMessage("你确定删除吗？").setPositiveButton("是",new DialogInterface.OnClickListener(){
-
-                    @Override
+                CustomDialog.Builder builder = new CustomDialog.Builder(this);
+                builder.setMessage("您确定要删除这个地址吗？");
+                builder.setTitle("提示");
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        //设置你的操作事项
                         deleteData();
-                        Log.i("DialogActivity", "DialogActivity: onClick,点击是");
                     }
-                }).setNegativeButton("否",new DialogInterface.OnClickListener(){
+                });
+                builder.setNegativeButton("取消",
+                        new android.content.DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Log.i("DialogActivity", "DialogActivity: onClick,点击否");
-                    }
-                }).show();
+                builder.create().show();
                 Log.i("AddressXQActivity", "onClick  22");
                 break;
             case R.id.tv_address_xq_set:
@@ -133,6 +139,7 @@ public class AddressXQActivity extends AppCompatActivity {
                 //确定
                 //点击保存地址
                 //存到数据库
+                Log.i("AddressXQActivity", "onClick  点击保存地址");
                 if (etAddressXqName.getText().toString().length()<2){
                     Toast.makeText(AddressXQActivity.this,"联系人至少输入两个字",Toast.LENGTH_SHORT).show();
                     return;
@@ -160,19 +167,26 @@ public class AddressXQActivity extends AppCompatActivity {
             if (data!=null&&data.getStringExtra("addressName")!=null){
                 //显示位置
                 tvDisplayXqAddress.setText(data.getStringExtra("addressName"));
+                latitude=data.getDoubleExtra("latitude",0);
+                lontitude=data.getDoubleExtra("lontitude",0);
                 Log.i("AddressXQActivity", "onActivityResult 11 ");
             }
         }else if (resultCode==RESULT_FIRST_USER&&requestCode==616){
             //显示位置
             tvDisplayXqAddress.setText(data.getStringExtra("addressName"));
+            latitude=data.getDoubleExtra("latitude",0);
+            lontitude=data.getDoubleExtra("lontitude",0);
             Log.i("AddressXQActivity", "onActivityResult 22 ");
         }
     }
     public void getData(){
         RequestParams requestParams=new RequestParams(StringUtil.ip+"/XiuGaiDiZhiServlet");
         requestParams.addBodyParameter("userId",address.getUserId()+"");
+        requestParams.addBodyParameter("addressId",addressId+"");
         requestParams.addBodyParameter("userName",etAddressXqName.getText().toString());
         requestParams.addBodyParameter("userPhone",etAddressPhone.getText().toString());
+        requestParams.addBodyParameter("latitude", latitude+"");
+        requestParams.addBodyParameter("lontitude", lontitude+"");
         addressStr=tvDisplayXqAddress.getText().toString();
         addressStr+=etXqDiZhi.getText().toString();
         requestParams.addBodyParameter("address",addressStr);
@@ -180,7 +194,7 @@ public class AddressXQActivity extends AppCompatActivity {
             @Override
             public void onSuccess(String result) {
                 Log.i("AddressXQActivity", "onSuccess  12345");
-                Address address2=new Address(addressId,addressStr,etAddressXqName.getText().toString(),etAddressPhone.getText().toString(),address.getUserId());
+                Address address2=new Address(addressId,addressStr,etAddressXqName.getText().toString(),etAddressPhone.getText().toString(),address.getUserId(),latitude,lontitude);
                 //成功执行跳转
                 Intent intent=new Intent();
                 Bundle bundle=new Bundle();

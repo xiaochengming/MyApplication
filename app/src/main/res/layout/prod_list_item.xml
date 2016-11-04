@@ -12,7 +12,7 @@
         android:padding="15dp">
 
         <ImageView
-            android:id="@+id/prod_list_item_iv"
+            android:id="@+id/img_photo"
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:layout_centerVertical="true"
@@ -25,57 +25,76 @@
             android:id="@+id/prod_list_item_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/prod_list_item_iv"
-            android:layout_toRightOf="@id/prod_list_item_iv"
-            android:paddingLeft="7dp">
+            android:layout_alignTop="@+id/img_photo"
+            android:layout_toRightOf="@+id/img_photo"
+            android:paddingLeft="9dp">
 
             <TextView
-                android:id="@+id/prod_list_item_tv"
+                android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxLines="2"
-                android:minLines="1"
                 android:text="商品信息"
-                android:textColor="#444"
-                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_name"
+                android:layout_marginTop="8dp"
+                android:singleLine="true"
+                android:text="￥"
+                android:textColor="@android:color/holo_red_light"
+                android:textSize="21sp"
 
                 />
 
             <TextView
-                android:id="@+id/prod_list_item_tv2"
+                android:id="@+id/tv_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/prod_list_item_tv"
-                android:layout_marginTop="2dp"
-                android:singleLine="true"
-                android:text="￥71.00"
-                android:textColor="@android:color/holo_red_light"
-                android:textSize="16sp"
+                android:layout_alignTop="@+id/price"
+                android:layout_below="@id/tv_name"
+                android:layout_toRightOf="@+id/price"
+                android:paddingLeft="4dp"
+                android:paddingTop="4dp"
+                android:text="71.00"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
 
-                />
+            <TextView
+                android:id="@+id/reminder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/price"
+                android:layout_marginTop="5dp"
+                android:text="温馨提示: "
+                android:textColor="@color/border_clo"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/tv_reminder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/reminder"
+                android:layout_toRightOf="@+id/reminder"
+                android:text="提示内容"
+
+                android:textSize="10sp" />
+
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/prod_list_item_tv4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/prod_list_item_iv"
-
-            android:layout_alignEnd="@+id/prod_list_item_right"
-            android:text="温馨提示"
-            android:textColor="@color/border_clo"
-            android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/prod_list_item_tv3"
+            android:id="@+id/introduction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/prod_list_item_right"
             android:text="简介:"
             android:textColor="@color/black"
-            android:textSize="12sp"
-            android:layout_alignTop="@+id/prod_list_item_right"
-            android:layout_alignParentEnd="true" />
+            android:textSize="12sp" />
 
     </RelativeLayout>
 
