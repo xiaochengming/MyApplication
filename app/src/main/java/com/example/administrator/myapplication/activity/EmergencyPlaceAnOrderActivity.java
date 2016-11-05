@@ -138,6 +138,7 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
 
     }
 
+
     //获取数据
     public void getData() {
         Intent intent = getIntent();

@@ -324,12 +324,12 @@
         "source": "D:\\AndroidStudioProjects\\MyApplication\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f3a4.png"
     },
     {
-        "merged": "D:\\AndroidStudioProjects\\MyApplication\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f61c.png",
-        "source": "D:\\AndroidStudioProjects\\MyApplication\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f61c.png"
-    },
-    {
         "merged": "D:\\AndroidStudioProjects\\MyApplication\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_bubble_right_file.9.png",
         "source": "D:\\AndroidStudioProjects\\MyApplication\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_bubble_right_file.9.png"
+    },
+    {
+        "merged": "D:\\AndroidStudioProjects\\MyApplication\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f61c.png",
+        "source": "D:\\AndroidStudioProjects\\MyApplication\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f61c.png"
     },
     {
         "merged": "D:\\AndroidStudioProjects\\MyApplication\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_bubble_right.9.png",

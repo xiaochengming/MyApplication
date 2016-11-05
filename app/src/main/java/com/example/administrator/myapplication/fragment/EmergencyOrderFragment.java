@@ -694,4 +694,10 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
             order.setArriveTime(arriveTime);
         }
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        initData();
+    }
 }

@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     List<Fragment> fragmentList = new ArrayList<>();
     ViewPager vpMain;
-   public RadioGroup radioGMain;
+    public RadioGroup radioGMain;
     TextView tvHeader;
     View headView;
     ImageView ivHeader;
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity
             getId = myApplication.getUser().getUserId();
             userPhone = myApplication.getUser().getNumber();
             if (myApplication.getUser().getPhoto() != null) {
-                Log.i("MainActivity", "userPhone  :"+myApplication.getUser().getPhoto());
+                Log.i("MainActivity", "userPhone  :" + myApplication.getUser().getPhoto());
                 userHang = StringUtil.ip + "/" + myApplication.getUser().getPhoto();
             }
         }
@@ -458,13 +458,17 @@ public class MainActivity extends AppCompatActivity
 
         }
     }
+
     private static final String TAG = "LifeCycleActivity";
     private int param = 1;
+
     //Activity创建或者从后台重新回到前台时被调用
     @Override
     protected void onStart() {
         super.onStart();
         Log.i(TAG, "onStart called.");
+
+
     }
 
     //Activity从后台重新回到前台时被调用
@@ -478,7 +482,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        userHang=StringUtil.ip + "/" + myApplication.getUser().getPhoto();
+        userHang = StringUtil.ip + "/" + myApplication.getUser().getPhoto();
         if (userHang != null) {
             //头像赋值
             ImageOptions imageOptions = new ImageOptions.Builder()
@@ -492,9 +496,9 @@ public class MainActivity extends AppCompatActivity
                     .setIgnoreGif(true).build();
             x.image().bind(ivHeader, userHang, imageOptions);
         }
-        userPhone=myApplication.getUser().getNumber();
+        userPhone = myApplication.getUser().getNumber();
         //getId=myApplication.getUser().getUserId();
-        Log.i(TAG, "onResume called.userHang:"+userHang+",getId:"+myApplication.getUser().getUserId());
+        Log.i(TAG, "onResume called.userHang:" + userHang + ",getId:" + myApplication.getUser().getUserId());
     }
 
     //Activity窗口获得或失去焦点时被调用,在onResume之后或onPause之后
@@ -537,7 +541,7 @@ public class MainActivity extends AppCompatActivity
         outState.putInt("param", param);
         Log.i(TAG, "onSaveInstanceState called. put param: " + param);
         super.onSaveInstanceState(outState);
-        userHang=StringUtil.ip + "/" + myApplication.getUser().getPhoto();
+        userHang = StringUtil.ip + "/" + myApplication.getUser().getPhoto();
         if (userHang != null) {
             //头像赋值
             ImageOptions imageOptions = new ImageOptions.Builder()
@@ -551,8 +555,9 @@ public class MainActivity extends AppCompatActivity
                     .setIgnoreGif(true).build();
             x.image().bind(ivHeader, userHang, imageOptions);
         }
-        userPhone=myApplication.getUser().getNumber();
+        userPhone = myApplication.getUser().getNumber();
         //getId=myApplication.getUser().getUserId();
-        Log.i(TAG, "onResume called.userHang:"+userHang+",getId:"+myApplication.getUser().getUserId());
+        Log.i(TAG, "onResume called.userHang:" + userHang + ",getId:" + myApplication.getUser().getUserId());
     }
+
 }
