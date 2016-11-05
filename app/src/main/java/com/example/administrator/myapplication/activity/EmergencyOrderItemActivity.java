@@ -81,8 +81,6 @@ public class EmergencyOrderItemActivity extends AppCompatActivity {
     TextView orderAllprice;
     @InjectView(R.id.order_arrive_time)
     TextView orderArriveTime;
-    @InjectView(R.id.progressBar)
-    ProgressBar progressBar;
     @InjectView(R.id.scr)
     ScrollView scr;
     @InjectView(R.id.img_emergency)

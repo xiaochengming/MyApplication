@@ -149,7 +149,6 @@
         <activity android:name=".activity.SpaceImageDetailActivity" />
         <activity android:name=".activitymi.ShowImageActivity" />
         <activity android:name=".activity.HuifuActivity" />
-        <activity android:name=".activity.aaaa"></activity>
         <!-- 会话界面 -->
         <activity
             android:name=".activity.ConversationActivity"
