@@ -57,11 +57,13 @@
         android:layout_alignBottom="@+id/relativeLayout4"
         android:layout_marginRight="3dp"
         android:id="@+id/frameLayout">
+
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:src="@mipmap/edit2"
-            android:id="@+id/iv_yuyue_xiugai"/>
+            android:id="@+id/iv_yuyue_xiugai"
+            android:layout_gravity="center_vertical"/>
     </FrameLayout>
 
     <RelativeLayout

@@ -10,7 +10,7 @@
         <ImageView
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:src="@mipmap/dian"
+            android:src="@drawable/lh_dizhi_dian"
             android:id="@+id/iv_dian" />
 
         <TextView

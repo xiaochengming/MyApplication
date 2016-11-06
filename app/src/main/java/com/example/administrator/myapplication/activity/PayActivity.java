@@ -206,6 +206,7 @@ public class PayActivity extends AppCompatActivity {
                     changeOrderState(order.getOrderId());
                 }else {
                     changeOrderStateByEmergency(order);
+                    Toast.makeText(PayActivity.this, "wozhixingle", Toast.LENGTH_SHORT).show();
                 }
 
                 //queren();
@@ -282,10 +283,11 @@ public class PayActivity extends AppCompatActivity {
 
     //未调试
     private void changeOrderStateByEmergency(Order order) {
-        RequestParams params = new RequestParams(StringUtil.ip + "/Yan_EmergencyEvaluate");
+        RequestParams params = new RequestParams(StringUtil.ip + "/Yan_EmergencyOrderPay");
         Timestamp newTime = new Timestamp(System.currentTimeMillis());
         long endTime = order.getArriveTime().getTime() + newTime.getTime();
         Timestamp en = new Timestamp(endTime);
+
         order.setEndtime(en);// 获取下单时间
         Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
                 .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
@@ -295,7 +297,7 @@ public class PayActivity extends AppCompatActivity {
             @Override
             public void onSuccess(String result) {
                 Intent intent = new Intent(PayActivity.this, MainActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,14);
             }
 
             @Override

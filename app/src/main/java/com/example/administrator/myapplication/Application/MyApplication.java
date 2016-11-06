@@ -3,6 +3,7 @@ package com.example.administrator.myapplication.Application;
 
 
 import android.app.Application;
+import android.util.Log;
 
 import com.example.administrator.myapplication.entity.User;
 
@@ -10,6 +11,7 @@ import org.xutils.x;
 
 import java.util.Date;
 
+import cn.jpush.android.api.JPushInterface;
 import io.rong.imkit.RongIM;
 
 /**
@@ -40,13 +42,6 @@ public class MyApplication extends Application {
     public Date getDate(String dateSte){
         Date date=new Date(0);
         return  date;
-//        SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
-//        try {
-//            return dateFormat.parse(dateSte);
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//        return null;
     }
     @Override
     public void onCreate() {
@@ -56,5 +51,20 @@ public class MyApplication extends Application {
          * 初始化融云
          */
         RongIM.init(this);
+
+        JPushInterface.init(this);
+        JPushInterface.setDebugMode(true);
+    }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        Log.i("MyApplication", "onTerminate  ");
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        Log.i("MyApplication", "onLowMemory  ");
     }
 }

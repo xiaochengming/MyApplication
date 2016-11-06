@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     List<Fragment> fragmentList = new ArrayList<>();
     ViewPager vpMain;
-    public RadioGroup radioGMain;
+   public RadioGroup radioGMain;
     TextView tvHeader;
     View headView;
     ImageView ivHeader;
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity
             getId = myApplication.getUser().getUserId();
             userPhone = myApplication.getUser().getNumber();
             if (myApplication.getUser().getPhoto() != null) {
-                Log.i("MainActivity", "userPhone  :" + myApplication.getUser().getPhoto());
+                Log.i("MainActivity", "userPhone  :"+myApplication.getUser().getPhoto());
                 userHang = StringUtil.ip + "/" + myApplication.getUser().getPhoto();
             }
         }
@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity
             //头像赋值
             ImageOptions imageOptions = new ImageOptions.Builder()
                     //设置加载过程的图片
-                    .setLoadingDrawableId(R.mipmap.ic_launcher)
+                    .setLoadingDrawableId(R.mipmap.touxiang)
                     //设置加载失败后的图片
                     .setFailureDrawableId(R.mipmap.touxiang)
                     //设置使用圆形图片
@@ -418,7 +418,7 @@ public class MainActivity extends AppCompatActivity
                         //头像赋值
                         ImageOptions imageOptions = new ImageOptions.Builder()
                                 //设置加载过程的图片
-                                .setLoadingDrawableId(R.mipmap.ic_launcher)
+                                .setLoadingDrawableId(R.mipmap.touxiang)
                                 //设置加载失败后的图片
                                 .setFailureDrawableId(R.mipmap.touxiang)
                                 //设置使用圆形图片
@@ -445,7 +445,7 @@ public class MainActivity extends AppCompatActivity
                         //头像赋值
                         ImageOptions imageOptions = new ImageOptions.Builder()
                                 //设置加载过程的图片
-                                .setLoadingDrawableId(R.mipmap.ic_launcher)
+                                .setLoadingDrawableId(R.mipmap.touxiang)
                                 //设置加载失败后的图片
                                 .setFailureDrawableId(R.mipmap.touxiang)
                                 //设置使用圆形图片
@@ -472,7 +472,7 @@ public class MainActivity extends AppCompatActivity
                         //头像赋值
                         ImageOptions imageOptions = new ImageOptions.Builder()
                                 //设置加载过程的图片
-                                .setLoadingDrawableId(R.mipmap.ic_launcher)
+                                .setLoadingDrawableId(R.mipmap.touxiang)
                                 //设置加载失败后的图片
                                 .setFailureDrawableId(R.mipmap.touxiang)
                                 //设置使用圆形图片
@@ -487,10 +487,8 @@ public class MainActivity extends AppCompatActivity
 
         }
     }
-
     private static final String TAG = "LifeCycleActivity";
     private int param = 1;
-
     //Activity创建或者从后台重新回到前台时被调用
     @Override
     protected void onStart() {
@@ -509,12 +507,12 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        userHang = StringUtil.ip + "/" + myApplication.getUser().getPhoto();
+        userHang=StringUtil.ip + "/" + myApplication.getUser().getPhoto();
         if (userHang != null) {
             //头像赋值
             ImageOptions imageOptions = new ImageOptions.Builder()
                     //设置加载过程的图片
-                    .setLoadingDrawableId(R.mipmap.ic_launcher)
+                    .setLoadingDrawableId(R.mipmap.touxiang)
                     //设置加载失败后的图片
                     .setFailureDrawableId(R.mipmap.touxiang)
                     //设置使用圆形图片
@@ -573,12 +571,12 @@ public class MainActivity extends AppCompatActivity
         outState.putInt("param", param);
         Log.i(TAG, "onSaveInstanceState called. put param: " + param);
         super.onSaveInstanceState(outState);
-        userHang = StringUtil.ip + "/" + myApplication.getUser().getPhoto();
+        userHang=StringUtil.ip + "/" + myApplication.getUser().getPhoto();
         if (userHang != null) {
             //头像赋值
             ImageOptions imageOptions = new ImageOptions.Builder()
                     //设置加载过程的图片
-                    .setLoadingDrawableId(R.mipmap.ic_launcher)
+                    .setLoadingDrawableId(R.mipmap.touxiang)
                     //设置加载失败后的图片
                     .setFailureDrawableId(R.mipmap.touxiang)
                     //设置使用圆形图片
@@ -587,8 +585,14 @@ public class MainActivity extends AppCompatActivity
                     .setIgnoreGif(true).build();
             x.image().bind(ivHeader, userHang, imageOptions);
         }
-        userPhone = myApplication.getUser().getNumber();
+        userPhone=myApplication.getUser().getNumber();
+        if (userPhone!=null&&!userPhone.equals("")){
+            tvHeader.setText(userPhone);
+        }
+        if (myApplication.getUser().getUserId()>0){
+            getId=myApplication.getUser().getUserId();
+        }
         //getId=myApplication.getUser().getUserId();
-        Log.i(TAG, "onResume called.userHang:" + userHang + ",getId:" + myApplication.getUser().getUserId());
+        Log.i(TAG, "onResume called.userHang:"+userHang+",getId:"+myApplication.getUser().getUserId());
     }
 }

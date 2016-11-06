@@ -26,6 +26,8 @@ import com.example.administrator.myapplication.fragment.RemindFragment;
 import com.example.administrator.myapplication.util.StringUtil;
 import com.google.gson.Gson;
 
+import java.util.Set;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -33,6 +35,8 @@ import cn.bmob.sms.BmobSMS;
 import cn.bmob.sms.exception.BmobException;
 import cn.bmob.sms.listener.RequestSMSCodeListener;
 import cn.bmob.sms.listener.VerifySMSCodeListener;
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 public class ResetPasswordActivity extends AppCompatActivity {
 
@@ -64,6 +68,8 @@ public class ResetPasswordActivity extends AppCompatActivity {
         //进行BombSMS的初始化
         BmobSMS.initialize(ResetPasswordActivity.this,"51e850757b71c93c966ce53ae22b0794");
         ButterKnife.inject(this);
+
+        JPushInterface.resumePush(this);
         myApplication= (MyApplication) getApplication();
         Intent intent=getIntent();
         if (intent.getStringExtra("etphone")!=null){
@@ -162,6 +168,21 @@ public class ResetPasswordActivity extends AppCompatActivity {
                         User user=gson.fromJson(response,User.class);
                         Log.d("TAG", "ResetPasswordActivity user"+user);
                         if (user!=null){
+                            /*
+                                     * 点击登陆按钮：登陆的时候将用户信息注册到极光服务器
+                                     * 代码中的2换成 登陆用户的id
+                                      */
+                            //设置别名：2（改为登陆用户的id）
+                            JPushInterface.setAlias(ResetPasswordActivity.this, user.getUserId()+"", new TagAliasCallback(){
+
+                                @Override
+                                public void gotResult(int responseCode, String arg1, Set<String> arg2) {
+                                    // TODO Auto-generated method stub
+                                    //返回码：0 表示注册成功
+                                    Log.i("MainAcitivity", "返回码："+responseCode+",别名："+arg1);
+                                    //RequestParams requestParams=new RequestParams()
+                                }
+                            });
                             //修改成功，跳转到主界面
                             Intent intent=new Intent(ResetPasswordActivity.this,MainActivity.class);
                             //赋值

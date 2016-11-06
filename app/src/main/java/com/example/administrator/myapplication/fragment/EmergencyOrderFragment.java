@@ -530,6 +530,7 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
                         }.getType());
 
                         if (orderList.size() == 0) {
+                            Log.d("EmergencyOrderFragment", "onSuccess: ");
                             Toast.makeText(getActivity(), "没有新的数据", Toast.LENGTH_SHORT).show();
                             pageNo--;
                             return;
@@ -693,5 +694,12 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
             Time arriveTime = new Time(0l);
             order.setArriveTime(arriveTime);
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        //支付完成返回订单页面刷新
+        initData();
     }
 }
