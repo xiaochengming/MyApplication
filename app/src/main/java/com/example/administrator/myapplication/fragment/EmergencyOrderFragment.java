@@ -698,6 +698,7 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
     @Override
     public void onStart() {
         super.onStart();
+        //支付完成返回订单页面刷新
         initData();
     }
 }
