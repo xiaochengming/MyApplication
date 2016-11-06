@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity
             //头像赋值
             ImageOptions imageOptions = new ImageOptions.Builder()
                     //设置加载过程的图片
-                    .setLoadingDrawableId(R.mipmap.ic_launcher)
+                    .setLoadingDrawableId(R.mipmap.touxiang)
                     //设置加载失败后的图片
                     .setFailureDrawableId(R.mipmap.touxiang)
                     //设置使用圆形图片
@@ -389,7 +389,7 @@ public class MainActivity extends AppCompatActivity
                         //头像赋值
                         ImageOptions imageOptions = new ImageOptions.Builder()
                                 //设置加载过程的图片
-                                .setLoadingDrawableId(R.mipmap.ic_launcher)
+                                .setLoadingDrawableId(R.mipmap.touxiang)
                                 //设置加载失败后的图片
                                 .setFailureDrawableId(R.mipmap.touxiang)
                                 //设置使用圆形图片
@@ -416,7 +416,7 @@ public class MainActivity extends AppCompatActivity
                         //头像赋值
                         ImageOptions imageOptions = new ImageOptions.Builder()
                                 //设置加载过程的图片
-                                .setLoadingDrawableId(R.mipmap.ic_launcher)
+                                .setLoadingDrawableId(R.mipmap.touxiang)
                                 //设置加载失败后的图片
                                 .setFailureDrawableId(R.mipmap.touxiang)
                                 //设置使用圆形图片
@@ -443,7 +443,7 @@ public class MainActivity extends AppCompatActivity
                         //头像赋值
                         ImageOptions imageOptions = new ImageOptions.Builder()
                                 //设置加载过程的图片
-                                .setLoadingDrawableId(R.mipmap.ic_launcher)
+                                .setLoadingDrawableId(R.mipmap.touxiang)
                                 //设置加载失败后的图片
                                 .setFailureDrawableId(R.mipmap.touxiang)
                                 //设置使用圆形图片
@@ -487,7 +487,7 @@ public class MainActivity extends AppCompatActivity
             //头像赋值
             ImageOptions imageOptions = new ImageOptions.Builder()
                     //设置加载过程的图片
-                    .setLoadingDrawableId(R.mipmap.ic_launcher)
+                    .setLoadingDrawableId(R.mipmap.touxiang)
                     //设置加载失败后的图片
                     .setFailureDrawableId(R.mipmap.touxiang)
                     //设置使用圆形图片
@@ -496,9 +496,14 @@ public class MainActivity extends AppCompatActivity
                     .setIgnoreGif(true).build();
             x.image().bind(ivHeader, userHang, imageOptions);
         }
-        userPhone = myApplication.getUser().getNumber();
-        //getId=myApplication.getUser().getUserId();
-        Log.i(TAG, "onResume called.userHang:" + userHang + ",getId:" + myApplication.getUser().getUserId());
+        userPhone=myApplication.getUser().getNumber();
+        if (userPhone!=null&&!userPhone.equals("")){
+            tvHeader.setText(userPhone);
+        }
+        if (myApplication.getUser().getUserId()>0){
+            getId=myApplication.getUser().getUserId();
+        }
+        Log.i(TAG, "onResume called.userHang:"+userHang+",getId:"+myApplication.getUser().getUserId());
     }
 
     //Activity窗口获得或失去焦点时被调用,在onResume之后或onPause之后
@@ -546,7 +551,7 @@ public class MainActivity extends AppCompatActivity
             //头像赋值
             ImageOptions imageOptions = new ImageOptions.Builder()
                     //设置加载过程的图片
-                    .setLoadingDrawableId(R.mipmap.ic_launcher)
+                    .setLoadingDrawableId(R.mipmap.touxiang)
                     //设置加载失败后的图片
                     .setFailureDrawableId(R.mipmap.touxiang)
                     //设置使用圆形图片
@@ -555,7 +560,13 @@ public class MainActivity extends AppCompatActivity
                     .setIgnoreGif(true).build();
             x.image().bind(ivHeader, userHang, imageOptions);
         }
-        userPhone = myApplication.getUser().getNumber();
+        userPhone=myApplication.getUser().getNumber();
+        if (userPhone!=null&&!userPhone.equals("")){
+            tvHeader.setText(userPhone);
+        }
+        if (myApplication.getUser().getUserId()>0){
+            getId=myApplication.getUser().getUserId();
+        }
         //getId=myApplication.getUser().getUserId();
         Log.i(TAG, "onResume called.userHang:" + userHang + ",getId:" + myApplication.getUser().getUserId());
     }

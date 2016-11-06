@@ -84,6 +84,15 @@
             android:layout_alignParentEnd="true"
             android:layout_alignBottom="@+id/tv_problem"
             android:layout_marginRight="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="暂无缓存"
+            android:id="@+id/tv_huan_cun"
+            android:layout_alignBottom="@+id/iv_into_problem"
+            android:layout_toStartOf="@+id/iv_into_problem"
+            android:layout_marginEnd="20dp" />
     </RelativeLayout>
 
     <TextView

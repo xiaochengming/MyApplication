@@ -20,9 +20,15 @@ import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.entity.User;
 import com.example.administrator.myapplication.util.StringUtil;
 import com.google.gson.Gson;
+
+import java.util.Set;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
+
 import static com.example.administrator.myapplication.R.id.tv_fast;
 
 public class LoginActivity extends AppCompatActivity {
@@ -49,6 +55,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         requestQueue= Volley.newRequestQueue(this);
         ButterKnife.inject(this);
+
+        JPushInterface.resumePush(this);
         myApplication= (MyApplication) getApplication();
         //设置导航图标
         logToolbar.setNavigationIcon(R.mipmap.backs);
@@ -87,6 +95,21 @@ public class LoginActivity extends AppCompatActivity {
                                 User user=gson.fromJson(response,User.class);
                                 Log.i("TAG", "LoginActivity user"+user);
                                 if (user!=null){
+                                    /*
+                                     * 点击登陆按钮：登陆的时候将用户信息注册到极光服务器
+                                     * 代码中的2换成 登陆用户的id
+                                      */
+                                    //设置别名：2（改为登陆用户的id）
+                                    JPushInterface.setAlias(LoginActivity.this, user.getUserId()+"", new TagAliasCallback(){
+
+                                        @Override
+                                        public void gotResult(int responseCode, String arg1, Set<String> arg2) {
+                                            // TODO Auto-generated method stub
+                                            //返回码：0 表示注册成功
+                                            Log.i("MainAcitivity", "返回码："+responseCode+",别名："+arg1);
+                                            //RequestParams requestParams=new RequestParams()
+                                        }
+                                    });
                                     //登录成功，跳转到主界面
                                     Intent intent=new Intent();
                                     //赋值

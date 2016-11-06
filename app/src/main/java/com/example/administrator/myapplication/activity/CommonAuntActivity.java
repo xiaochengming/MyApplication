@@ -87,70 +87,73 @@ public class CommonAuntActivity extends AppCompatActivity {
                 queryHouserkeeperSizes=gson.fromJson(result,type);
                 if (queryHouserkeeperSizes.size()==0){
                     Log.i("CommonAuntActivity", "queryHouserkeeperSizes :"+queryHouserkeeperSizes.size());
-                    ArrayAdapter arrayAdapter=new ArrayAdapter(CommonAuntActivity.this,R.layout.lh_chushi_changyong_ay,R.id.tv_chu_shi,str);
+                    ArrayAdapter arrayAdapter=new ArrayAdapter(CommonAuntActivity.this,R.layout.lh_chushi_changyong_ay,R.id.tv_zanwu_yuyue,str);
                     lvCommonAunt.setAdapter(arrayAdapter);
-                }
-                Log.i("CommonAuntActivity", "queryHouserkeeperSizes: "+queryHouserkeeperSizes);
-                //给listview设置数据源
-                if (queryhouserkeeperAdapter==null){
-                    queryhouserkeeperAdapter=new CommonAdapter<QueryHouserkeeperSize>(CommonAuntActivity.this,queryHouserkeeperSizes,R.layout.lh_chang_yong_ay) {
-                        @Override
-                        public void convert(ViewHolder viewHolder, QueryHouserkeeperSize queryHouserkeeperSize, int position) {
-                            Log.i("CommonAuntActivity", "convert  ");
-                            //解析控件并赋值
-                            //姓名赋值
-                            TextView tvName=viewHolder.getViewById(R.id.tv_chang_yong_name);
-                            tvName.setText(queryHouserkeeperSize.getHousekeeper().getName());
-                            //服务次数赋值
-                            TextView tvCount=viewHolder.getViewById(R.id.tv_chang_yong_count);
-                            tvCount.setText("服务过"+queryHouserkeeperSize.getHousekeeper().getServiceTime()+""+"个家庭");
-                            //星级赋值
-                            RatingBar rb=viewHolder.getViewById(R.id.lh_rb);
-                            int ratingSize=queryHouserkeeperSize.getHousekeeper().getServiceplevel();
-                            rb.setRating(ratingSize);
-                            //年龄赋值
-                            TextView tvAge=viewHolder.getViewById(R.id.tv_chang_yong_age);
-                            tvAge.setText(queryHouserkeeperSize.getHousekeeper().getAge()+""+"岁");
-                            //地址赋值
-                            TextView tvAddress=viewHolder.getViewById(R.id.tv_chang_yong_address);
-                            tvAddress.setText(queryHouserkeeperSize.getHousekeeper().getPlaceOfOrigin());
-                            //此用户预约次数赋值
-                            TextView tvSize=viewHolder.getViewById(R.id.tv_chang_yong_size);
-                            tvSize.setText("预约过"+queryHouserkeeperSize.getCount()+""+"次");
-                            //用户头像赋值
-                            ImageView imageView=viewHolder.getViewById(R.id.iv_chang_yong);
-                            //头像赋值
-                            ImageOptions imageOptions=new ImageOptions.Builder()
-                                    //设置加载过程的图片
-                                    .setLoadingDrawableId(R.mipmap.ic_launcher)
-                                    //设置加载失败后的图片
-                                    .setFailureDrawableId(R.mipmap.ic_launcher)
-                                    //设置使用圆形图片
-                                    .setCircular(true)
-                                    //设置支持gif
-                                    .setIgnoreGif(true).build();
-                            photoUrl =StringUtil.ip+"/"+queryHouserkeeperSize.getHousekeeper().getHousePhoto();
-                            Log.i("CommonAuntActivity", "convert : "+photoUrl);
-                            x.image().bind(imageView,photoUrl,imageOptions);
 
-                        }
-                    };
-                    lvCommonAunt.setAdapter(queryhouserkeeperAdapter);
-                    //listview的item点击事件
-                    lvCommonAunt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            //跳转到介绍界面(传值)
-                            Intent intent=new Intent(CommonAuntActivity.this,IntroduceActivity.class);
-                            //housekeeper对象
-                            Bundle bundle=new Bundle();
-                            bundle.putParcelable("huosekeeper",queryHouserkeeperSizes.get(position).getHousekeeper());
-                            intent.putExtras(bundle);
-                            startActivity(intent);
-                        }
-                    });
                 }else {
-                    queryhouserkeeperAdapter.notifyDataSetChanged();
+
+                    Log.i("CommonAuntActivity", "queryHouserkeeperSizes: " + queryHouserkeeperSizes);
+                    //给listview设置数据源
+                    if (queryhouserkeeperAdapter == null) {
+                        queryhouserkeeperAdapter = new CommonAdapter<QueryHouserkeeperSize>(CommonAuntActivity.this, queryHouserkeeperSizes, R.layout.lh_chang_yong_ay) {
+                            @Override
+                            public void convert(ViewHolder viewHolder, QueryHouserkeeperSize queryHouserkeeperSize, int position) {
+                                Log.i("CommonAuntActivity", "convert  ");
+                                //解析控件并赋值
+                                //姓名赋值
+                                TextView tvName = viewHolder.getViewById(R.id.tv_chang_yong_name);
+                                tvName.setText(queryHouserkeeperSize.getHousekeeper().getName());
+                                //服务次数赋值
+                                TextView tvCount = viewHolder.getViewById(R.id.tv_chang_yong_count);
+                                tvCount.setText("服务过" + queryHouserkeeperSize.getHousekeeper().getServiceTime() + "" + "个家庭");
+                                //星级赋值
+                                RatingBar rb = viewHolder.getViewById(R.id.lh_rb);
+                                int ratingSize = queryHouserkeeperSize.getHousekeeper().getServiceplevel();
+                                rb.setRating(ratingSize);
+                                //年龄赋值
+                                TextView tvAge = viewHolder.getViewById(R.id.tv_chang_yong_age);
+                                tvAge.setText(queryHouserkeeperSize.getHousekeeper().getAge() + "" + "岁");
+                                //地址赋值
+                                TextView tvAddress = viewHolder.getViewById(R.id.tv_chang_yong_address);
+                                tvAddress.setText(queryHouserkeeperSize.getHousekeeper().getPlaceOfOrigin());
+                                //此用户预约次数赋值
+                                TextView tvSize = viewHolder.getViewById(R.id.tv_chang_yong_size);
+                                tvSize.setText("预约过" + queryHouserkeeperSize.getCount() + "" + "次");
+                                //用户头像赋值
+                                ImageView imageView = viewHolder.getViewById(R.id.iv_chang_yong);
+                                //头像赋值
+                                ImageOptions imageOptions = new ImageOptions.Builder()
+                                        //设置加载过程的图片
+                                        .setLoadingDrawableId(R.mipmap.ic_launcher)
+                                        //设置加载失败后的图片
+                                        .setFailureDrawableId(R.mipmap.ic_launcher)
+                                        //设置使用圆形图片
+                                        .setCircular(true)
+                                        //设置支持gif
+                                        .setIgnoreGif(true).build();
+                                photoUrl = StringUtil.ip + "/" + queryHouserkeeperSize.getHousekeeper().getHousePhoto();
+                                Log.i("CommonAuntActivity", "convert : " + photoUrl);
+                                x.image().bind(imageView, photoUrl, imageOptions);
+
+                            }
+                        };
+                        lvCommonAunt.setAdapter(queryhouserkeeperAdapter);
+                        //listview的item点击事件
+                        lvCommonAunt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                //跳转到介绍界面(传值)
+                                Intent intent = new Intent(CommonAuntActivity.this, IntroduceActivity.class);
+                                //housekeeper对象
+                                Bundle bundle = new Bundle();
+                                bundle.putParcelable("huosekeeper", queryHouserkeeperSizes.get(position).getHousekeeper());
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+                            }
+                        });
+                    } else {
+                        queryhouserkeeperAdapter.notifyDataSetChanged();
+                    }
                 }
             }
 

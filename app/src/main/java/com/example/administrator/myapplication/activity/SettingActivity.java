@@ -1,5 +1,6 @@
 package com.example.administrator.myapplication.activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.example.administrator.myapplication.Application.MyApplication;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.entity.User;
+import com.example.administrator.myapplication.util.DataCleanManager;
 import com.example.administrator.myapplication.util.StringUtil;
 
 import org.xutils.common.Callback;
@@ -43,12 +45,26 @@ public class SettingActivity extends AppCompatActivity {
     RelativeLayout relativeLayoutSet4;
     @InjectView(R.id.relative_layout_set5)
     RelativeLayout relativeLayoutSet5;
-
+    String strHuanCun;
+    @InjectView(R.id.tv_huan_cun)
+    TextView tvHuanCun;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         ButterKnife.inject(this);
+        try {
+            strHuanCun = DataCleanManager.getTotalCacheSize(getApplicationContext());
+            Log.i("SettingActivity", "onCreate strHuanCun :"+strHuanCun);
+            if (strHuanCun != null&&!strHuanCun.equals("0K")) {
+                tvHuanCun.setText(strHuanCun);
+            }else {
+                tvHuanCun.setText("暂无缓存");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         myApplication = (MyApplication) getApplication();
         //设置导航图标
         setToolbar.setNavigationIcon(R.mipmap.backs);
@@ -73,16 +89,7 @@ public class SettingActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Log.i("SettingActivity", "onClick  ");
-////                    Intent intent=new Intent(SettingActivity.this,MainActivity.class);
-////                    setResult(RESULT_OK,intent);
-//                    myApplication.setFlag(false);
-//                    //  myApplication.setUser(null);
-//                    myApplication.setUser(new User(0, null, 0, null, 2, null, null, getDate("0000-00-00"), null));
-//                    finish();
-//                    Intent startMain = new Intent(Intent.ACTION_MAIN);
-//                    startMain.addCategory(Intent.CATEGORY_HOME);
-//                    startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    Intent intent=new Intent(SettingActivity.this,MainActivity.class);
+                    Intent intent = new Intent(SettingActivity.this, MainActivity.class);
                     myApplication.setFlag(false);
                     myApplication.setUser(new User(0, null, 0, null, 2, null, null, getDate("0000-00-00"), null));
                     startActivity(intent);
@@ -96,13 +103,6 @@ public class SettingActivity extends AppCompatActivity {
     public Date getDate(String dateSte) {
         Date date = new Date(0);
         return date;
-//        SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
-//        try {
-//            return dateFormat.parse(dateSte);
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//        return null;
     }
 
     @OnClick({R.id.relative_layout_set1, R.id.relative_layout_set2, R.id.relative_layout_set3, R.id.relative_layout_set4, R.id.relative_layout_set5})
@@ -113,6 +113,10 @@ public class SettingActivity extends AppCompatActivity {
                 break;
             case R.id.relative_layout_set2:
                 //清除缓存
+
+                DataCleanManager.clearAllCache(getApplicationContext());
+                tvHuanCun.setText("暂无缓存");
+                Log.i("SettingActivity", "onClick  strHuanCun2:"+strHuanCun);
                 break;
             case R.id.relative_layout_set3:
                 getChatKey();

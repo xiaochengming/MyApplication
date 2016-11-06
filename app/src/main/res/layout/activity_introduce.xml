@@ -22,8 +22,8 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/introduce_toolbar"
-        android:id="@+id/relative_layout_introduce1">
-
+        android:id="@+id/relative_layout_introduce1"
+        android:background="@drawable/yuangong_xiangqing">
         <ImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
@@ -103,7 +103,7 @@
             <RatingBar
                 style="@style/RatingStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="20dp"
                 android:id="@+id/ratingBar2"
                 android:numStars="5"
                 android:isIndicator="true"

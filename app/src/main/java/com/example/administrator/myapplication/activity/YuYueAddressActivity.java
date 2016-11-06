@@ -170,12 +170,11 @@ public class YuYueAddressActivity extends AppCompatActivity {
         x.http().get(requestParams, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Gson gson = new Gson();
-                Type type = new TypeToken<List<Address>>() {
-                }.getType();
-                addresses = gson.fromJson(result, type);
-                if (addresses.size() == 0) {
-                    ArrayAdapter arrayAdapter = new ArrayAdapter(YuYueAddressActivity.this, R.layout.activity_first_address, R.id.tv_first_address, str);
+                Gson gson=new Gson();
+                Type type=new TypeToken<List<Address>>(){}.getType();
+                addresses=gson.fromJson(result,type);
+                if (addresses.size()==0){
+                    ArrayAdapter arrayAdapter=new ArrayAdapter(YuYueAddressActivity.this,R.layout.activity_first_address,R.id.tv_zanwu_address,str);
                     lvYuyueAddress.setAdapter(arrayAdapter);
                     Log.i("AddressActivity", "onSuccess arrayAdapter ");
 
