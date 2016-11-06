@@ -8,13 +8,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:id="@+id/relative_layout1">
+        android:id="@+id/relative_layout1"
+        android:background="@drawable/lh_yonghu_ziliao">
         <ImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:id="@+id/circle_image_view1"
             android:layout_marginTop="5dp"
-            android:layout_marginLeft="7dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginBottom="5dp"/>
 
         <TextView
@@ -29,11 +30,11 @@
         <RatingBar
             style="@style/RatingStyle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:id="@+id/ratingBar3"
             android:numStars="5"
             android:isIndicator="true"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="15dp"
             android:layout_alignTop="@+id/tv_ping_lun_username"
             android:layout_alignParentEnd="true" />
 

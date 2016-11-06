@@ -49,7 +49,7 @@ public class AddressActivity extends AppCompatActivity {
     MyApplication myApplication;
     int positions;
     Address address;
-    String[] str=new String[]{"首次使用时,请添加服务地址!"};
+   String[] str=new String[]{"首次使用时,请添加服务地址!"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -157,10 +157,9 @@ public class AddressActivity extends AppCompatActivity {
                 Type type=new TypeToken<List<Address>>(){}.getType();
                 addresses=gson.fromJson(result,type);
                 if (addresses.size()==0){
-                    ArrayAdapter arrayAdapter=new ArrayAdapter(AddressActivity.this,R.layout.activity_first_address,R.id.tv_first_address,str);
+                    ArrayAdapter arrayAdapter=new ArrayAdapter(AddressActivity.this,R.layout.activity_first_address,R.id.tv_zanwu_address,str);
                     lvAddress.setAdapter(arrayAdapter);
                     Log.i("AddressActivity", "onSuccess arrayAdapter ");
-
                 }else {
                     Log.i("AddressActivity", "onSuccess  addresses:"+addresses);
                     if (addressAdapter == null) {

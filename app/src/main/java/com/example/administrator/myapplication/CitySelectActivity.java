@@ -1,6 +1,9 @@
 package com.example.administrator.myapplication;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -29,8 +32,8 @@ public class CitySelectActivity extends AppCompatActivity {
     private SideBar sideBar;
     private TextView dialog;
     private TextView tvNowCity;
-
-
+    TextView tv_city_name;
+    private GpsStatusReceiver receiver ;
     private SortAdapter adapter;
     private CharacterParser characterParser;
     private List<CitySortModel> SourceDateList;
@@ -41,7 +44,13 @@ public class CitySelectActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_city_select);
-
+        //开启广播
+        Intent startIntent = new Intent(CitySelectActivity.this, MyService.class);
+        startService(startIntent);
+        receiver = new GpsStatusReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("cn.com.action.service");
+        registerReceiver(receiver, filter);
 
         Log.i("CitySelectActivity", "onCreate: ");
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -112,9 +121,9 @@ public class CitySelectActivity extends AppCompatActivity {
     private View initHeadView() {
         View headView = getLayoutInflater().inflate(R.layout.item_select_city, null);
         TextView tv_catagory = (TextView) headView.findViewById(R.id.tv_catagory);
-        TextView tv_city_name = (TextView) headView.findViewById(R.id.tv_city_name);
+        tv_city_name = (TextView) headView.findViewById(R.id.tv_city_name);
         tv_catagory.setText("自动定位");
-        tv_city_name.setText("苏州");
+        //tv_city_name.setText("苏州");
         tv_city_name.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_city_location), null, null, null);
         tv_city_name.setCompoundDrawablePadding(24);
         return headView;
@@ -153,4 +162,23 @@ public class CitySelectActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //关闭服务
+        Intent startIntent = new Intent(CitySelectActivity.this, MyService.class);
+        stopService(startIntent);
+        //取消注册广播
+        unregisterReceiver(receiver);
+    }
+
+    public class GpsStatusReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            //定位当前城市
+            String name=intent.getStringExtra("GpsIsAvailable");
+            tv_city_name.setText(name);
+        }
+    }
 }

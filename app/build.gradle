@@ -17,6 +17,7 @@ android {
             storePassword '123456'
         }
     }
+
     sourceSets{
         main{
             jniLibs.srcDirs=['libs']

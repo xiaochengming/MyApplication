@@ -8,12 +8,12 @@
         "source": "D:\\xiangmu\\MyApplication\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_ic_camera.xml"
     },
     {
-        "merged": "D:\\xiangmu\\MyApplication\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_btn_send.xml",
-        "source": "D:\\xiangmu\\MyApplication\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_btn_send.xml"
-    },
-    {
         "merged": "D:\\xiangmu\\MyApplication\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_ic_admin_selector.xml",
         "source": "D:\\xiangmu\\MyApplication\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_ic_admin_selector.xml"
+    },
+    {
+        "merged": "D:\\xiangmu\\MyApplication\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_btn_send.xml",
+        "source": "D:\\xiangmu\\MyApplication\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_btn_send.xml"
     },
     {
         "merged": "D:\\xiangmu\\MyApplication\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_bg_editinput.xml",

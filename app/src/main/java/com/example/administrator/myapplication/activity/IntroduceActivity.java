@@ -221,8 +221,8 @@ public class IntroduceActivity extends AppCompatActivity {
                 //gson解析成集合
                 List<Evaluate> evaluates = gson.fromJson(result, type);
                 if (evaluates.size() == 0) {
-                    String[] strs = new String[]{"暂无评论。。。"};
-                    lvJieShao.setAdapter(new ArrayAdapter<String>(IntroduceActivity.this, R.layout.lv_zanwu_pinglun, R.id.tv_zan_wu, strs));
+                    String[] strs = new String[]{"暂无评论,快去抢沙发！！！"};
+                    lvJieShao.setAdapter(new ArrayAdapter<String>(IntroduceActivity.this, R.layout.lv_zanwu_pinglun,R.id.tv_zanwu_pinglun,strs));
                 } else {
                     //设置listview的adpter
                     if (evaluateAdapter == null) {
