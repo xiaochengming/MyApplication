@@ -56,12 +56,12 @@
         "source": "F:\\xiangmu\\1026\\MyApplication\\IMKit\\build\\intermediates\\bundles\\debug\\res\\layout\\rc_fragment_base_setting.xml"
     },
     {
-        "merged": "F:\\xiangmu\\1026\\MyApplication\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\rc_fr_public_service_search.xml",
-        "source": "F:\\xiangmu\\1026\\MyApplication\\IMKit\\build\\intermediates\\bundles\\debug\\res\\layout\\rc_fr_public_service_search.xml"
-    },
-    {
         "merged": "F:\\xiangmu\\1026\\MyApplication\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\rc_item_app_service_conversation.xml",
         "source": "F:\\xiangmu\\1026\\MyApplication\\IMKit\\build\\intermediates\\bundles\\debug\\res\\layout\\rc_item_app_service_conversation.xml"
+    },
+    {
+        "merged": "F:\\xiangmu\\1026\\MyApplication\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\rc_fr_public_service_search.xml",
+        "source": "F:\\xiangmu\\1026\\MyApplication\\IMKit\\build\\intermediates\\bundles\\debug\\res\\layout\\rc_fr_public_service_search.xml"
     },
     {
         "merged": "F:\\xiangmu\\1026\\MyApplication\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\rc_item_group_conversation.xml",
