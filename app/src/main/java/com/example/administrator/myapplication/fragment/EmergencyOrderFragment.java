@@ -530,6 +530,7 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
                         }.getType());
 
                         if (orderList.size() == 0) {
+                            Log.d("EmergencyOrderFragment", "onSuccess: ");
                             Toast.makeText(getActivity(), "没有新的数据", Toast.LENGTH_SHORT).show();
                             pageNo--;
                             return;
