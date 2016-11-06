@@ -2,6 +2,7 @@ package com.example.administrator.myapplication.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -20,6 +21,7 @@ import com.example.administrator.myapplication.Adapter.ViewHolder;
 import com.example.administrator.myapplication.Application.MyApplication;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.activity.DongtaiActivity;
+import com.example.administrator.myapplication.activity.LoginActivity;
 import com.example.administrator.myapplication.activity.TianJiaTieziActivit;
 import com.example.administrator.myapplication.activitymi.ShowImageActivity;
 import com.example.administrator.myapplication.entity.Post;
@@ -185,6 +187,11 @@ public class MiSheQuFragment extends Fragment {
                                 @Override
                                 public void onClick(View v) {
                                     Log.i("MiSheQuFragment", "onClick: 点赞");
+                                    if (myApplication.getUser().getUserId()==0){
+                                        Intent intent=new Intent(getActivity(),LoginActivity.class);
+                                        getActivity().startActivityForResult(intent,201);
+                                        return;
+                                    }
                                     boolean flag = false;
                                     if (list.get(position).getiszan()) {
 
@@ -451,6 +458,6 @@ public class MiSheQuFragment extends Fragment {
 
             }
         });
-
     }
+
 }

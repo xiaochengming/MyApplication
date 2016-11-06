@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     List<Fragment> fragmentList = new ArrayList<>();
     ViewPager vpMain;
-   public RadioGroup radioGMain;
+    public RadioGroup radioGMain;
     TextView tvHeader;
     View headView;
     ImageView ivHeader;
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity
             getId = myApplication.getUser().getUserId();
             userPhone = myApplication.getUser().getNumber();
             if (myApplication.getUser().getPhoto() != null) {
-                Log.i("MainActivity", "userPhone  :"+myApplication.getUser().getPhoto());
+                Log.i("MainActivity", "userPhone  :" + myApplication.getUser().getPhoto());
                 userHang = StringUtil.ip + "/" + myApplication.getUser().getPhoto();
             }
         }
@@ -340,6 +340,34 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.i("MainActivity", "onActivityResult: " + requestCode + "-->" + resultCode);
+        if (requestCode == 202 && resultCode == RESULT_OK) {
+            //我的帖子登入回调
+            MIMainShequFragment miMainShequFragment = (MIMainShequFragment) fragmentList.get(3);
+            final MiMyTieFragment miMyTieFragment = (MiMyTieFragment) miMainShequFragment.fragment[1];
+            miMyTieFragment.pageNum = 1;
+            new Thread() {
+                @Override
+                public void run() {
+                    super.run();
+                    try {
+                        Thread.sleep(1000);
+                        miMyTieFragment.initData();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }.start();
+
+            return;
+        }
+        if (requestCode == 201 && resultCode == RESULT_OK) {
+            //点赞登入回调
+            MIMainShequFragment miMainShequFragment = (MIMainShequFragment) fragmentList.get(3);
+            final MiSheQuFragment miSheQuFragment = (MiSheQuFragment) miMainShequFragment.fragment[0];
+            miSheQuFragment.pageNum = 1;
+            miSheQuFragment.initData();
+            return;
+        }
         if (requestCode == 200 && resultCode == RESULT_OK) {
             ActionMenuItemView menu = (ActionMenuItemView) findViewById(R.id.action_settings);
             nowcity = data.getStringExtra("city");
@@ -358,7 +386,7 @@ public class MainActivity extends AppCompatActivity
         if (requestCode == 300 && resultCode == RESULT_OK) {
             //我的帖子发表帖子回调
             MIMainShequFragment miMainShequFragment = (MIMainShequFragment) fragmentList.get(3);
-            MiMyTieFragment miMyTieFragment = (MiMyTieFragment) miMainShequFragment.fragment[1];
+            final MiMyTieFragment miMyTieFragment = (MiMyTieFragment) miMainShequFragment.fragment[1];
             miMyTieFragment.pageNum = 1;
             new Thread() {
                 @Override
@@ -366,12 +394,13 @@ public class MainActivity extends AppCompatActivity
                     super.run();
                     try {
                         Thread.sleep(1000);
+                        miMyTieFragment.initData();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
             }.start();
-            miMyTieFragment.initData();
+
             return;
         }
         //登录后回调
@@ -458,8 +487,10 @@ public class MainActivity extends AppCompatActivity
 
         }
     }
+
     private static final String TAG = "LifeCycleActivity";
     private int param = 1;
+
     //Activity创建或者从后台重新回到前台时被调用
     @Override
     protected void onStart() {
@@ -478,7 +509,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        userHang=StringUtil.ip + "/" + myApplication.getUser().getPhoto();
+        userHang = StringUtil.ip + "/" + myApplication.getUser().getPhoto();
         if (userHang != null) {
             //头像赋值
             ImageOptions imageOptions = new ImageOptions.Builder()
@@ -492,9 +523,14 @@ public class MainActivity extends AppCompatActivity
                     .setIgnoreGif(true).build();
             x.image().bind(ivHeader, userHang, imageOptions);
         }
-        userPhone=myApplication.getUser().getNumber();
-        //getId=myApplication.getUser().getUserId();
-        Log.i(TAG, "onResume called.userHang:"+userHang+",getId:"+myApplication.getUser().getUserId());
+        userPhone = myApplication.getUser().getNumber();
+        if (userPhone != null && !userPhone.equals("")) {
+            tvHeader.setText(userPhone);
+        }
+        if (myApplication.getUser().getUserId() > 0) {
+            getId = myApplication.getUser().getUserId();
+        }
+        Log.i(TAG, "onResume called.userPhone:" + userPhone + ",getId:" + myApplication.getUser().getUserId());
     }
 
     //Activity窗口获得或失去焦点时被调用,在onResume之后或onPause之后
@@ -537,7 +573,7 @@ public class MainActivity extends AppCompatActivity
         outState.putInt("param", param);
         Log.i(TAG, "onSaveInstanceState called. put param: " + param);
         super.onSaveInstanceState(outState);
-        userHang=StringUtil.ip + "/" + myApplication.getUser().getPhoto();
+        userHang = StringUtil.ip + "/" + myApplication.getUser().getPhoto();
         if (userHang != null) {
             //头像赋值
             ImageOptions imageOptions = new ImageOptions.Builder()
@@ -551,8 +587,8 @@ public class MainActivity extends AppCompatActivity
                     .setIgnoreGif(true).build();
             x.image().bind(ivHeader, userHang, imageOptions);
         }
-        userPhone=myApplication.getUser().getNumber();
+        userPhone = myApplication.getUser().getNumber();
         //getId=myApplication.getUser().getUserId();
-        Log.i(TAG, "onResume called.userHang:"+userHang+",getId:"+myApplication.getUser().getUserId());
+        Log.i(TAG, "onResume called.userHang:" + userHang + ",getId:" + myApplication.getUser().getUserId());
     }
 }

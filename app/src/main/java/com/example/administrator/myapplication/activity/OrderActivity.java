@@ -156,6 +156,10 @@ public class OrderActivity extends AppCompatActivity {
                 address=data.getParcelableExtra("address");
                 tv1.setText(address.getAddress());
             }
+            return;
+        }
+        if (resultCode==RESULT_OK&&requestCode==201){
+         Event();
         }
     }
 
@@ -173,7 +177,7 @@ public class OrderActivity extends AppCompatActivity {
                 Gson gson = new Gson();
                 address = gson.fromJson(result, Address.class);
                 if (address == null) {
-                    yuYue.setVisibility(View.INVISIBLE);
+                    //yuYue.setVisibility(View.INVISIBLE);
                     tv1.setText("请填写服务地址");
                 } else {
                     tv1.setText(address.getAddress());
@@ -201,7 +205,8 @@ public class OrderActivity extends AppCompatActivity {
     public void yuyue(View v) {
         Log.i("OrderActivity", "yuyue:  ");
         if (address == null) {
-            Toast.makeText(OrderActivity.this, "请设置地址", Toast.LENGTH_SHORT).show();
+            Intent intent=new Intent(this,LoginActivity.class);
+            startActivityForResult(intent,201);
         } else {
             Intent intent = new Intent(this, TimeActivity.class);
             float jiage = category.getPrices().get(pricepostion).getPrice();

@@ -18,6 +18,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.administrator.myapplication.Adapter.CommonAdapter;
 import com.example.administrator.myapplication.Adapter.ViewHolder;
 import com.example.administrator.myapplication.Application.MyApplication;
@@ -101,14 +106,16 @@ public class DongtaiActivity extends AppCompatActivity {
     int pageSize = 10;
     boolean flag = false;//下拉刷新的标志
     int xuanzhong;
+    RequestQueue queue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dongtai);
         ButterKnife.inject(this);
+        queue = Volley.newRequestQueue(this);
         tvFloor = (TextView) findViewById(R.id.tv_footer);
-        image= (MyGridView) findViewById(R.id.gv_tiezhixiangqing);
+        image = (MyGridView) findViewById(R.id.gv_tiezhixiangqing);
         imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(etFasongPinglun.getWindowToken(), 0);
         myApplication = (MyApplication) getApplication();
@@ -145,6 +152,11 @@ public class DongtaiActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //dibubuju.setVisibility(View.VISIBLE);
+                if (myApplication.getUser().getUserId() == 0) {
+                    Intent intent = new Intent(DongtaiActivity.this, LoginActivity.class);
+                    startActivityForResult(intent, 203);
+                    return;
+                }
                 if (flag) {
                     flag = false;
                     return;
@@ -176,20 +188,24 @@ public class DongtaiActivity extends AppCompatActivity {
     //初始化帖子数据
     public void initTiezi() {
         Intent intent = getIntent();
-        post = intent.getParcelableExtra("post");
+        if (intent.getParcelableExtra("post") != null) {
 
-        if (post.getUser() != null && post.getUser().getPhoto() != null) {
-            ImageOptions imageOptions = new ImageOptions.Builder().
-                    setLoadingDrawableId(R.mipmap.ic_launcher).
-                    setRadius(DensityUtil.dip2px(30.0f)).build();
-            x.image().bind(touxiang, StringUtil.ip + "/" + post.getUser().getPhoto(), imageOptions);
-            luntanListitemTextViewName.setText(post.getUser().getName());
+            post = intent.getParcelableExtra("post");
+
+            if (post.getUser() != null && post.getUser().getPhoto() != null) {
+                ImageOptions imageOptions = new ImageOptions.Builder().
+                        setLoadingDrawableId(R.mipmap.ic_launcher).
+                        setRadius(DensityUtil.dip2px(30.0f)).build();
+                x.image().bind(touxiang, StringUtil.ip + "/" + post.getUser().getPhoto(), imageOptions);
+                luntanListitemTextViewName.setText(post.getUser().getName());
+            }
+            luntanListitemTextViewContent.setText(post.getPostContent());
+            luntanListitemTextViewTime.setText(post.getPostTimes() + "");
+            grilvewXianshitupian(image);
+            gengxintiezhi();
         }
-        luntanListitemTextViewContent.setText(post.getPostContent());
-        luntanListitemTextViewTime.setText(post.getPostTimes() + "");
-        grilvewXianshitupian(image);
-        gengxintiezhi();
     }
+
     public void grilvewXianshitupian(GridView gridView) {
         final List<String> images = post.getImageList();
 //        if (images.size() != 0) {
@@ -203,10 +219,10 @@ public class DongtaiActivity extends AppCompatActivity {
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        int x= (int) v.getTag();
-                        Intent intent=new Intent(DongtaiActivity.this, ShowImageActivity.class);
+                        int x = (int) v.getTag();
+                        Intent intent = new Intent(DongtaiActivity.this, ShowImageActivity.class);
                         intent.putStringArrayListExtra("image", (ArrayList<String>) images);
-                        intent.putExtra("postion",x);
+                        intent.putExtra("postion", x);
                         startActivity(intent);
                     }
                 });
@@ -223,6 +239,7 @@ public class DongtaiActivity extends AppCompatActivity {
             ivdianzan.setImageResource(R.mipmap.good);
         }
         dianzanliang.setText(post.getNumber() + "");
+        imm.hideSoftInputFromWindow(etFasongPinglun.getWindowToken(), 0);
     }
 
     //获取评论数据
@@ -306,8 +323,13 @@ public class DongtaiActivity extends AppCompatActivity {
 //                                flag=false;
 //                                return;x
 //                            }
+                            if (myApplication.getUser().getUserId() == 0) {
+                                Intent intent = new Intent(DongtaiActivity.this, LoginActivity.class);
+                                startActivityForResult(intent, 203);
+                                return;
+                            }
                             int x = (int) v.getTag();
-                            Log.i("DongtaiActivity", "onClick: 回复点击" + x);
+
 
                             imm.showSoftInput(etFasongPinglun, InputMethodManager.SHOW_FORCED);
                             louceng = x + 1;
@@ -326,6 +348,11 @@ public class DongtaiActivity extends AppCompatActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.luntan_listitem_textView_dianzan:
+                if (myApplication.getUser().getUserId() == 0) {
+                    Intent intent = new Intent(this, LoginActivity.class);
+                    startActivityForResult(intent, 203);
+                    return;
+                }
                 //点赞
                 boolean flag = false;
                 if (post.getiszan()) {
@@ -337,6 +364,11 @@ public class DongtaiActivity extends AppCompatActivity {
                 break;
             case R.id.show_luntan_text_enterpinglun:
                 //底部发表评论
+                if (myApplication.getUser().getUserId() == 0) {
+                    Intent intent = new Intent(this, LoginActivity.class);
+                    startActivityForResult(intent, 203);
+                    return;
+                }
                 Log.i("DongtaiActivity", "onClick: 评论");
                 String string = etFasongPinglun.getText().toString();
                 if (string.isEmpty() || string.equals("")) {
@@ -347,10 +379,11 @@ public class DongtaiActivity extends AppCompatActivity {
                 if (louceng == 0) {
                     //回复帖子
                     dynamic = new Dynamic(0, myApplication.getUser(), post.getPostId(), string, new Timestamp(System.currentTimeMillis()), 0, 0);
-
+                    push(post.getUser().getUserId());
                 } else {
                     int x = list.get(louceng - 1).getDynamicId();
                     dynamic = new Dynamic(0, myApplication.getUser(), post.getPostId(), string, new Timestamp(System.currentTimeMillis()), x, 0);
+                    push(x);
                 }
                 //隐藏输入框
                 imm.hideSoftInputFromWindow(etFasongPinglun.getWindowToken(), 0);
@@ -359,9 +392,37 @@ public class DongtaiActivity extends AppCompatActivity {
                 // dibubuju.setVisibility(View.GONE);
                 //刷新界面和插入数据库
                 insertPinglun(dynamic);
-                louceng=0;
+                louceng = 0;
                 break;
         }
+    }
+
+    public void push(int userId) {
+        /*
+		 * 访问servlet，在服务端进行推送；
+		 * 将要推送的用户id传给服务端
+		 */
+        //ip:192.168.0.101换成自己的,alias=2:换成推送用户的id
+        String urlString = StringUtil.ip + "/pushproject/PushServlet?alias=" + userId;
+        //创建请求
+        StringRequest request = new StringRequest(urlString, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                // TODO Auto-generated method stub
+                Log.i("MainAcitivity", "返回消息：" + response);
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // TODO Auto-generated method stub
+                Log.i("MainAcitivity", "失败");
+            }
+        });
+
+        //请求添加到请求队列
+        queue.add(request);
     }
 
     //刷新界面和插入数据库
@@ -524,5 +585,43 @@ public class DongtaiActivity extends AppCompatActivity {
             return mInputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
         }
         return super.onTouchEvent(event);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 203 && resultCode == RESULT_OK) {
+            huoqutiezhixiangqing();
+        }
+    }
+
+    public void huoqutiezhixiangqing() {
+        RequestParams params = new RequestParams(StringUtil.ip + "/SelectPostByIdServlet");
+        params.addQueryStringParameter("postid", post.getPostId() + "");
+        params.addQueryStringParameter("userid", myApplication.getUser().getUserId() + "");
+        x.http().get(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Gson gson = new GsonBuilder().enableComplexMapKeySerialization()
+                        .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+                post = gson.fromJson(result, Post.class);
+                gengxintiezhi();
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 }

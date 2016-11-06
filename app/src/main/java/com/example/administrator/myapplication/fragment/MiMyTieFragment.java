@@ -19,6 +19,7 @@ import com.example.administrator.myapplication.Adapter.ViewHolder;
 import com.example.administrator.myapplication.Application.MyApplication;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.activity.DongtaiActivity;
+import com.example.administrator.myapplication.activity.LoginActivity;
 import com.example.administrator.myapplication.activity.TianJiaTieziActivit;
 import com.example.administrator.myapplication.activitymi.ShowImageActivity;
 import com.example.administrator.myapplication.entity.Post;
@@ -74,6 +75,16 @@ public class MiMyTieFragment extends Fragment {
         initData();
         initEven();
         return v;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (myApplication.getUser().getUserId()==0){
+            Intent intent=new Intent(getActivity(),LoginActivity.class);
+            getActivity().startActivityForResult(intent,202);
+            return;
+        }
     }
 
     //初始化事件

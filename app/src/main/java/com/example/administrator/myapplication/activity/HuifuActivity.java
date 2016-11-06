@@ -15,6 +15,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.administrator.myapplication.Adapter.CommonAdapter;
 import com.example.administrator.myapplication.Adapter.ViewHolder;
 import com.example.administrator.myapplication.Application.MyApplication;
@@ -71,13 +76,13 @@ public class HuifuActivity extends AppCompatActivity {
     TextView tvTbTitle;
     @InjectView(R.id.tb_workerlist)
     Toolbar tbWorkerlist;
-
+    RequestQueue queue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_huifu);
         ButterKnife.inject(this);
-
+        queue= Volley.newRequestQueue(this);
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(etFasongPinglun.getWindowToken(), 0);
         initDate();
@@ -125,12 +130,41 @@ public class HuifuActivity extends AppCompatActivity {
                         insertPinglun(dynamic);
                         etFasongPinglun.setText("");
                         imm.hideSoftInputFromWindow(etFasongPinglun.getWindowToken(), 0);
+                        //消息推送
+                        push(parentDyanmic.getUser().getUserId());
                     }
                 }
             }
         });
     }
+    //推送消息
+    public void push(int userId){
+		/*
+		 * 访问servlet，在服务端进行推送；
+		 * 将要推送的用户id传给服务端
+		 */
+        //ip:192.168.0.101换成自己的,alias=2:换成推送用户的id
+        String urlString=StringUtil.ip+"/pushproject/PushServlet?alias="+userId;
+        //创建请求
+        StringRequest request=new StringRequest(urlString, new Response.Listener<String>() {
 
+            @Override
+            public void onResponse(String response) {
+                // TODO Auto-generated method stub
+                Log.i("MainAcitivity", "返回消息："+response);
+            }
+        },new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // TODO Auto-generated method stub
+                Log.i("MainAcitivity", "失败");
+            }
+        });
+
+        //请求添加到请求队列
+        queue.add(request);
+    }
     //刷新界面和插入数据库
     public void insertPinglun(Dynamic dynamic) {
 

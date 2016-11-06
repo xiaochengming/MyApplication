@@ -228,7 +228,7 @@ public class YuYueAddressActivity extends AppCompatActivity {
                                 // intent1.putExtra("position",position);
                                 intent1.putExtras(bundle);
                                 Log.d("onItemClick", addresses.get(position).toString());
-                                setResult(2,intent1);
+                                setResult(RESULT_OK,intent1);
                                 finish();
                             }
                         });

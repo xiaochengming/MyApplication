@@ -31,11 +31,11 @@
     <Button
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:padding="4dp"
         android:id="@+id/jian"
         android:background="#ffffff"
         android:textColor="#0157D3"
         android:textSize="25sp"
+        android:gravity="center"
         android:text="-"
         android:layout_marginLeft="10dp"
         android:layout_toEndOf="@id/textView"
@@ -51,17 +51,17 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_toRightOf="@+id/jian"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_alignTop="@+id/jian"/>
     <Button
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:padding="4dp"
         android:id="@+id/jia"
         android:background="#ffffff"
         android:textColor="#0157D3"
         android:textSize="25sp"
         android:text="+"
+        android:gravity="center"
         android:layout_alignTop="@+id/jian"
         android:layout_toEndOf="@id/count"/>
     <TextView

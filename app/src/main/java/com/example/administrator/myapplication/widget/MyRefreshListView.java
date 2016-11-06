@@ -83,7 +83,7 @@ public class MyRefreshListView extends ListView implements AbsListView.OnScrollL
         //获取head的高度
         headView2= LayoutInflater.from(context).inflate(R.layout.refresh_head,null);
         headView2.measure(0,0);
-        hendHight=headView2.getMeasuredHeight()+60;
+        hendHight=headView2.getMeasuredHeight()+30;
         headView.setPadding(0,-hendHight,0,0);
         //加入并设置头部不显示
         addHeaderView(headView);
