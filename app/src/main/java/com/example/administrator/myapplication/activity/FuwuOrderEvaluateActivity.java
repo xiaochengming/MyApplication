@@ -287,8 +287,18 @@ public class FuwuOrderEvaluateActivity extends AppCompatActivity {
                         // api guide: cemera
 
                         Intent intent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        switch (temp) {
+                            case 1:
+                                intent2.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+                                break;
+                            case 2:
+                                intent2.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file1));
+                                break;
+                            case 3:
+                                intent2.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file2));
+                                break;
+                        }
 
-                        intent2.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
                         startActivityForResult(intent2, TAKE_PHOTO);
                         break;
                 }
@@ -368,20 +378,34 @@ public class FuwuOrderEvaluateActivity extends AppCompatActivity {
                 break;
             case TAKE_PHOTO:
                 //拍照选择
-                crop(Uri.fromFile(file));
+                switch (temp) {
+                    case 1:
+                        crop(Uri.fromFile(file));
+                        break;
+                    case 2:
+                        crop(Uri.fromFile(file1));
+                        break;
+                    case 3:
+                        crop(Uri.fromFile(file2));
+                        break;
+                }
+
                 break;
             case CROP:
                 //裁剪
                 if (data != null) {
                     Bundle bundle = data.getExtras();
                     bm = bundle.getParcelable("data");
-                    showImage(bm);
+                    if (bm != null) {
+                        showImage(bm);
+                    }
+
                 }
                 break;
         }
     }
 
-    @OnClick({R.id.image_id_1, R.id.image_id_2, R.id.image_id_3, R.id.button_evaluate,R.id.id_prod_list_iv_left})
+    @OnClick({R.id.image_id_1, R.id.image_id_2, R.id.image_id_3, R.id.button_evaluate, R.id.id_prod_list_iv_left})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.image_id_1:

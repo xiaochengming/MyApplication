@@ -44,17 +44,18 @@ public class YuYueAddressActivity extends AppCompatActivity {
     @InjectView(R.id.lv_yuyue_address)
     ListView lvYuyueAddress;
     CommonAdapter<Address> addressAdapter;
-    List<Address> addresses=new ArrayList<>();
+    List<Address> addresses = new ArrayList<>();
     MyApplication myApplication;
     int positions;
     Address address;
-    String[] str=new String[]{"首次使用时,请添加服务地址!"};
+    String[] str = new String[]{"首次使用时,请添加服务地址!"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_yu_yue_address);
         ButterKnife.inject(this);
-        myApplication= (MyApplication) getApplication();
+        myApplication = (MyApplication) getApplication();
         //设置导航图标
         yuyueAddressToolbar.setNavigationIcon(R.mipmap.backs);
         //设置主标题
@@ -71,26 +72,27 @@ public class YuYueAddressActivity extends AppCompatActivity {
         });
         getData();
     }
+
     @OnClick(R.id.but_yuyue_address)
     public void onClick() {
         //进入到地址添加页面
-        Intent intent=new Intent(YuYueAddressActivity.this,AddAddressActivity.class);
-        startActivityForResult(intent,818);
+        Intent intent = new Intent(YuYueAddressActivity.this, AddAddressActivity.class);
+        startActivityForResult(intent, 818);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode==RESULT_OK&&requestCode==818){
-            if (data!=null&&data.getParcelableExtra("address")!=null){
+        if (resultCode == RESULT_OK && requestCode == 818) {
+            if (data != null && data.getParcelableExtra("address") != null) {
                 //更新界面
-                address=data.getParcelableExtra("address");
+                address = data.getParcelableExtra("address");
                 addresses.add(address);
                 if (addressAdapter == null) {
                     addressAdapter = new CommonAdapter<Address>(YuYueAddressActivity.this, addresses, R.layout.lh_yuyue_address_liebiao) {
                         @Override
                         public void convert(ViewHolder viewHolder, final Address address, final int position) {
-                            Log.i("AddressActivity", "convert  address:"+address);
+                            Log.i("AddressActivity", "convert  address:" + address);
                             //找控件赋值
                             //姓名
                             TextView tvAddressName = viewHolder.getViewById(R.id.tv_yu_yue_username);
@@ -103,7 +105,7 @@ public class YuYueAddressActivity extends AppCompatActivity {
                             tvAddressAdds.setText(address.getAddress());
 
                             //编辑点击事件
-                            ImageView ivYuyueXiuGai=viewHolder.getViewById(R.id.iv_yuyue_xiugai);
+                            ImageView ivYuyueXiuGai = viewHolder.getViewById(R.id.iv_yuyue_xiugai);
                             ivYuyueXiuGai.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -111,7 +113,7 @@ public class YuYueAddressActivity extends AppCompatActivity {
                                     Intent intent1 = new Intent(YuYueAddressActivity.this, AddressXQActivity.class);
                                     Bundle bundle = new Bundle();
                                     bundle.putParcelable("address", address);
-                                    intent1.putExtra("position",position);
+                                    intent1.putExtra("position", position);
                                     intent1.putExtras(bundle);
                                     startActivityForResult(intent1, 919);
                                 }
@@ -119,18 +121,17 @@ public class YuYueAddressActivity extends AppCompatActivity {
                         }
                     };
                     lvYuyueAddress.setAdapter(addressAdapter);
-                   //listview的item点击事件
+                    //listview的item点击事件
                     lvYuyueAddress.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Log.i("AddressActivity", "onItemClick  lvAddress:"+position);
                             //回调到预约界面
                             Intent intent1 = new Intent();
                             Bundle bundle = new Bundle();
                             bundle.putParcelable("address", addresses.get(position));
                             // intent1.putExtra("position",position);
                             intent1.putExtras(bundle);
-                            setResult(RESULT_OK,intent1);
+                            setResult(RESULT_OK, intent1);
                             finish();
                         }
                     });
@@ -138,33 +139,34 @@ public class YuYueAddressActivity extends AppCompatActivity {
                     addressAdapter.notifyDataSetChanged();
                 }
             }
-        }else if (resultCode==RESULT_FIRST_USER&&requestCode==818){
+        } else if (resultCode == RESULT_FIRST_USER && requestCode == 818) {
             //更新界面
             addressAdapter.notifyDataSetChanged();
             Log.i("AddressActivity", "onActivityResult  22");
-        }else if (resultCode==RESULT_OK&&requestCode==919){
-            if (data!=null){
-                positions=data.getIntExtra("position",-1);
-                if (data.getParcelableExtra("address")!=null){
+        } else if (resultCode == RESULT_OK && requestCode == 919) {
+            if (data != null) {
+                positions = data.getIntExtra("position", -1);
+                if (data.getParcelableExtra("address") != null) {
                     addresses.remove(positions);
                     addresses.add(positions, (Address) data.getParcelableExtra("address"));
                     addressAdapter.notifyDataSetChanged();
                     Log.i("AddressActivity", "onActivityResult  33");
                 }
             }
-        }else if (resultCode==RESULT_FIRST_USER&&requestCode==919){
-            if (data!=null){
-                positions=data.getIntExtra("position",-1);
+        } else if (resultCode == RESULT_FIRST_USER && requestCode == 919) {
+            if (data != null) {
+                positions = data.getIntExtra("position", -1);
                 addresses.remove(positions);
                 addressAdapter.notifyDataSetChanged();
                 Log.i("AddressActivity", "onActivityResult  44");
             }
         }
     }
+
     //连接服务器
-    public void getData(){
-        RequestParams requestParams=new RequestParams(StringUtil.ip+"/AddressByIdServlet");
-        requestParams.addQueryStringParameter("userId",myApplication.getUser().getUserId()+"");
+    public void getData() {
+        RequestParams requestParams = new RequestParams(StringUtil.ip + "/AddressByIdServlet");
+        requestParams.addQueryStringParameter("userId", myApplication.getUser().getUserId() + "");
         x.http().get(requestParams, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
@@ -176,13 +178,13 @@ public class YuYueAddressActivity extends AppCompatActivity {
                     lvYuyueAddress.setAdapter(arrayAdapter);
                     Log.i("AddressActivity", "onSuccess arrayAdapter ");
 
-                }else {
-                    Log.i("AddressActivity", "onSuccess  addresses:"+addresses);
+                } else {
+                    Log.i("AddressActivity", "onSuccess  addresses:" + addresses);
                     if (addressAdapter == null) {
                         addressAdapter = new CommonAdapter<Address>(YuYueAddressActivity.this, addresses, R.layout.lh_yuyue_address_liebiao) {
                             @Override
                             public void convert(ViewHolder viewHolder, final Address address, final int position) {
-                                Log.i("AddressActivity", "convert  address:"+address);
+                                Log.i("AddressActivity", "convert  address:" + address);
                                 //找控件赋值
                                 //姓名
                                 TextView tvAddressName = viewHolder.getViewById(R.id.tv_yu_yue_username);
@@ -195,7 +197,7 @@ public class YuYueAddressActivity extends AppCompatActivity {
                                 tvAddressAdds.setText(address.getAddress());
 
                                 //编辑点击事件
-                                ImageView ivYuyueXiuGai=viewHolder.getViewById(R.id.iv_yuyue_xiugai);
+                                ImageView ivYuyueXiuGai = viewHolder.getViewById(R.id.iv_yuyue_xiugai);
                                 ivYuyueXiuGai.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -203,7 +205,7 @@ public class YuYueAddressActivity extends AppCompatActivity {
                                         Intent intent1 = new Intent(YuYueAddressActivity.this, AddressXQActivity.class);
                                         Bundle bundle = new Bundle();
                                         bundle.putParcelable("address", address);
-                                        intent1.putExtra("position",position);
+                                        intent1.putExtra("position", position);
                                         intent1.putExtras(bundle);
                                         startActivityForResult(intent1, 919);
                                     }
@@ -217,13 +219,14 @@ public class YuYueAddressActivity extends AppCompatActivity {
                         lvYuyueAddress.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                Log.i("AddressActivity", "onItemClick  lvAddress:"+position);
-                                //回调到预约界面
+                                Log.i("AddressActivity", "onItemClick  lvAddress:" + position);
+                                //跳到下单页面
                                 Intent intent1 = new Intent();
                                 Bundle bundle = new Bundle();
                                 bundle.putParcelable("address", addresses.get(position));
-                               // intent1.putExtra("position",position);
+                                // intent1.putExtra("position",position);
                                 intent1.putExtras(bundle);
+                                Log.d("onItemClick", addresses.get(position).toString());
                                 setResult(RESULT_OK,intent1);
                                 finish();
                             }

@@ -74,8 +74,6 @@ public class PayEmergencyItemActivity extends AppCompatActivity implements View.
     TextView orderPrice;
     @InjectView(R.id.order_allprice)
     TextView orderAllprice;
-    @InjectView(R.id.progressBar)
-    ProgressBar progressBar;
     @InjectView(R.id.scr)
     ScrollView scr;
     @InjectView(R.id.img_emergency)

@@ -37,6 +37,7 @@ import org.xutils.x;
 
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -229,9 +230,13 @@ public class ToBePaidFragment extends Fragment implements RefreshListView.OnRefr
                 switch (order.getState()) {
                     case UNPAY:
                         //跳转到支付界面
-                        Intent intent = new Intent(getActivity(), PayActivity.class);
-                        intent.putExtra("order", order);
-                        startActivity(intent);
+                        if (isCanPay(order)) {
+                            Intent intent = new Intent(getActivity(), PayActivity.class);
+                            intent.putExtra("order", order);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(getActivity(), "订单已过期，请重新下单", Toast.LENGTH_SHORT).show();
+                        }
                         break;
 
                 }
@@ -505,6 +510,20 @@ public class ToBePaidFragment extends Fragment implements RefreshListView.OnRefr
 
     }
 
+    //判断订单是否可以支付--》
+    public boolean isCanPay(Order order) {
+        //获取当前时间
+        Date dt = new Date();
+        Long newTime = dt.getTime();//这就是距离1970年1月1日0点0分0秒的毫秒数
+        //获取开始服务时间
+        long begdate = order.getBegdate().getTime();
+        if (newTime > begdate) {
+            return false;
+
+        } else {
+            return true;
+        }
+    }
 
 }
 

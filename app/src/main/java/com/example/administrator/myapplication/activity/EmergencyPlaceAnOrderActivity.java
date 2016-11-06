@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.entity.Address;
@@ -105,7 +106,7 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
     RelativeLayout emergencyOrderName;
     Integer orderId;
     Timestamp nowTime;
-    Time time;
+
     @InjectView(R.id.id_prod_list_iv_left)
     ImageView idProdListIvLeft;
     @InjectView(R.id.id_prod_list_tv)
@@ -119,6 +120,7 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
     @InjectView(R.id.spinner)
     Spinner spinner;
     Housekeeper housekeeper;
+    Time arriveTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,8 +129,6 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
         ButterKnife.inject(this);
         //获取数据
         getData();
-        //初始控件
-        getDataToAddress();
         //获取地址
         getDataToAddress();
         orderGoumai.setOnClickListener(this);
@@ -137,6 +137,7 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
         orderDizhiRightTupian.setOnClickListener(this);
 
     }
+
 
     //获取数据
     public void getData() {
@@ -175,16 +176,14 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
                                 if (address.getIsdefault() == 1) {
                                     //默认地址
                                     addressIsefault = address;
-
+                                    getArriveTime();
                                 }
 
                             }
+                            //设置默认地址
                             if (addressIsefault != null) {
                                 orderDizhiPhonenum.setText(addressIsefault.getUserName());
                                 orderDizhiDetaildizhi.setText(addressIsefault.getAddress());
-                            } else {
-                                orderDizhiPhonenum.setText(addressIsefault.getUserName());
-                                orderDizhiDetaildizhi.setText("暂无地址，快去添加吧");
                             }
                             //初始化服务类型
                             name.setText(category.getName());
@@ -215,6 +214,42 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
 
                                 }
                             });
+                            //初始到达时间
+                            getArriveTime();
+                        } else {
+                            //用户没有默认地址时候
+                            //设置用户
+                            orderDizhiPhonenum.setText(addressIsefault.getUserName());
+                            orderDizhiDetaildizhi.setText("暂无地址，快去添加吧");
+                            //初始化价格
+                            orderCountTotalMoney.setText(String.valueOf(category.getPrices().get(0).getPrice()));
+                            orderTotalMoney.setText(String.valueOf(category.getPrices().get(0).getPrice()));
+                            //初始化选择保姆|维修人员
+                            hou = new ArrayList<String>();
+                            for (int i = 0; i < housekeepers.size(); i++) {
+                                String name = housekeepers.get(i).getName();
+                                Log.d("hou", "hou: " + name);
+                                hou.add(name);
+
+                            }
+                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(EmergencyPlaceAnOrderActivity.this,
+                                    android.R.layout.simple_spinner_item, hou);
+                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            spinner.setAdapter(adapter);
+                            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                @Override
+                                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                    housekeeper = housekeepers.get(i);
+
+                                }
+
+                                @Override
+                                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                                }
+                            });
+                            //初始到达时间
+                            getArriveTime();
                         }
                     }
 
@@ -249,9 +284,8 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
     public Order newOrder() {
         if (addressIsefault != null) {
             nowTime = new Timestamp(System.currentTimeMillis());
-            time = new Time(System.currentTimeMillis());//创建一个时间对象，获取到当前的时间
             Order order = new Order(user, addressIsefault, nowTime, 1, category.getPrices().get(0).getPrice(),
-                    housekeeper, category, category.getPrices().get(0).getPrice(), time);//少了到达时间arrive
+                    housekeeper, category, category.getPrices().get(0).getPrice(), arriveTime);
             return order;
         }
         return null;
@@ -273,10 +307,9 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
                         if (result != null) {
                             //返回订单id
                             orderId = Integer.parseInt(result);
-
                             Intent intent = new Intent(EmergencyPlaceAnOrderActivity.this, PayActivity.class);
                             Order order = new Order(orderId, user, addressIsefault, nowTime, 1, category.getPrices().get(0).getPrice(),
-                                    housekeeper, category, category.getPrices().get(0).getPrice(), time);
+                                    housekeeper, category, category.getPrices().get(0).getPrice(), arriveTime);
                             intent.putExtra("order", order);
                             startActivity(intent);
                         }
@@ -313,11 +346,18 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
         switch (view.getId()) {
             case R.id.order_goumai:
                 //下单按钮
-                toMySqlOder();
+                if ("暂无地址，快去添加吧".equals(orderDizhiDetaildizhi.getText().toString())) {
+                    Toast.makeText(this, "暂无地址，快去添加吧", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    toMySqlOder();
+                }
+
                 break;
             case R.id.order_dizhi_right_tupian:
                 //地址按钮
-
+                Intent intent = new Intent(EmergencyPlaceAnOrderActivity.this, YuYueAddressActivity.class);
+                startActivityForResult(intent, 1);
                 break;
             case R.id.id_prod_list_iv_left:
                 //后退
@@ -327,9 +367,69 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
         }
     }
 
+    //从页面返回
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("onActivityResult", "on " + requestCode + resultCode);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            if (data != null) {
+                Address address = data.getParcelableExtra("address");
+                addressIsefault = address;
+                orderDizhiDetaildizhi.setText(addressIsefault.getAddress());
+                getArriveTime();
+            }
+        }
 
-    //spinner监听
-    public void onListenerSpinner() {
+    }
+
+    public void getArriveTime() {
+        String url = StringUtil.ip + "/JiSuanTimeServlet";
+        RequestParams requestParams = new RequestParams(url);
+        //发送用户id
+        Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
+                .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+        String orderJson = gson.toJson(newOrder());
+
+        requestParams.addQueryStringParameter("latitude", addressIsefault.getLatitude() + "");
+        requestParams.addQueryStringParameter("lontitude", addressIsefault.getLontitude() + "");
+        x.http().get(requestParams, new Callback.CacheCallback<String>() {
+                    @Override
+                    public void onSuccess(String result) {
+                        if (result != null) {
+                            //返回订单id
+
+                            long time = (long) ((int)(Double.parseDouble(result) /60)*60* 1000);
+                            Time addressTime = new Time(time);
+                            arriveTime = addressTime;
+                            orderProdYunfeiMoney.setText(arriveTime + "");
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(Throwable ex, boolean isOnCallback) {
+                        Log.d("Emerge", "onError: " + ex);
+                    }
+
+                    @Override
+                    public void onCancelled(CancelledException cex) {
+                    }
+
+                    @Override
+                    public void onFinished() {
+
+                    }
+
+                    @Override
+                    public boolean onCache(String result) {
+                        return false;
+                    }
+
+                }
+
+        );
 
     }
 }

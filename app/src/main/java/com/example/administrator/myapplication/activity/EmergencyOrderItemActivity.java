@@ -81,8 +81,6 @@ public class EmergencyOrderItemActivity extends AppCompatActivity {
     TextView orderAllprice;
     @InjectView(R.id.order_arrive_time)
     TextView orderArriveTime;
-    @InjectView(R.id.progressBar)
-    ProgressBar progressBar;
     @InjectView(R.id.scr)
     ScrollView scr;
     @InjectView(R.id.img_emergency)
@@ -147,9 +145,9 @@ public class EmergencyOrderItemActivity extends AppCompatActivity {
         orderPrice.setText("￥" + String.valueOf(order.getPrice()));
         orderAllprice.setText("￥" + String.valueOf(order.getAllprice()));
         //到达时间
-        DateFormat sdf = new SimpleDateFormat("HH小时mm分钟ss秒");
-        String time1 = sdf.format(order.getArriveTime());
-        orderArriveTime.setText(time1);
+        //   DateFormat sdf = new SimpleDateFormat("HH小时mm分钟ss秒");
+        //  String time1 = sdf.format(order.getArriveTime());
+        orderArriveTime.setText(order.getArriveTime()+"");
         initViewButton();
     }
 
