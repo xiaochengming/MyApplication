@@ -144,7 +144,7 @@ public class HuifuActivity extends AppCompatActivity {
 		 * 将要推送的用户id传给服务端
 		 */
         //ip:192.168.0.101换成自己的,alias=2:换成推送用户的id
-        String urlString=StringUtil.ip+"/pushproject/PushServlet?alias="+userId;
+        String urlString=StringUtil.ip+"/PushServlet?aliasalias="+userId;
         //创建请求
         StringRequest request=new StringRequest(urlString, new Response.Listener<String>() {
 

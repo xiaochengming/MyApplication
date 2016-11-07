@@ -42,9 +42,9 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
             Log.d(TAG, "用户点击打开了通知");
 
             //打开自定义的Activity
-//            Intent intent2 = new Intent(context, HuifuActivity.class);
-//            intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            context.startActivity(intent2);
+            Intent intent2 = new Intent(context, HuifuActivity.class);
+            intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent2);
 
         } else {
             Log.d(TAG, "Unhandled intent - " + intent.getAction());

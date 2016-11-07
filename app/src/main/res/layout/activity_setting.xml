@@ -79,7 +79,7 @@
         android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:id="@+id/iv_into_problem"
-            android:src="@mipmap/sertting"
+            android:src="@mipmap/qingchu_huancun"
             android:layout_alignTop="@+id/tv_problem"
             android:layout_alignParentEnd="true"
             android:layout_alignBottom="@+id/tv_problem"
@@ -165,6 +165,15 @@
             android:layout_marginRight="10dp"
             android:layout_alignBottom="@+id/tv_new_banben"
             android:layout_alignTop="@+id/tv_new_banben" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="显示版本号"
+            android:id="@+id/tv_banben_hao"
+            android:layout_alignTop="@+id/iv_into_new_version"
+            android:layout_toStartOf="@+id/iv_into_new_version"
+            android:layout_marginEnd="20dp" />
     </RelativeLayout>
 
     <TextView

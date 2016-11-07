@@ -362,7 +362,7 @@ public class IntroduceActivity extends AppCompatActivity {
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             final ImageView imageView = new ImageView(IntroduceActivity.this);
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            //imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             x.image().bind(imageView, datas2.get(position));
             Log.i("ImagesInner", "getView  datas:" + datas2);
             imageView.setOnClickListener(new View.OnClickListener() {
