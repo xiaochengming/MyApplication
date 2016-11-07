@@ -305,13 +305,29 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(MainActivity.this, SettingActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_xiao_xi) {
-            //跳转到消息通知
-            Intent intent = new Intent(this, HuifuActivity.class);
-            startActivity(intent);
+            if (getId!=null){
+                //跳转到消息通知
+                Intent intent = new Intent(this, HuifuActivity.class);
+                startActivity(intent);
+            }else {
+                Log.i("TAG", "再次跳转到登录界面");
+                //跳转到登录界面
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivityForResult(intent, 111);
+            }
+
         } else if (id == R.id.nav_dingdan) {
-            //跳到订单界面
-            Intent intent = new Intent(this, MyOrderActivity.class);
-            startActivity(intent);
+            if (getId!=null){
+                //跳到订单界面
+                Intent intent = new Intent(this, MyOrderActivity.class);
+                startActivity(intent);
+            }else {
+                Log.i("TAG", "再次跳转到登录界面");
+                //跳转到登录界面
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivityForResult(intent, 111);
+            }
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
