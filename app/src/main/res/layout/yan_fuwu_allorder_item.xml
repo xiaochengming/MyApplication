@@ -234,6 +234,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/rela_order_number"
                     style="@style/style_user_relativeLayout"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"

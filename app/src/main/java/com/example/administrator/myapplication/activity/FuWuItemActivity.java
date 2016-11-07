@@ -150,6 +150,8 @@ public class FuWuItemActivity extends AppCompatActivity implements View.OnClickL
                     getChatKey();
                 } else {
                     Toast.makeText(FuWuItemActivity.this, "未登入", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(this, LoginActivity.class);
+                    startActivity(intent);
                 }
                 break;
             case R.id.prod_info_nowbuy:
@@ -171,6 +173,8 @@ public class FuWuItemActivity extends AppCompatActivity implements View.OnClickL
 
                 } else {
                     Toast.makeText(this, "未登入", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(this, LoginActivity.class);
+                    startActivity(intent);
                 }
 
                 break;

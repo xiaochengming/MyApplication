@@ -114,7 +114,7 @@ public class EmergencyOrderItemActivity extends AppCompatActivity {
         getData();
         initView();
         //退出
-        idProdListIvRight.setOnClickListener(new View.OnClickListener() {
+        idProdListIvLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
@@ -139,7 +139,7 @@ public class EmergencyOrderItemActivity extends AppCompatActivity {
         if (order.getCategory() != null) {
             x.image().bind(imgHousekeeperPhoto, StringUtil.ip + order.getCategory().getIcon());
         }
-        orderProfile.setText("￥" + order.getCategory().getProfile());
+        orderProfile.setText( order.getCategory().getProfile());
         String time = String.valueOf(order.getTime());
         orderTime.setText(time.substring(0, 19));
         orderPrice.setText("￥" + String.valueOf(order.getPrice()));

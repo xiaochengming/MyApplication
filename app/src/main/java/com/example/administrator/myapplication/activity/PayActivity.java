@@ -2,6 +2,7 @@ package com.example.administrator.myapplication.activity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,6 +20,8 @@ import android.widget.Toast;
 
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.entity.Order;
+import com.example.administrator.myapplication.fragment.EmergencyOrderFragment;
+import com.example.administrator.myapplication.fragment.EmergencyServiecesFragment;
 import com.example.administrator.myapplication.util.StringUtil;
 import com.example.administrator.myapplication.util.TimesTypeAdapter;
 import com.google.gson.Gson;
@@ -198,12 +201,12 @@ public class PayActivity extends AppCompatActivity {
             public void succeed() {
                 Log.i("PayActivity", "succeed: 支付成功");
                 Toast.makeText(PayActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
-                Log.d("PayActivity", "succeed: "+order.getArriveTime());
+                Log.d("PayActivity", "succeed: " + order.getArriveTime());
                 if (order.getArriveTime() == null) {
                     changeOrderState(order.getOrderId());
-                }else {
+                } else {
                     changeOrderStateByEmergency(order);
-                    Toast.makeText(PayActivity.this, "wozhixingle", Toast.LENGTH_SHORT).show();
+
                 }
 
                 //queren();
@@ -286,7 +289,7 @@ public class PayActivity extends AppCompatActivity {
     }
 
     //未调试
-    private void changeOrderStateByEmergency(Order order) {
+    private void changeOrderStateByEmergency(final Order order) {
         RequestParams params = new RequestParams(StringUtil.ip + "/Yan_EmergencyOrderPay");
         Timestamp newTime = new Timestamp(System.currentTimeMillis());
         long endTime = order.getArriveTime().getTime() + newTime.getTime();
@@ -300,8 +303,12 @@ public class PayActivity extends AppCompatActivity {
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
+                SharedPreferences.Editor editor = getSharedPreferences("data", MODE_PRIVATE).edit();
+                editor.putString("orderId", order.getOrderId() + "");
+                editor.commit();
                 Intent intent = new Intent(PayActivity.this, MainActivity.class);
-                startActivityForResult(intent,14);
+                startActivity(intent);
+
             }
 
             @Override
@@ -321,4 +328,5 @@ public class PayActivity extends AppCompatActivity {
         });
 
     }
+
 }

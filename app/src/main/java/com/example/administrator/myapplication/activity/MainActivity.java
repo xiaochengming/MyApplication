@@ -2,6 +2,7 @@ package com.example.administrator.myapplication.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity
     MyApplication myApplication;
     String userHang = null;
     String nowcity;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -467,8 +469,6 @@ public class MainActivity extends AppCompatActivity
     protected void onStart() {
         super.onStart();
         Log.i(TAG, "onStart called.");
-
-
     }
 
     //Activity从后台重新回到前台时被调用
@@ -476,6 +476,7 @@ public class MainActivity extends AppCompatActivity
     protected void onRestart() {
         super.onRestart();
         Log.i(TAG, "onRestart called.");
+
     }
 
     //Activity创建或者从被覆盖、后台重新回到前台时被调用
@@ -496,14 +497,14 @@ public class MainActivity extends AppCompatActivity
                     .setIgnoreGif(true).build();
             x.image().bind(ivHeader, userHang, imageOptions);
         }
-        userPhone=myApplication.getUser().getNumber();
-        if (userPhone!=null&&!userPhone.equals("")){
+        userPhone = myApplication.getUser().getNumber();
+        if (userPhone != null && !userPhone.equals("")) {
             tvHeader.setText(userPhone);
         }
-        if (myApplication.getUser().getUserId()>0){
-            getId=myApplication.getUser().getUserId();
+        if (myApplication.getUser().getUserId() > 0) {
+            getId = myApplication.getUser().getUserId();
         }
-        Log.i(TAG, "onResume called.userHang:"+userHang+",getId:"+myApplication.getUser().getUserId());
+        Log.i(TAG, "onResume called.userHang:" + userHang + ",getId:" + myApplication.getUser().getUserId());
     }
 
     //Activity窗口获得或失去焦点时被调用,在onResume之后或onPause之后
@@ -560,12 +561,12 @@ public class MainActivity extends AppCompatActivity
                     .setIgnoreGif(true).build();
             x.image().bind(ivHeader, userHang, imageOptions);
         }
-        userPhone=myApplication.getUser().getNumber();
-        if (userPhone!=null&&!userPhone.equals("")){
+        userPhone = myApplication.getUser().getNumber();
+        if (userPhone != null && !userPhone.equals("")) {
             tvHeader.setText(userPhone);
         }
-        if (myApplication.getUser().getUserId()>0){
-            getId=myApplication.getUser().getUserId();
+        if (myApplication.getUser().getUserId() > 0) {
+            getId = myApplication.getUser().getUserId();
         }
         //getId=myApplication.getUser().getUserId();
         Log.i(TAG, "onResume called.userHang:" + userHang + ",getId:" + myApplication.getUser().getUserId());
