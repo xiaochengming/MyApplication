@@ -289,7 +289,7 @@ public class HuifuActivity extends AppCompatActivity {
                     ImageOptions imageOptions = new ImageOptions.Builder().
                             setLoadingDrawableId(R.mipmap.ic_launcher).
                             setRadius(DensityUtil.dip2px(30.0f)).build();
-                    x.image().bind(touxiang, StringUtil.ip + "/" + user.getPhoto(),imageOptions);
+                    x.image().bind(touxiang, StringUtil.ip + "/" + user.getPhoto());
                     huifuzhename.setText(user.getName());
                     huifuzhetime.setText(dynamic.getDynamicTime().toString());
                     huifuneilong.setText(dynamic.getDynamicContent());

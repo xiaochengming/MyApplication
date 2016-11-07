@@ -2,6 +2,7 @@ package com.example.administrator.myapplication.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -305,13 +306,29 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(MainActivity.this, SettingActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_xiao_xi) {
-            //跳转到消息通知
-            Intent intent = new Intent(this, HuifuActivity.class);
-            startActivity(intent);
+            if (getId!=null){
+                //跳转到消息通知
+                Intent intent = new Intent(this, HuifuActivity.class);
+                startActivity(intent);
+            }else {
+                Log.i("TAG", "再次跳转到登录界面");
+                //跳转到登录界面
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivityForResult(intent, 111);
+            }
+
         } else if (id == R.id.nav_dingdan) {
-            //跳到订单界面
-            Intent intent = new Intent(this, MyOrderActivity.class);
-            startActivity(intent);
+            if (getId!=null){
+                //跳到订单界面
+                Intent intent = new Intent(this, MyOrderActivity.class);
+                startActivity(intent);
+            }else {
+                Log.i("TAG", "再次跳转到登录界面");
+                //跳转到登录界面
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivityForResult(intent, 111);
+            }
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -521,12 +538,12 @@ public class MainActivity extends AppCompatActivity
                     .setIgnoreGif(true).build();
             x.image().bind(ivHeader, userHang, imageOptions);
         }
-        userPhone = myApplication.getUser().getNumber();
-        if (userPhone != null && !userPhone.equals("")) {
+        userPhone=myApplication.getUser().getNumber();
+        if (userPhone!=null&&!userPhone.equals("")){
             tvHeader.setText(userPhone);
         }
-        if (myApplication.getUser().getUserId() > 0) {
-            getId = myApplication.getUser().getUserId();
+        if (myApplication.getUser().getUserId()>0){
+            getId=myApplication.getUser().getUserId();
         }
         Log.i(TAG, "onResume called.userPhone:" + userPhone + ",getId:" + myApplication.getUser().getUserId());
     }

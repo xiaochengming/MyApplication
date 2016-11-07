@@ -40,9 +40,15 @@
         android:layout_below="@+id/tv_register1"
         android:layout_marginTop="35dp"
         android:width="270dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="30dp"
         android:layout_alignEnd="@+id/et_code" />
-
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/lh_phone_number"
+        android:layout_alignTop="@+id/et_registration_phone"
+        android:layout_alignBottom="@+id/et_registration_phone"
+        android:id="@+id/imageView9" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -65,8 +71,8 @@
         android:id="@+id/et_code"
         android:layout_below="@+id/but_verification"
         android:layout_alignParentStart="true"
-        android:width="270dp"
-        android:layout_marginLeft="10dp"
+        android:width="250dp"
+        android:layout_marginLeft="30dp"
         android:layout_marginTop="35dp"/>
 
     <TextView
@@ -91,7 +97,7 @@
         android:layout_below="@+id/et_code"
         android:layout_alignParentStart="true"
         android:layout_marginTop="35dp"
-        android:layout_marginLeft="10dp"/>
+        android:layout_marginLeft="30dp"/>
 
     <Button
         android:layout_width="match_parent"
@@ -145,7 +151,8 @@
         android:text="《服务协议》"
         android:textSize="15sp"
         android:layout_above="@+id/fast_frame_layout"
-        android:layout_toEndOf="@+id/tv_register2" />
+        android:layout_toEndOf="@+id/tv_register2"
+        android:id="@+id/textView14" />
         android:id="@+id/tv_service_agreement"
         android:layout_below="@+id/but_register"
         android:layout_toEndOf="@+id/tv_register2" />
@@ -155,5 +162,26 @@
         android:layout_below="@+id/tv_register2"
         android:layout_centerHorizontal="true"
         android:id="@+id/fast_frame_layout"
-        android:layout_alignParentBottom="true"></FrameLayout>
+        android:layout_alignParentBottom="true">
+
+    </FrameLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView8"
+        android:src="@mipmap/lh_password"
+        android:layout_alignTop="@+id/et_registration_pwd"
+        android:layout_alignEnd="@+id/imageView9"
+        android:layout_above="@+id/but_register" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView10"
+        android:src="@mipmap/lh_yanzheng_ma"
+        android:layout_above="@+id/tv_fast_underline2"
+        android:layout_alignEnd="@+id/imageView9"
+        android:layout_alignTop="@+id/et_code" />
+
 </RelativeLayout>

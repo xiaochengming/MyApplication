@@ -26,7 +26,7 @@
         android:background="@null"
         android:layout_below="@+id/log_toolbar"
         android:layout_marginTop="40dp"
-        android:layout_marginLeft="10dp"/>
+        android:layout_marginLeft="30dp"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -44,6 +44,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="立即登录"
+        android:background="@drawable/button_style"
+        android:textColor="@android:color/white"
         android:id="@+id/but_login"
         android:layout_below="@+id/et_pwd"
         android:layout_centerHorizontal="true"
@@ -92,4 +94,25 @@
         android:id="@+id/tv_main_underline2"
         android:layout_below="@+id/et_pwd"
          />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView5"
+        android:src="@mipmap/lh_phone_number"
+        android:layout_alignParentStart="true"
+        android:layout_alignBottom="@+id/tv_main_underline"
+        android:layout_toStartOf="@+id/et_pwd"
+        android:layout_alignTop="@+id/et_phone" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView7"
+        android:src="@mipmap/lh_password"
+        android:layout_alignParentStart="true"
+        android:layout_alignBottom="@+id/tv_main_underline2"
+        android:layout_toStartOf="@+id/et_pwd"
+        android:layout_alignTop="@+id/et_pwd" />
+
 </RelativeLayout>

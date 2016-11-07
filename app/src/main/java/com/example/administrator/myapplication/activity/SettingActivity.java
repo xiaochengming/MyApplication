@@ -1,7 +1,8 @@
 package com.example.administrator.myapplication.activity;
 
-import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.administrator.myapplication.Application.MyApplication;
 import com.example.administrator.myapplication.R;
@@ -48,6 +50,9 @@ public class SettingActivity extends AppCompatActivity {
     String strHuanCun;
     @InjectView(R.id.tv_huan_cun)
     TextView tvHuanCun;
+    @InjectView(R.id.tv_banben_hao)
+    TextView tvBanbenHao;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,14 +60,17 @@ public class SettingActivity extends AppCompatActivity {
         ButterKnife.inject(this);
         try {
             strHuanCun = DataCleanManager.getTotalCacheSize(getApplicationContext());
-            Log.i("SettingActivity", "onCreate strHuanCun :"+strHuanCun);
-            if (strHuanCun != null&&!strHuanCun.equals("0K")) {
+            Log.i("SettingActivity", "onCreate strHuanCun :" + strHuanCun);
+            if (strHuanCun != null && !strHuanCun.equals("0K")) {
                 tvHuanCun.setText(strHuanCun);
-            }else {
+            } else {
                 tvHuanCun.setText("暂无缓存");
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        if (getVersionName()!=null){
+            tvBanbenHao.setText(getVersionName());
         }
 
         myApplication = (MyApplication) getApplication();
@@ -113,29 +121,48 @@ public class SettingActivity extends AppCompatActivity {
                 break;
             case R.id.relative_layout_set2:
                 //清除缓存
-
                 DataCleanManager.clearAllCache(getApplicationContext());
+                Toast.makeText(SettingActivity.this,"清除成功",Toast.LENGTH_SHORT).show();
                 tvHuanCun.setText("暂无缓存");
-                Log.i("SettingActivity", "onClick  strHuanCun2:"+strHuanCun);
+                Log.i("SettingActivity", "onClick  strHuanCun2:" + strHuanCun);
                 break;
             case R.id.relative_layout_set3:
                 getChatKey();
                 break;
             case R.id.relative_layout_set4:
                 //检查新版本
+                Toast.makeText(SettingActivity.this,"正在获取最新版本...",Toast.LENGTH_SHORT).show();
+                if (getVersionName()!=null){
+                    tvBanbenHao.setText(getVersionName());
+                }
                 break;
             case R.id.relative_layout_set5:
                 //关于我们
                 break;
         }
     }
+
+    private String getVersionName(){
+        // 获取packagemanager的实例
+        PackageManager packageManager = getPackageManager();
+        // getPackageName()是你当前类的包名，0代表是获取版本信息
+        PackageInfo packInfo = null;
+        try {
+            packInfo = packageManager.getPackageInfo(getPackageName(),0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        String version = packInfo.versionName;
+        return version;
+    }
+
     //获取聊天密钥
     public void getChatKey() {
         String url = StringUtil.ip + "/Yan_getChatKeyServlet";
         RequestParams requestParams = new RequestParams(url);
         //发送用户id
-        MyApplication myApplication= (MyApplication) getApplication();
-       final User user= myApplication.getUser();
+        MyApplication myApplication = (MyApplication) getApplication();
+        final User user = myApplication.getUser();
         requestParams.addQueryStringParameter("userId1", user.getUserId() + "");
         requestParams.addQueryStringParameter("username", user.getName());
 
