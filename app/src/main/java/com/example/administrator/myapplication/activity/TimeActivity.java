@@ -159,6 +159,17 @@ public class TimeActivity extends AppCompatActivity {
             }
         });
         initview();
+        yincan();
+    }
+    public void yincan(){
+        for (int i=0;i<buttons.length;i++){
+            buttons[i].setVisibility(View.INVISIBLE);
+        }
+    }
+    public void xianshi(){
+        for (int i=0;i<buttons.length;i++){
+            buttons[i].setVisibility(View.VISIBLE);
+        }
     }
 
     private void initview() {
@@ -440,11 +451,12 @@ public class TimeActivity extends AppCompatActivity {
         Gson gson = new GsonBuilder().enableComplexMapKeySerialization()
                 .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
         String string=gson.toJson(orders);
-        params.addQueryStringParameter("orders",string);
-        x.http().get(params, new Callback.CommonCallback<String>() {
+        params.addBodyParameter("orders",string);
+        x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Log.i("TimeActivity", "onSuccess: "+result);
+                xianshi();
                 Gson gson=new Gson();
                 Type type=new TypeToken<List<Boolean>>(){}.getType();
                 haslist=gson.fromJson(result,type);

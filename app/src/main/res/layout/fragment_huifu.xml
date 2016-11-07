@@ -22,8 +22,10 @@
     <com.example.administrator.myapplication.widget.RefreshListView
         android:id="@+id/lv_huifu"
         android:layout_below="@+id/tb_workerlist"
+        android:layout_above="@+id/dibubuju"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        />
     <LinearLayout
         android:id="@+id/dibubuju"
         android:layout_width="match_parent"

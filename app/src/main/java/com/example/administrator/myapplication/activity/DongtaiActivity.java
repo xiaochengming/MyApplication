@@ -383,7 +383,7 @@ public class DongtaiActivity extends AppCompatActivity {
                 } else {
                     int x = list.get(louceng - 1).getDynamicId();
                     dynamic = new Dynamic(0, myApplication.getUser(), post.getPostId(), string, new Timestamp(System.currentTimeMillis()), x, 0);
-                    push(x);
+                    push(list.get(louceng-1).getUser().getUserId());
                 }
                 //隐藏输入框
                 imm.hideSoftInputFromWindow(etFasongPinglun.getWindowToken(), 0);
@@ -403,8 +403,9 @@ public class DongtaiActivity extends AppCompatActivity {
 		 * 将要推送的用户id传给服务端
 		 */
         //ip:192.168.0.101换成自己的,alias=2:换成推送用户的id
-        String urlString = StringUtil.ip + "/pushproject/PushServlet?alias=" + userId;
+        String urlString = StringUtil.ip + "/PushServlet?alias=" + userId;
         //创建请求
+        Log.i("DongtaiActivity", "push: "+userId);
         StringRequest request = new StringRequest(urlString, new Response.Listener<String>() {
 
             @Override

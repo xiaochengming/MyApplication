@@ -187,9 +187,9 @@ public class MiSheQuFragment extends Fragment {
                                 @Override
                                 public void onClick(View v) {
                                     Log.i("MiSheQuFragment", "onClick: 点赞");
-                                    if (myApplication.getUser().getUserId()==0){
-                                        Intent intent=new Intent(getActivity(),LoginActivity.class);
-                                        getActivity().startActivityForResult(intent,201);
+                                    if (myApplication.getUser().getUserId() == 0) {
+                                        Intent intent = new Intent(getActivity(), LoginActivity.class);
+                                        getActivity().startActivityForResult(intent, 201);
                                         return;
                                     }
                                     boolean flag = false;
@@ -219,7 +219,7 @@ public class MiSheQuFragment extends Fragment {
 
                             //评论图片
 //                            if (list.get(position).getImageList().size() != 0) {
-                                grilvewXianshitupian(image);
+                            grilvewXianshitupian(image);
 //                            }else {
 //                                grilvewXianshitupian(null);
 //                            }
@@ -239,7 +239,9 @@ public class MiSheQuFragment extends Fragment {
                     listView.completeRefresh();
                     flag = false;
                 }
-                Toast.makeText(getActivity(), "刷新失败", Toast.LENGTH_SHORT).show();
+                if (getActivity() != null) {
+                    Toast.makeText(getActivity(), "刷新失败", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -257,25 +259,25 @@ public class MiSheQuFragment extends Fragment {
     public void grilvewXianshitupian(GridView gridView) {
         final List<String> images = list.get((Integer) gridView.getTag()).getImageList();
 //        if (images.size() != 0) {
-            gridView.setAdapter(new CommonAdapter<String>(getActivity(), images, R.layout.imageitem) {
-                @Override
-                public void convert(ViewHolder viewHolder, String s, int position) {
-                    ImageView imageView = viewHolder.getViewById(R.id.iv_show);
-                    x.image().bind(imageView, StringUtil.ip + s);
-                    Log.i("MiSheQuFragment", "convert: " + StringUtil.ip + s);
-                    imageView.setTag(position);
-                    imageView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            int x= (int) v.getTag();
-                            Intent intent=new Intent(getActivity(), ShowImageActivity.class);
-                            intent.putStringArrayListExtra("image", (ArrayList<String>) images);
-                            intent.putExtra("postion",x);
-                            startActivity(intent);
-                        }
-                    });
-                }
-            });
+        gridView.setAdapter(new CommonAdapter<String>(getActivity(), images, R.layout.imageitem) {
+            @Override
+            public void convert(ViewHolder viewHolder, String s, int position) {
+                ImageView imageView = viewHolder.getViewById(R.id.iv_show);
+                x.image().bind(imageView, StringUtil.ip + s);
+                Log.i("MiSheQuFragment", "convert: " + StringUtil.ip + s);
+                imageView.setTag(position);
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int x = (int) v.getTag();
+                        Intent intent = new Intent(getActivity(), ShowImageActivity.class);
+                        intent.putStringArrayListExtra("image", (ArrayList<String>) images);
+                        intent.putExtra("postion", x);
+                        startActivity(intent);
+                    }
+                });
+            }
+        });
 //        }
     }
 
