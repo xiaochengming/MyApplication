@@ -65,6 +65,7 @@ public class RefreshListView extends ListView implements AbsListView.OnScrollLis
         //初始化
         initHead(context);
         initTail(context);
+        //setTail(context,false);
         initAnimation(context);
         this.setOnScrollListener(this);
     }
@@ -94,7 +95,24 @@ public class RefreshListView extends ListView implements AbsListView.OnScrollLis
         //加到listview中
         addFooterView(tailView);
     }
-
+    //初始化尾部
+    public void initTail2(Context context){
+        tailView=LayoutInflater.from(context).inflate(R.layout.lh_chawu_shuju,null);
+//        pbFooter= (ProgressBar) tailView.findViewById(R.id.pb_footer);
+//        tvFooter=(TextView) tailView.findViewById(R.id.tv_footer);
+        //加到listview中
+        addFooterView(tailView);
+    }
+    public void setTail(Context context,boolean flag){
+        if (flag==false){
+            initTail(context);
+        }else {
+            initTail2(context);
+        }
+    }
+    public void removeTail(){
+            removeFooterView(tailView);
+    }
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         switch (ev.getAction()){

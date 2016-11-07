@@ -1,6 +1,7 @@
 package com.example.administrator.myapplication.activity;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -20,8 +21,6 @@ import android.widget.Toast;
 
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.entity.Order;
-import com.example.administrator.myapplication.fragment.EmergencyOrderFragment;
-import com.example.administrator.myapplication.fragment.EmergencyServiecesFragment;
 import com.example.administrator.myapplication.util.StringUtil;
 import com.example.administrator.myapplication.util.TimesTypeAdapter;
 import com.google.gson.Gson;
@@ -86,7 +85,7 @@ public class PayActivity extends AppCompatActivity {
     Order order;
     @InjectView(R.id.tv_wufujE)
     TextView tvWufujE;
-
+    ProgressDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,8 +122,8 @@ public class PayActivity extends AppCompatActivity {
     private void initOrderData() {
         //初始化订单信息
         tvFuwuneirong.setText(order.getCategory().getName());
-        tvWufujE.setText(" ￥：" + order.getAllprice() + "");
-        tvZhifujinge.setText(" ￥：" + order.getAllprice() + "");
+        tvWufujE.setText(" ￥" + order.getAllprice() + "");
+        tvZhifujinge.setText(" ￥" + order.getAllprice() + "");
     }
 
     @OnClick({R.id.gopay_rl_alipay, R.id.gopay_rl_weixinpay, R.id.gopay_pay, R.id.layout_dingdanxinxi})
@@ -190,7 +189,9 @@ public class PayActivity extends AppCompatActivity {
 
     }
 
-    private void zhifu(boolean flag) {
+   void zhifu(boolean flag) {
+
+       showDialog("正在获取订单...");
         BP.pay(order.getCategory().getName(), "订单编号：" + order.getOrderId(), 0.02, flag, new PListener() {
             @Override
             public void orderId(String s) {
@@ -201,12 +202,12 @@ public class PayActivity extends AppCompatActivity {
             public void succeed() {
                 Log.i("PayActivity", "succeed: 支付成功");
                 Toast.makeText(PayActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
-                Log.d("PayActivity", "succeed: " + order.getArriveTime());
+                hideDialog();
                 if (order.getArriveTime() == null) {
                     changeOrderState(order.getOrderId());
-                } else {
+                }else {
                     changeOrderStateByEmergency(order);
-
+                    Toast.makeText(PayActivity.this, "wozhixingle", Toast.LENGTH_SHORT).show();
                 }
 
                 //queren();
@@ -214,29 +215,22 @@ public class PayActivity extends AppCompatActivity {
 
             @Override
             public void fail(int i, String s) {
-                String str = "错误";
-                if (i == 10777) {
-                    str = "网络繁忙，请稍后";
-                }
-                if (i == 6001) {
-                    str = "操作中断";
-                }
-                if (i == -2) {
-                    str = "操作中断";
-                }
+                Toast.makeText(PayActivity.this, "支付中断!", Toast.LENGTH_SHORT)
+                        .show();
                 Log.i("PayActivity", "fail: " + s);
-                Toast.makeText(PayActivity.this, str, Toast.LENGTH_SHORT).show();
+                hideDialog();
             }
 
             @Override
             public void unknow() {
                 Log.i("PayActivity", "unknow: 网络繁忙");
-                Toast.makeText(PayActivity.this, "网络繁忙", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PayActivity.this, "支付结果未知,请稍后手动查询", Toast.LENGTH_SHORT);
+                hideDialog();
             }
         });
     }
 
-    private void queren() {
+     void queren() {
         BP.query(orderId, new QListener() {
             @Override
             public void succeed(String s) {
@@ -328,5 +322,23 @@ public class PayActivity extends AppCompatActivity {
         });
 
     }
-
+    void showDialog(String message) {
+        try {
+            if (dialog == null) {
+                dialog = new ProgressDialog(this);
+                dialog.setCancelable(true);
+            }
+            dialog.setMessage(message);
+            dialog.show();
+        } catch (Exception e) {
+            // 在其他线程调用dialog会报错
+        }
+    }
+    void hideDialog() {
+        if (dialog != null && dialog.isShowing())
+            try {
+                dialog.dismiss();
+            } catch (Exception e) {
+            }
+    }
 }

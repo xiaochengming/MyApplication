@@ -96,7 +96,7 @@
         <activity android:name=".activity.EmergencyPlaceAnOrderActivity" />
         <activity
             android:name=".activity.DongtaiActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".activity.TianJiaTieziActivit"
             android:launchMode="singleTask" />

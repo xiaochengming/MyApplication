@@ -22,22 +22,25 @@
         android:text="88"
         android:id="@+id/tv_price"
         android:layout_marginLeft="15dp"
-        android:layout_below="@+id/tv_danjia"
+        android:layout_toEndOf="@+id/tv_danjia"
+        android:layout_alignBaseline="@+id/tv_danjia"
         android:layout_marginTop="10dp"
         android:textSize="@dimen/ershi"
         android:textColor="@color/red"
         />
     <Button
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:padding="4dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:id="@+id/jian"
         android:background="#ffffff"
         android:textColor="#0157D3"
         android:textSize="25sp"
+        android:gravity="center"
         android:text="-"
-        android:layout_above="@+id/tv_allprice"
-        android:layout_alignEnd="@+id/aa" />
+        android:layout_marginLeft="10dp"
+        android:layout_toEndOf="@id/textView"
+        android:layout_alignBottom="@+id/textView"
+        />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -48,18 +51,17 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_toRightOf="@+id/jian"
-        android:layout_below="@+id/include"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="5dp"
         android:layout_alignTop="@+id/jian"/>
     <Button
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:padding="4dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:id="@+id/jia"
         android:background="#ffffff"
         android:textColor="#0157D3"
         android:textSize="25sp"
         android:text="+"
+        android:gravity="center"
         android:layout_alignTop="@+id/jian"
         android:layout_toEndOf="@id/count"/>
     <TextView
@@ -71,7 +73,7 @@
         android:textColor="@color/qianhong"
         android:layout_marginTop="25dp"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/tv_price"/>
+        android:layout_below="@+id/textView"/>
 <View
     android:layout_width="match_parent"
     android:layout_height="10dp"
@@ -115,12 +117,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="数量："
+        android:text="数量:"
         android:id="@+id/textView"
         android:textSize="20dp"
-        android:layout_marginTop="13dp"
-        android:layout_alignTop="@+id/jian"
-        android:layout_toStartOf="@+id/jian" />
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/tv_danjia"
+        android:layout_alignLeft="@+id/tv_danjia"/>
 
 </RelativeLayout>
 

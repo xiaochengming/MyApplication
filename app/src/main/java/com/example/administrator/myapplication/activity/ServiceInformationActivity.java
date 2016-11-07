@@ -169,7 +169,7 @@ public class ServiceInformationActivity extends AppCompatActivity {
                 radioButtons[i].setVisibility(View.INVISIBLE);
             } else {
                 Log.i("Service", "even: " + category.getPrices().get(i).getSubname());
-                radioButtons[i].setText("￥" + category.getPrices().get(i).getSubname());
+                radioButtons[i].setText( category.getPrices().get(i).getSubname());
             }
         }
         rgXuanze.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -178,19 +178,19 @@ public class ServiceInformationActivity extends AppCompatActivity {
                 switch (checkedId) {
                     case (R.id.rbtn_1):
                         jiage=category.getPrices().get(0).getPrice();
-                        tvJiage.setText("￥"+jiage);
+                        tvJiage.setText("￥"+jiage+category.getPrices().get(0).getUnit());
                         break;
                     case (R.id.rbtn_2):
                         jiage=category.getPrices().get(1).getPrice();
-                        tvJiage.setText("￥"+jiage);
+                        tvJiage.setText("￥"+jiage+category.getPrices().get(0).getUnit());
                         break;
                     case (R.id.rbtn_3):
                         jiage=category.getPrices().get(2).getPrice();
-                        tvJiage.setText("￥"+jiage);
+                        tvJiage.setText("￥"+jiage+category.getPrices().get(0).getUnit());
                         break;
                     case (R.id.rbtn_4):
                         jiage=category.getPrices().get(3).getPrice();
-                        tvJiage.setText("￥"+jiage);
+                        tvJiage.setText("￥"+jiage+category.getPrices().get(0).getUnit());
                         break;
                 }
             }

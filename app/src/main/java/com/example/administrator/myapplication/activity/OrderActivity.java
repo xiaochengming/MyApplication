@@ -52,6 +52,7 @@ public class OrderActivity extends AppCompatActivity {
     TextView tvAllprice;
     boolean flag;
     int Hid;
+    TextView textView;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,7 @@ public class OrderActivity extends AppCompatActivity {
         yuYue = (Button) findViewById(R.id.button);
         price = (TextView) findViewById(R.id.tv_price);
         count = (TextView) findViewById(R.id.count);
+        textView= (TextView) findViewById(R.id.textView);
 
         myApplication = (MyApplication) getApplication();
         Intent intent = getIntent();
@@ -116,7 +118,18 @@ public class OrderActivity extends AppCompatActivity {
         } else {
             title.setText(category.getName());
         }
+        switch (category.getPrices().get(pricepostion).getUnit()){
+            case("/小时"):
+                textView.setText("时长:");
+                break;
+            case("/月"):
+                textView.setText("时长:");
+                break;
+            case("/人一天"):
+                textView.setText("人数:");
+                break;
 
+        }
 
         //地址选择点击事件
         bt1.setOnClickListener(new View.OnClickListener() {
@@ -143,6 +156,10 @@ public class OrderActivity extends AppCompatActivity {
                 address=data.getParcelableExtra("address");
                 tv1.setText(address.getAddress());
             }
+            return;
+        }
+        if (resultCode==RESULT_OK&&requestCode==201){
+         Event();
         }
     }
 
@@ -160,7 +177,7 @@ public class OrderActivity extends AppCompatActivity {
                 Gson gson = new Gson();
                 address = gson.fromJson(result, Address.class);
                 if (address == null) {
-                    yuYue.setVisibility(View.INVISIBLE);
+                    //yuYue.setVisibility(View.INVISIBLE);
                     tv1.setText("请填写服务地址");
                 } else {
                     tv1.setText(address.getAddress());
@@ -188,7 +205,8 @@ public class OrderActivity extends AppCompatActivity {
     public void yuyue(View v) {
         Log.i("OrderActivity", "yuyue:  ");
         if (address == null) {
-            Toast.makeText(OrderActivity.this, "请设置时间", Toast.LENGTH_SHORT).show();
+            Intent intent=new Intent(this,LoginActivity.class);
+            startActivityForResult(intent,201);
         } else {
             Intent intent = new Intent(this, TimeActivity.class);
             float jiage = category.getPrices().get(pricepostion).getPrice();

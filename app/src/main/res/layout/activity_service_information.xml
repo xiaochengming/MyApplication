@@ -99,7 +99,7 @@
                 android:layout_height="70dp"
                 android:orientation="horizontal"
                 android:visibility="gone">
-
+<!---->
                 <TextView
                     android:id="@+id/tv_jiage"
                     android:layout_width="wrap_content"
@@ -114,7 +114,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="80dp"
+                    android:layout_marginEnd="40dp"
                     android:layout_marginLeft="@dimen/ershi"
                     android:layout_marginRight="@dimen/ershi"
                     android:layout_marginTop="10dp"

@@ -69,6 +69,8 @@ public class PaiHangFragment extends Fragment implements RefreshListView.OnRefre
     HorizontalScrollView mHorizontalScrollView;
     RefreshListView lvHang;
     RadioButton rb;
+    View viewWei;
+    boolean flag=false;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -213,65 +215,77 @@ public class PaiHangFragment extends Fragment implements RefreshListView.OnRefre
                 List<Housekeeper> updatehousekeepers = gson.fromJson(result, type);
                 housekeepers.clear();
                 housekeepers.addAll(updatehousekeepers);
-                Log.i("PaiHangFragment", "onSuccess  :" + housekeepers);
-                //设置listview的adpter
-                if (hangAdapter == null) {
-                    Log.i("PaiHangFragment", "onSuccess  hangAdapter");
-                    hangAdapter = new CommonAdapter<Housekeeper>(getActivity(), housekeepers, R.layout.lv_item) {
-                        @Override
-                        public void convert(ViewHolder viewHolder, final Housekeeper housekeeper, int position) {
-                            Log.i("PaiHangFragment", "convert housekeeper.getName()=" + housekeeper.getName() + "housekeeper.getServiceTime()=" + housekeeper.getServiceTime() + "housekeeper.getPlaceOfOrigin()=" + housekeeper.getPlaceOfOrigin()
-                                    + "housekeeper.getAge()=" + housekeeper.getAge());
+                if (housekeepers.size()==0){
+                    lvHang.removeTail();
+                    //解析布局文件加载listview尾部
+                    flag=true;
+                    lvHang.setTail(getActivity(),flag);
+                    flag=false;
+                }else {
+                    lvHang.removeTail();
+                   // flag=false;
+                    lvHang.setTail(getActivity(),flag);
+                    Log.i("PaiHangFragment", "onSuccess  :" + housekeepers);
+                    //设置listview的adpter
+                    if (hangAdapter == null) {
+                        Log.i("PaiHangFragment", "onSuccess  hangAdapter");
+                        hangAdapter = new CommonAdapter<Housekeeper>(getActivity(), housekeepers, R.layout.lv_item) {
+                            @Override
+                            public void convert(ViewHolder viewHolder, final Housekeeper housekeeper, int position) {
+                                Log.i("PaiHangFragment", "convert housekeeper.getName()=" + housekeeper.getName() + "housekeeper.getServiceTime()=" + housekeeper.getServiceTime() + "housekeeper.getPlaceOfOrigin()=" + housekeeper.getPlaceOfOrigin()
+                                        + "housekeeper.getAge()=" + housekeeper.getAge());
 
-                            //姓名赋值
-                            TextView tvName = viewHolder.getViewById(R.id.tv_names);
-                            tvName.setText(housekeeper.getName());
-                            //服务次数赋值
-                            TextView tvCount = viewHolder.getViewById(R.id.tv_count);
-                            tvCount.setText("服务过" + housekeeper.getServiceTime() + "" + "个家庭");
-                            //地址赋值
-                            TextView tvAddress = viewHolder.getViewById(R.id.tv_address);
-                            tvAddress.setText(housekeeper.getPlaceOfOrigin());
-                            //年龄赋值
-                            TextView tvAge = viewHolder.getViewById(R.id.tv_ages);
-                            tvAge.setText(housekeeper.getAge() + "" + "岁");
-                            //头像赋值
-                            ImageOptions imageOptions = new ImageOptions.Builder()
-                                    //设置加载过程的图片
-                                    .setLoadingDrawableId(R.mipmap.ic_launcher)
-                                    //设置加载失败后的图片
-                                    .setFailureDrawableId(R.mipmap.ic_launcher)
-                                    //设置使用圆形图片
-                                    .setCircular(true)
-                                    //设置支持gif
-                                    .setIgnoreGif(true).build();
-                            String photoUrl = StringUtil.ip + "/" + housekeeper.getHousePhoto();
-                            Log.i("PaiHangFragment", "convert  photoUrl:"+photoUrl);
-                            ImageView imageView = viewHolder.getViewById(R.id.imageViews);
-                            x.image().bind(imageView, photoUrl, imageOptions);
-                            //星星数量赋值
-                            RatingBar ratingBar = viewHolder.getViewById(R.id.ratingBar);
-                            int ratingSize = housekeeper.getServiceplevel();
-                            ratingBar.setRating(ratingSize);
-                            //按钮点击事件(找控件)
-                            TextView tvDetails = viewHolder.getViewById(R.id.but_details);
-                            tvDetails.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    //跳转到介绍界面(传值)
-                                    Intent intent = new Intent(getActivity(), IntroduceActivity.class);
-                                    //housekeeper对象
-                                    Bundle bundle = new Bundle();
-                                    bundle.putParcelable("huosekeeper", housekeeper);
-                                    intent.putExtras(bundle);
-                                    startActivity(intent);
-                                }
-                            });
-                        }
-                    };
-                    lvHang.setAdapter(hangAdapter);
-                } else {
-                    hangAdapter.notifyDataSetChanged();
+                                //姓名赋值
+                                TextView tvName = viewHolder.getViewById(R.id.tv_names);
+                                tvName.setText(housekeeper.getName());
+                                //服务次数赋值
+                                TextView tvCount = viewHolder.getViewById(R.id.tv_count);
+                                tvCount.setText("服务过" + housekeeper.getServiceTime() + "" + "个家庭");
+                                //地址赋值
+                                TextView tvAddress = viewHolder.getViewById(R.id.tv_address);
+                                tvAddress.setText(housekeeper.getPlaceOfOrigin());
+                                //年龄赋值
+                                TextView tvAge = viewHolder.getViewById(R.id.tv_ages);
+                                tvAge.setText(housekeeper.getAge() + "" + "岁");
+                                //头像赋值
+                                ImageOptions imageOptions = new ImageOptions.Builder()
+                                        //设置加载过程的图片
+                                        .setLoadingDrawableId(R.mipmap.ic_launcher)
+                                        //设置加载失败后的图片
+                                        .setFailureDrawableId(R.mipmap.ic_launcher)
+                                        //设置使用圆形图片
+                                        .setCircular(true)
+                                        //设置支持gif
+                                        .setIgnoreGif(true).build();
+                                String photoUrl = StringUtil.ip + "/" + housekeeper.getHousePhoto();
+                                Log.i("PaiHangFragment", "convert  photoUrl:" + photoUrl);
+                                ImageView imageView = viewHolder.getViewById(R.id.imageViews);
+                                x.image().bind(imageView, photoUrl, imageOptions);
+                                //星星数量赋值
+                                RatingBar ratingBar = viewHolder.getViewById(R.id.ratingBar);
+                                int ratingSize = housekeeper.getServiceplevel();
+                                ratingBar.setRating(ratingSize);
+                                //按钮点击事件(找控件)
+                                TextView tvDetails = viewHolder.getViewById(R.id.but_details);
+                                tvDetails.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        //跳转到介绍界面(传值)
+                                        Intent intent = new Intent(getActivity(), IntroduceActivity.class);
+                                        //housekeeper对象
+                                        Bundle bundle = new Bundle();
+                                        bundle.putParcelable("huosekeeper", housekeeper);
+                                        intent.putExtras(bundle);
+                                        startActivity(intent);
+                                    }
+                                });
+                            }
+                        };
+
+                        lvHang.setAdapter(hangAdapter);
+                    } else {
+                        hangAdapter.notifyDataSetChanged();
+                    }
                 }
             }
 

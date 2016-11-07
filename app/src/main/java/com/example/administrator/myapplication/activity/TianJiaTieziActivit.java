@@ -60,7 +60,7 @@ public class TianJiaTieziActivit extends AppCompatActivity {
     ImageView ivTianjiatupian;
     @InjectView(R.id.gv_tupian)
     GridView gvTupian;
-
+    MyApplication myApplication;
 
     List<String> fileList = new ArrayList<>();
     CommonAdapter<String> adapter;
@@ -78,6 +78,7 @@ public class TianJiaTieziActivit extends AppCompatActivity {
                 finish();
             }
         });
+        myApplication= (MyApplication) getApplication();
         initDate();
     }
 
@@ -114,6 +115,11 @@ public class TianJiaTieziActivit extends AppCompatActivity {
                 startActivityForResult(intent, 1);
                 break;
             case R.id.btn_fabiao:
+                if (myApplication.getUser().getUserId() == 0) {
+                    Intent intent2 = new Intent(this, LoginActivity.class);
+                    startActivityForResult(intent2, 203);
+                    return;
+                }
                 if (luntanStateEdittextContent.getText().toString().isEmpty() || luntanStateEdittextContent.getText().toString().equals("")) {
                     Toast.makeText(TianJiaTieziActivit.this, "内容不能为空", Toast.LENGTH_SHORT).show();
                 } else {
@@ -182,7 +188,7 @@ public class TianJiaTieziActivit extends AppCompatActivity {
             }
         });
         Intent intent = new Intent();
-        intent.putExtra("post", post);
+        intent.putExtra("flag",1);
         setResult(RESULT_OK, intent);
         finish();
     }
