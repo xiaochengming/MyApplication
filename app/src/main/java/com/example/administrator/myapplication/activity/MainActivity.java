@@ -194,6 +194,8 @@ public class MainActivity extends AppCompatActivity
                     //跳转到登录界面
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                     startActivityForResult(intent, 111);
+                    //放大缩小跳转
+                    overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
                 }
             }
         });
@@ -263,11 +265,15 @@ public class MainActivity extends AppCompatActivity
                 Intent intent = new Intent(MainActivity.this, PersonalInformationActivity.class);
                 //跳转
                 startActivity(intent);
+                //淡入淡出
+                overridePendingTransition(R.anim.fade, R.anim.hold);
             } else {
                 Log.i("TAG", "再次跳转到登录界面");
                 //跳转到登录界面
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivityForResult(intent, 111);
+                //放大缩小跳转
+                overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
             }
 
         } else if (id == R.id.nav_address) {
@@ -279,12 +285,16 @@ public class MainActivity extends AppCompatActivity
                 //首次
                 Intent intent = new Intent(MainActivity.this, AddressActivity.class);
                 startActivity(intent);
+                //上下滑入
+                overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
                 Log.i("ming", "onNavigationItemSelected: 22");
             } else {
                 Log.i("TAG", "再次跳转到登录界面");
                 //跳转到登录界面
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivityForResult(intent, 111);
+                //放大缩小跳转
+                overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
             }
         } else if (id == R.id.nav_worker) {
             //需要判断是否已登录，没登录时点击后不能跳转（弹出一条请登录的消息）
@@ -292,28 +302,38 @@ public class MainActivity extends AppCompatActivity
                 //跳转到常用阿姨界面（从数据库获取值显示在listview上面）
                 Intent intent = new Intent(MainActivity.this, CommonAuntActivity.class);
                 startActivity(intent);
+                //上下滑入
+                overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
                 Log.i("ming", "onNavigationItemSelected: 33");
             } else {
                 Log.i("TAG", "再次跳转到登录界面");
                 //跳转到登录界面
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivityForResult(intent, 111);
+                //放大缩小跳转
+                overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
             }
         } else if (id == R.id.nav_set) {
             Log.i("ming", "onNavigationItemSelected: 44");
             //跳转到设置界面
             Intent intent = new Intent(MainActivity.this, SettingActivity.class);
             startActivity(intent);
+            //上下滑入
+            overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
         } else if (id == R.id.nav_xiao_xi) {
             if (getId!=null){
                 //跳转到消息通知
                 Intent intent = new Intent(this, HuifuActivity.class);
                 startActivity(intent);
+                //上下滑入
+                overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
             }else {
                 Log.i("TAG", "再次跳转到登录界面");
                 //跳转到登录界面
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivityForResult(intent, 111);
+                 //放大缩小跳转
+                overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
             }
 
         } else if (id == R.id.nav_dingdan) {
@@ -321,11 +341,15 @@ public class MainActivity extends AppCompatActivity
                 //跳到订单界面
                 Intent intent = new Intent(this, MyOrderActivity.class);
                 startActivity(intent);
+                //上下滑入
+                overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
             }else {
                 Log.i("TAG", "再次跳转到登录界面");
                 //跳转到登录界面
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivityForResult(intent, 111);
+                //放大缩小跳转
+                overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
             }
 
         }
