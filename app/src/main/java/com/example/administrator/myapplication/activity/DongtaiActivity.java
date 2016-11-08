@@ -405,6 +405,7 @@ public class DongtaiActivity extends AppCompatActivity {
         //ip:192.168.0.101换成自己的,alias=2:换成推送用户的id
         String urlString = StringUtil.ip + "/PushServlet?alias=" + userId;
         //创建请求
+        Log.i("DongtaiActivity", "push: "+userId);
         StringRequest request = new StringRequest(urlString, new Response.Listener<String>() {
 
             @Override

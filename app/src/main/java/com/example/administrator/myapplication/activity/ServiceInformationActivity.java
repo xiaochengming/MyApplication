@@ -147,13 +147,23 @@ public class ServiceInformationActivity extends AppCompatActivity {
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             //跳转到预约界面
                             Log.i("Service", "onItemClick: 跳转到预约");
-                            Intent intent1 = new Intent(ServiceInformationActivity.this, OrderActivity.class);
-                            intent1.putExtra("category", category);
-                            intent1.putExtra("price", position);
-                            if (Hid != 0) {
-                                intent1.putExtra("hid", Hid);
+                            if (category.getPrices().get(0).getUnit().equals("/平米")) {
+                                Intent intent1 = new Intent(ServiceInformationActivity.this, Order2Activity.class);
+                                intent1.putExtra("category", category);
+                                intent1.putExtra("price", position);
+                                if (Hid != 0) {
+                                    intent1.putExtra("hid", Hid);
+                                }
+                                startActivity(intent1);
+                            } else {
+                                Intent intent1 = new Intent(ServiceInformationActivity.this, OrderActivity.class);
+                                intent1.putExtra("category", category);
+                                intent1.putExtra("price", position);
+                                if (Hid != 0) {
+                                    intent1.putExtra("hid", Hid);
+                                }
+                                startActivity(intent1);
                             }
-                            startActivity(intent1);
                         }
                     });
                 }
@@ -169,7 +179,7 @@ public class ServiceInformationActivity extends AppCompatActivity {
                 radioButtons[i].setVisibility(View.INVISIBLE);
             } else {
                 Log.i("Service", "even: " + category.getPrices().get(i).getSubname());
-                radioButtons[i].setText( category.getPrices().get(i).getSubname());
+                radioButtons[i].setText(category.getPrices().get(i).getSubname());
             }
         }
         rgXuanze.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -177,20 +187,20 @@ public class ServiceInformationActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case (R.id.rbtn_1):
-                        jiage=category.getPrices().get(0).getPrice();
-                        tvJiage.setText("￥"+jiage+category.getPrices().get(0).getUnit());
+                        jiage = category.getPrices().get(0).getPrice();
+                        tvJiage.setText("￥" + jiage + category.getPrices().get(0).getUnit());
                         break;
                     case (R.id.rbtn_2):
-                        jiage=category.getPrices().get(1).getPrice();
-                        tvJiage.setText("￥"+jiage+category.getPrices().get(0).getUnit());
+                        jiage = category.getPrices().get(1).getPrice();
+                        tvJiage.setText("￥" + jiage + category.getPrices().get(0).getUnit());
                         break;
                     case (R.id.rbtn_3):
-                        jiage=category.getPrices().get(2).getPrice();
-                        tvJiage.setText("￥"+jiage+category.getPrices().get(0).getUnit());
+                        jiage = category.getPrices().get(2).getPrice();
+                        tvJiage.setText("￥" + jiage + category.getPrices().get(0).getUnit());
                         break;
                     case (R.id.rbtn_4):
-                        jiage=category.getPrices().get(3).getPrice();
-                        tvJiage.setText("￥"+jiage+category.getPrices().get(0).getUnit());
+                        jiage = category.getPrices().get(3).getPrice();
+                        tvJiage.setText("￥" + jiage + category.getPrices().get(0).getUnit());
                         break;
                 }
             }

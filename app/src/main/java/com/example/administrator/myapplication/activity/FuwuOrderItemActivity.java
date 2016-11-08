@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -103,6 +102,8 @@ public class FuwuOrderItemActivity extends AppCompatActivity {
     Button orderBottom;
     @InjectView(R.id.prod_info_bottom)
     RelativeLayout prodInfoBottom;
+    @InjectView(R.id.rela_order_number)
+    RelativeLayout relaOrderNumber;
     //删除弹出框
     private AlertDialog.Builder builder;
     Order order;
@@ -158,9 +159,6 @@ public class FuwuOrderItemActivity extends AppCompatActivity {
             default:
                 orderWorker.setText(String.valueOf(order.getWorkerTime()) + "小时");
         }
-        //单价
-        orderPrice.setText("￥" + order.getPrice());
-        //数量
         Iterator<Price> iterator = order.getCategory().getPrices().iterator();
         while (iterator.hasNext()) {
             Price price = iterator.next();
@@ -168,7 +166,20 @@ public class FuwuOrderItemActivity extends AppCompatActivity {
                 unit = price.getUnit();
             }
         }
-        orderNumber.setText(String.valueOf(order.getNumber() + unit.substring(1, unit.length())));
+        unit.substring(1, unit.length());
+        //单价
+        orderPrice.setText("￥" + order.getPrice() + unit);
+        //数量
+
+        //数量处理
+        if (unit.equals("/小时") || unit.equals("/人一天") || unit.equals("/月")) {
+
+            relaOrderNumber.setVisibility(View.GONE);
+        } else {
+            relaOrderNumber.setVisibility(View.VISIBLE);
+            orderNumber.setText(String.valueOf(order.getNumber() + unit.substring(1, unit.length())));
+        }
+
         //总价
         orderAllprice.setText("￥" + order.getAllprice());
         initViewButton();
@@ -212,7 +223,7 @@ public class FuwuOrderItemActivity extends AppCompatActivity {
     }
 
 
-    @OnClick({R.id.order_right, R.id.order_left, R.id.order_bottom, R.id.button_right,R.id.id_prod_list_iv_left})
+    @OnClick({R.id.order_right, R.id.order_left, R.id.order_bottom, R.id.button_right, R.id.id_prod_list_iv_left})
     public void onClick(View view) {
         switch (view.getId()) {
 
@@ -287,8 +298,8 @@ public class FuwuOrderItemActivity extends AppCompatActivity {
                 dialog(order, CLOSE);
                 break;
             case R.id.id_prod_list_iv_left:
-               //后退
-              finish();
+                //后退
+                finish();
                 break;
         }
     }

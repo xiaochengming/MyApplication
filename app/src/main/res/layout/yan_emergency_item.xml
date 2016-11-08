@@ -19,7 +19,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:clickable="true"
-            android:src="@mipmap/nav_back" />
+            android:src="@mipmap/backs" />
 
         <TextView
             android:id="@+id/id_prod_list_tv"
@@ -133,8 +133,7 @@
                         android:id="@+id/order_profile"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:hint="简介"
-                        android:singleLine="true" />
+                        android:hint="简介" />
 
                 </RelativeLayout>
             </RelativeLayout>
@@ -209,7 +208,6 @@
                     android:hint="到达时间"
                     android:singleLine="true" />
             </RelativeLayout>
-
 
 
         </LinearLayout>

@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.administrator.myapplication.Application.MyApplication;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.entity.Category;
 import com.example.administrator.myapplication.entity.Evaluate;
@@ -150,20 +151,25 @@ public class FuWuItemActivity extends AppCompatActivity implements View.OnClickL
                     getChatKey();
                 } else {
                     Toast.makeText(FuWuItemActivity.this, "未登入", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(this, LoginActivity.class);
+                    startActivity(intent);
                 }
                 break;
             case R.id.prod_info_nowbuy:
                 //转到下单页面
-                if (user.getUserId() != 0) {
+                MyApplication myApplication = (MyApplication) getApplication();
+                User user1=myApplication.getUser();
+                if (user1.getUserId() != 0) {
                     //跳转到下单页面
                     Intent intent = new Intent(FuWuItemActivity.this, EmergencyPlaceAnOrderActivity.class);
                     Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
                             .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
                     String categoryJson = gson.toJson(category);
-                    String userJson = gson.toJson(user);
+                    String userJson = gson.toJson(user1);
                     String housekeepersJson = gson.toJson(housekeepers);
                     intent.putExtra("categoryJson", categoryJson);
-                    intent.putExtra("userJson", userJson);
+
+                  intent.putExtra("userJson", userJson);
                     intent.putExtra("housekeepersJson", housekeepersJson);
 
                     startActivity(intent);
@@ -171,6 +177,8 @@ public class FuWuItemActivity extends AppCompatActivity implements View.OnClickL
 
                 } else {
                     Toast.makeText(this, "未登入", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(this, LoginActivity.class);
+                    startActivity(intent);
                 }
 
                 break;

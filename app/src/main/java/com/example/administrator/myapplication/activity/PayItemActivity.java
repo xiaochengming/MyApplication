@@ -90,6 +90,8 @@ public class PayItemActivity extends AppCompatActivity implements View.OnClickLi
     @InjectView(R.id.prod_info_bottom)
     RelativeLayout prodInfoBottom;
     String unit;
+    @InjectView(R.id.rela_order_number)
+    RelativeLayout relaOrderNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,8 +135,6 @@ public class PayItemActivity extends AppCompatActivity implements View.OnClickLi
                 default:
                     orderWorker.setText(String.valueOf(order.getWorkerTime()) + "小时");
             }
-
-            orderPrice.setText("￥" + String.valueOf(order.getPrice()));
             Iterator<Price> iterator = order.getCategory().getPrices().iterator();
             while (iterator.hasNext()) {
                 Price price = iterator.next();
@@ -142,7 +142,19 @@ public class PayItemActivity extends AppCompatActivity implements View.OnClickLi
                     unit = price.getUnit();
                 }
             }
-            orderNumber.setText(String.valueOf(order.getNumber() + unit.substring(1, unit.length())));
+
+            orderPrice.setText("￥" + String.valueOf(order.getPrice() + unit));
+
+            //数量处理
+            if (unit.equals("/小时") || unit.equals("/人一天") || unit.equals("/月")) {
+
+                relaOrderNumber.setVisibility(View.GONE);
+            } else {
+                relaOrderNumber.setVisibility(View.VISIBLE);
+                orderNumber.setText(String.valueOf(order.getNumber() + unit.substring(1, unit.length())));
+            }
+
+
             orderAllprice.setText("￥" + String.valueOf(order.getAllprice()));
             orderTotalMoney.setText(String.valueOf(order.getAllprice()));
             //

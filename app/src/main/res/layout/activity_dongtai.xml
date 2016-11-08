@@ -23,11 +23,6 @@
     <!--帖子内容布局-->
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_below="@+id/tb_workerlist">
         <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
 
 
@@ -35,12 +30,16 @@
             android:id="@+id/lv_tiezi_pinglun"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/layout_tiezhibuju"
             android:layout_marginTop="10dp"
-            android:transcriptMode="normal"
-            android:layout_gravity="center_horizontal"/>
-        <!--android:transcriptMode="normal"-->
-    </LinearLayout>
+
+
+            android:layout_above="@+id/dibubuju"
+            android:layout_below="@+id/tb_workerlist"
+            />
+
+        <!--android:transcriptMode="normal"
+          android:layout_below="@+id/layout_tiezhibuju"
+          android:layout_gravity="center_horizontal"-->
 
 
     <LinearLayout

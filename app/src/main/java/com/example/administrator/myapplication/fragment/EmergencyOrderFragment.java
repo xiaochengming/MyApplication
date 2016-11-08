@@ -1,8 +1,10 @@
 package com.example.administrator.myapplication.fragment;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -76,7 +78,7 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
     TextView teState;
     TextView typefaceServiceType;
     ImageView imageView;
-    List<Order> orderList;
+
 
     @Nullable
     @Override
@@ -461,14 +463,11 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == TOITEM && resultCode == 2) {
-            // Log.d("requestCode+resultCode", "我执行了");
             //删除回调
             if (data != null) {
                 int orderId = Integer.parseInt(data.getStringExtra("orderId"));
                 int orderState = Integer.parseInt(data.getStringExtra("orderState"));
-
                 Iterator iterList = orders.iterator();
-                Log.d("requestCode+resultCode", orderState + "");
                 while (iterList.hasNext()) {
                     Order backOrder = (Order) iterList.next();
                     if (backOrder.getOrderId() == orderId) {
@@ -699,7 +698,17 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
     @Override
     public void onStart() {
         super.onStart();
-        //支付完成返回订单页面刷新
-        initData();
+        SharedPreferences pref = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
+        String orderId = pref.getString("orderId", "");
+        if (!"".equals(orderId) && orderId != null) {
+            for (int i = 0; i < orders.size(); i++) {
+                Order order = orders.get(i);
+                if (order.getOrderId() == Integer.parseInt(orderId)) {
+                    order.setState(2);
+                }
+
+            }
+            pref.edit().clear();
+        }
     }
 }

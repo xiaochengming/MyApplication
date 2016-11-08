@@ -2,6 +2,7 @@ package com.example.administrator.myapplication.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -561,12 +562,12 @@ public class MainActivity extends AppCompatActivity
                     .setIgnoreGif(true).build();
             x.image().bind(ivHeader, userHang, imageOptions);
         }
-        userPhone = myApplication.getUser().getNumber();
-        if (userPhone != null && !userPhone.equals("")) {
+        userPhone=myApplication.getUser().getNumber();
+        if (userPhone!=null&&!userPhone.equals("")){
             tvHeader.setText(userPhone);
         }
-        if (myApplication.getUser().getUserId() > 0) {
-            getId = myApplication.getUser().getUserId();
+        if (myApplication.getUser().getUserId()>0){
+            getId=myApplication.getUser().getUserId();
         }
         Log.i(TAG, "onResume called.userPhone:" + userPhone + ",getId:" + myApplication.getUser().getUserId());
     }

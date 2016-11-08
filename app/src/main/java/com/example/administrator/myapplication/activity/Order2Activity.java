@@ -2,11 +2,13 @@ package com.example.administrator.myapplication.activity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
@@ -32,7 +34,7 @@ import java.util.Calendar;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class OrderActivity extends AppCompatActivity {
+public class Order2Activity extends AppCompatActivity {
     @InjectView(R.id.tv1)
     TextView tv1;
     @InjectView(R.id.bt1)
@@ -53,11 +55,11 @@ public class OrderActivity extends AppCompatActivity {
     boolean flag;
     int Hid;
     TextView textView;
+    TextView etNumber;
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_order);
+        setContentView(R.layout.activity_order2);
         ButterKnife.inject(this);
         Button jia = (Button) findViewById(R.id.jia);
         Button jian = (Button) findViewById(R.id.jian);
@@ -65,6 +67,7 @@ public class OrderActivity extends AppCompatActivity {
         price = (TextView) findViewById(R.id.tv_price);
         count = (TextView) findViewById(R.id.count);
         textView= (TextView) findViewById(R.id.textView);
+        etNumber= (TextView) findViewById(R.id.et_number);
 
         myApplication = (MyApplication) getApplication();
         Intent intent = getIntent();
@@ -105,7 +108,6 @@ public class OrderActivity extends AppCompatActivity {
         });
         initView();
     }
-
     //初始化界面
     private void initView() {
         Event();
@@ -118,18 +120,18 @@ public class OrderActivity extends AppCompatActivity {
         } else {
             title.setText(category.getName());
         }
-        switch (category.getPrices().get(pricepostion).getUnit()){
-            case("/小时"):
-                textView.setText("时长:");
-                break;
-            case("/月"):
-                textView.setText("时长:");
-                break;
-            case("/人一天"):
-                textView.setText("人数:");
-                break;
+//        switch (category.getPrices().get(pricepostion).getUnit()){
+//            case("/小时"):
+//                textView.setText("时长:");
+//                break;
+//            case("/月"):
+//                textView.setText("时长:");
+//                break;
+//            case("/人一天"):
+//                textView.setText("人数:");
+//                break;
 
-        }
+//        }
 
         //地址选择点击事件
         bt1.setOnClickListener(new View.OnClickListener() {
@@ -137,10 +139,10 @@ public class OrderActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (myApplication.getUser().getUserId()>0){
                     //跳转到预约地址界面
-                    Intent intent=new Intent(OrderActivity.this,YuYueAddressActivity.class);
+                    Intent intent=new Intent(Order2Activity.this,YuYueAddressActivity.class);
                     startActivityForResult(intent,1001);
                 }else {
-                    Intent intent=new Intent(OrderActivity.this,LoginActivity.class);
+                    Intent intent=new Intent(Order2Activity.this,LoginActivity.class);
                     startActivityForResult(intent,201);
                 }
 
@@ -160,7 +162,7 @@ public class OrderActivity extends AppCompatActivity {
             return;
         }
         if (resultCode==RESULT_OK&&requestCode==201){
-         Event();
+            Event();
         }
     }
 
@@ -205,15 +207,23 @@ public class OrderActivity extends AppCompatActivity {
     //点击事件 选择服务时间
     public void yuyue(View v) {
         Log.i("OrderActivity", "yuyue:  ");
+        String s=etNumber.getText().toString();
+        if(s.isEmpty()||s.equals("")){
+            Toast.makeText(Order2Activity.this, "请输入面积", Toast.LENGTH_SHORT).show();
+            return;
+        }else if (Integer.parseInt(s)>500&&Integer.parseInt(s)<0){
+            Toast.makeText(Order2Activity.this, "输入错误", Toast.LENGTH_SHORT).show();
+            return;
+        }
         if (address == null) {
             Intent intent=new Intent(this,LoginActivity.class);
             startActivityForResult(intent,201);
         } else {
             Intent intent = new Intent(this, TimeActivity.class);
             float jiage = category.getPrices().get(pricepostion).getPrice();
-            int number = Integer.parseInt((String) count.getText());
+            int number = Integer.parseInt(s);
             float allprice = number * jiage;
-            int workertime = category.getPrices().get(pricepostion).getWorkertime() * number;
+            int workertime = Integer.parseInt(s)/10;
             //赋值
             Timestamp time = null;
          /*(int orderId, User user, Address address, Timestamp time,
@@ -287,7 +297,7 @@ public class OrderActivity extends AppCompatActivity {
                         insertOrder(order);
                     } else {
                         Log.i("OrderActivity", "onDateSet: 不符合要求 c1:" + new Timestamp(calendar.getTimeInMillis()) + "c2:" + new Timestamp(c2.getTimeInMillis()) + "c3:" + new Timestamp(c3.getTimeInMillis()));
-                        Toast.makeText(OrderActivity.this, "时间选择错误时间为下月开始三个月之内", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Order2Activity.this, "时间选择错误时间为下月开始三个月之内", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -307,11 +317,11 @@ public class OrderActivity extends AppCompatActivity {
             @Override
             public void onSuccess(String result) {
                 if (Integer.parseInt(result) == -1) {
-                    Toast.makeText(OrderActivity.this, "订单存在请到订单页面查看", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Order2Activity.this, "订单存在请到订单页面查看", Toast.LENGTH_SHORT).show();
                 } else {
                     order.setOrderId(Integer.parseInt(result));
                     //跳转到结账页面
-                    Intent intent = new Intent(OrderActivity.this, PayActivity.class);
+                    Intent intent = new Intent(Order2Activity.this, PayActivity.class);
                     intent.putExtra("order", order);
                     startActivity(intent);
                 }
@@ -335,5 +345,14 @@ public class OrderActivity extends AppCompatActivity {
 
 
     }
+    public boolean onTouchEvent(MotionEvent event) {
+        if (null != this.getCurrentFocus()) {
+            /**
+             * 点击空白位置 隐藏软键盘
+             */
+            InputMethodManager mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            return mInputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
+        }
+        return super.onTouchEvent(event);
+    }
 }
-

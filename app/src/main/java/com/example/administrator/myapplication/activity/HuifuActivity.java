@@ -111,8 +111,10 @@ public class HuifuActivity extends AppCompatActivity {
             @Override
             public void onPull() {
                 //下拉加载
-                page++;
-                getDate();
+                lvHuifu.completeLoad();
+                TextView textView=(TextView)  lvHuifu.findViewById(R.id.tv_footer);
+                textView.setText("暂无更多数据");
+                Toast.makeText(HuifuActivity.this, "已经到底了", Toast.LENGTH_SHORT).show();
             }
         });
         showLuntanTextEnterpinglun.setOnClickListener(new View.OnClickListener() {
@@ -144,7 +146,7 @@ public class HuifuActivity extends AppCompatActivity {
 		 * 将要推送的用户id传给服务端
 		 */
         //ip:192.168.0.101换成自己的,alias=2:换成推送用户的id
-        String urlString=StringUtil.ip+"/PushServlet?aliasalias="+userId;
+        String urlString=StringUtil.ip+"/PushServlet?alias="+userId;
         //创建请求
         StringRequest request=new StringRequest(urlString, new Response.Listener<String>() {
 
