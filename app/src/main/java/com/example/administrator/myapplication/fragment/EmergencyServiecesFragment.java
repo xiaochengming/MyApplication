@@ -275,7 +275,7 @@ public class EmergencyServiecesFragment extends Fragment implements RefreshListV
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-
+                        Toast.makeText(getActivity(), "请检查是否连接网络", Toast.LENGTH_SHORT).show();
 
                     }
 

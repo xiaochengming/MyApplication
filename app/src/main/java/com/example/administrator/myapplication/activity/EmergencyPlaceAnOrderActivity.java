@@ -350,7 +350,12 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
                     Toast.makeText(this, "暂无地址，快去添加吧", Toast.LENGTH_SHORT).show();
 
                 } else {
-                    toMySqlOder();
+                    if (newOrder() != null && arriveTime != null) {
+                        toMySqlOder();
+                    } else {
+                        Toast.makeText(this, "正在加载数据", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
 
                 break;
@@ -399,7 +404,7 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
                         if (result != null) {
                             //返回订单id
 
-                            long time = (long) ((int)(Double.parseDouble(result) /60)*60* 1000);
+                            long time = (long) ((int) (Double.parseDouble(result) / 60) * 60 * 1000);
                             Time addressTime = new Time(time);
                             arriveTime = addressTime;
                             orderProdYunfeiMoney.setText(arriveTime + "");
