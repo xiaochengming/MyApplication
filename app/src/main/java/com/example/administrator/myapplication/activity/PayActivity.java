@@ -77,7 +77,7 @@ public class PayActivity extends AppCompatActivity {
     @InjectView(R.id.gopay_pay)
     Button gopayPay;
     private final int REQUEST_EXTERNAL = 2;
-
+    Timestamp en;
     boolean flag = true;
     String orderId;
     @InjectView(R.id.tb_title)
@@ -86,6 +86,7 @@ public class PayActivity extends AppCompatActivity {
     @InjectView(R.id.tv_wufujE)
     TextView tvWufujE;
     ProgressDialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -189,9 +190,9 @@ public class PayActivity extends AppCompatActivity {
 
     }
 
-   void zhifu(boolean flag) {
+    void zhifu(boolean flag) {
 
-       showDialog("正在获取订单...");
+        showDialog("正在获取订单...");
         BP.pay(order.getCategory().getName(), "订单编号：" + order.getOrderId(), 0.02, flag, new PListener() {
             @Override
             public void orderId(String s) {
@@ -205,9 +206,8 @@ public class PayActivity extends AppCompatActivity {
                 hideDialog();
                 if (order.getArriveTime() == null) {
                     changeOrderState(order.getOrderId());
-                }else {
+                } else {
                     changeOrderStateByEmergency(order);
-                    Toast.makeText(PayActivity.this, "wozhixingle", Toast.LENGTH_SHORT).show();
                 }
 
                 //queren();
@@ -230,7 +230,7 @@ public class PayActivity extends AppCompatActivity {
         });
     }
 
-     void queren() {
+    void queren() {
         BP.query(orderId, new QListener() {
             @Override
             public void succeed(String s) {
@@ -287,7 +287,7 @@ public class PayActivity extends AppCompatActivity {
         RequestParams params = new RequestParams(StringUtil.ip + "/Yan_EmergencyOrderPay");
         Timestamp newTime = new Timestamp(System.currentTimeMillis());
         long endTime = order.getArriveTime().getTime() + newTime.getTime();
-        Timestamp en = new Timestamp(endTime);
+        en = new Timestamp(endTime);
 
         order.setEndtime(en);// 获取下单时间
         Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
@@ -299,6 +299,7 @@ public class PayActivity extends AppCompatActivity {
             public void onSuccess(String result) {
                 SharedPreferences.Editor editor = getSharedPreferences("data", MODE_PRIVATE).edit();
                 editor.putString("orderId", order.getOrderId() + "");
+                editor.putString("en", en + "");
                 editor.commit();
                 Intent intent = new Intent(PayActivity.this, MainActivity.class);
                 startActivity(intent);
@@ -322,6 +323,7 @@ public class PayActivity extends AppCompatActivity {
         });
 
     }
+
     void showDialog(String message) {
         try {
             if (dialog == null) {
@@ -334,6 +336,7 @@ public class PayActivity extends AppCompatActivity {
             // 在其他线程调用dialog会报错
         }
     }
+
     void hideDialog() {
         if (dialog != null && dialog.isShowing())
             try {

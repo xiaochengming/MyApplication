@@ -51,7 +51,6 @@ public class FuWuItemActivity extends AppCompatActivity implements View.OnClickL
     int pageSize = 5;// 页大小
 
     Category category;
-    User user;
     @InjectView(R.id.id_prod_list_iv_left)
     ImageView idProdListIvLeft;
     @InjectView(R.id.prod_info_tv_des_name)
@@ -130,7 +129,6 @@ public class FuWuItemActivity extends AppCompatActivity implements View.OnClickL
         Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
                 .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
         category = gson.fromJson(categoriesJson, Category.class);
-        user = gson.fromJson(userJson, User.class);
         housekeepers = gson.fromJson(housekeeperJson, new TypeToken<List<Housekeeper>>() {
         }.getType());
     }
@@ -144,11 +142,14 @@ public class FuWuItemActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View view) {
+
         switch (view.getId()) {
             case R.id.prod_info_cart:
                 //转到客服
-                if (user.getUserId() != 0) {
-                    getChatKey();
+                MyApplication myApplication = (MyApplication) getApplication();
+                User user1 = myApplication.getUser();
+                if (user1.getUserId() != 0) {
+                    getChatKey(user1);
                 } else {
                     Toast.makeText(FuWuItemActivity.this, "未登入", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(this, LoginActivity.class);
@@ -157,19 +158,19 @@ public class FuWuItemActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.prod_info_nowbuy:
                 //转到下单页面
-                MyApplication myApplication = (MyApplication) getApplication();
-                User user1=myApplication.getUser();
-                if (user1.getUserId() != 0) {
+                MyApplication myApplication1 = (MyApplication) getApplication();
+                User user2 = myApplication1.getUser();
+                if (user2.getUserId() != 0) {
                     //跳转到下单页面
                     Intent intent = new Intent(FuWuItemActivity.this, EmergencyPlaceAnOrderActivity.class);
                     Gson gson = new GsonBuilder().registerTypeAdapter(Time.class, new TimesTypeAdapter())
                             .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
                     String categoryJson = gson.toJson(category);
-                    String userJson = gson.toJson(user1);
+                    String userJson = gson.toJson(user2);
                     String housekeepersJson = gson.toJson(housekeepers);
                     intent.putExtra("categoryJson", categoryJson);
 
-                  intent.putExtra("userJson", userJson);
+                    intent.putExtra("userJson", userJson);
                     intent.putExtra("housekeepersJson", housekeepersJson);
 
                     startActivity(intent);
@@ -284,7 +285,7 @@ public class FuWuItemActivity extends AppCompatActivity implements View.OnClickL
     }
 
     //获取聊天密钥
-    public void getChatKey() {
+    public void getChatKey(final User user) {
         String url = StringUtil.ip + "/Yan_getChatKeyServlet";
         RequestParams requestParams = new RequestParams(url);
         //发送用户id

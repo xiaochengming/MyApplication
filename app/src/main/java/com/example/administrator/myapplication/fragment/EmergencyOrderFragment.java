@@ -701,12 +701,16 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
         SharedPreferences pref = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
         String orderId = pref.getString("orderId", "");
         if (!"".equals(orderId) && orderId != null) {
+            String time = pref.getString("en", "");
+            Timestamp en = Timestamp.valueOf(time);//转换时间字符串为Timestamp
             for (int i = 0; i < orders.size(); i++) {
                 Order order = orders.get(i);
                 if (order.getOrderId() == Integer.parseInt(orderId)) {
                     order.setState(2);
+                    order.setEndtime(en);
                 }
-
+                Message message = handler1.obtainMessage(1);     // Message
+                handler1.sendMessageDelayed(message, 1000);
             }
             pref.edit().clear();
         }
