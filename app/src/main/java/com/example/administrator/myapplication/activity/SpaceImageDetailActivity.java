@@ -15,62 +15,54 @@ import com.example.administrator.myapplication.util.StringUtil;
 
 import org.xutils.x;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 public class SpaceImageDetailActivity extends AppCompatActivity {
-    @InjectView(R.id.vp_space_image)
-    ViewPager vpSpaceImage;
-    private List<String> mDatas;
-    private int mPosition;
+    List<String> imageList;
+    int postion;
+    List<ImageView> imageViewList = new ArrayList<>();
+    @InjectView(R.id.iv_xianshi)
+    ImageView ivXianshi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.lh_spaceimage_detail);
+        setContentView(R.layout.activity_show_image);
         ButterKnife.inject(this);
+        initData();
+        initEven();
+
+//        initShezhi();
+    }
+
+//    public void initShezhi() {
+//        vpShowImage.setCurrentItem(postion);
+//    }
+
+    public void initData() {
         Intent intent = getIntent();
-        mDatas = intent.getStringArrayListExtra("images");
-        mPosition = intent.getIntExtra("postion", 0);
-        //给你viewpage设置数据源
-        vpSpaceImage.setAdapter(new myPageAdapter());
-        //显示图片
-        vpSpaceImage.setCurrentItem(mPosition);
+        imageList = intent.getStringArrayListExtra("image");
+        postion = intent.getIntExtra("postion", 0);
+        x.image().bind(ivXianshi,  imageList.get(postion));
+//        for(int i=0;i<imageList.size();i++){
+//            ImageView imageView = new ImageView(ShowImageActivity.this);
+//            imageViewList.add(imageView);
+//        }
 
     }
-    class myPageAdapter extends PagerAdapter{
 
-        @Override
-        public int getCount() {
-            return mDatas.size();
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            //super.destroyItem(container, position, object);
-            container.removeView(container.getChildAt(position));
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view==object;
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            ImageView imageView = new ImageView(SpaceImageDetailActivity.this);
-            container.addView(imageView);
-            x.image().bind(imageView, mDatas.get(position));
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.i("MyAdapter", "onClick: 退出");
-                    finish();
-                }
-            });
-            return imageView;
-        }
+    public void initEven() {
+//        vpShowImage.setAdapter(new MyAdapter());
     }
+
+    @OnClick(R.id.iv_xianshi)
+    public void onClick() {
+        finish();
+    }
+
 }

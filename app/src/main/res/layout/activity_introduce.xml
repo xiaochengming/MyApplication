@@ -185,13 +185,6 @@
         android:background="#CCCCCC"
         android:id="@+id/text_view_introduct3"
         android:layout_below="@id/tv_you_guan"/>
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/lv_jie_shao"
-        android:layout_below="@+id/text_view_introduct3"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@+id/but_introduce" />
     <Button
         android:background="@drawable/button_style"
         android:textColor="@android:color/white"
@@ -203,4 +196,14 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         />
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lv_jie_shao"
+        android:layout_below="@+id/text_view_introduct3"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/but_introduce"
+        />
+    <!--android:layout_above="@+id/but_introduce"-->
+
 </RelativeLayout>

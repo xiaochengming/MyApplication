@@ -496,12 +496,12 @@
         "source": "F:\\xiangmu\\1026\\MyApplication\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_notification_network_available.png"
     },
     {
-        "merged": "F:\\xiangmu\\1026\\MyApplication\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_text_normal.png",
-        "source": "F:\\xiangmu\\1026\\MyApplication\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_text_normal.png"
-    },
-    {
         "merged": "F:\\xiangmu\\1026\\MyApplication\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_notification_connecting.png",
         "source": "F:\\xiangmu\\1026\\MyApplication\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_notification_connecting.png"
+    },
+    {
+        "merged": "F:\\xiangmu\\1026\\MyApplication\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_text_normal.png",
+        "source": "F:\\xiangmu\\1026\\MyApplication\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_text_normal.png"
     },
     {
         "merged": "F:\\xiangmu\\1026\\MyApplication\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f61e.png",
@@ -544,12 +544,12 @@
         "source": "F:\\xiangmu\\1026\\MyApplication\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f52b.png"
     },
     {
-        "merged": "F:\\xiangmu\\1026\\MyApplication\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f60f.png",
-        "source": "F:\\xiangmu\\1026\\MyApplication\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f60f.png"
-    },
-    {
         "merged": "F:\\xiangmu\\1026\\MyApplication\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_phone_normal.png",
         "source": "F:\\xiangmu\\1026\\MyApplication\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_phone_normal.png"
+    },
+    {
+        "merged": "F:\\xiangmu\\1026\\MyApplication\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f60f.png",
+        "source": "F:\\xiangmu\\1026\\MyApplication\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f60f.png"
     },
     {
         "merged": "F:\\xiangmu\\1026\\MyApplication\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_unread_message_count.png",

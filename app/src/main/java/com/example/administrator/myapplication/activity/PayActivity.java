@@ -86,6 +86,7 @@ public class PayActivity extends AppCompatActivity {
     @InjectView(R.id.tv_wufujE)
     TextView tvWufujE;
     ProgressDialog dialog;
+    Timestamp en;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

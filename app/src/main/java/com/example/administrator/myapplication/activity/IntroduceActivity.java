@@ -28,11 +28,14 @@ import android.widget.Toast;
 import com.example.administrator.myapplication.Adapter.CommonAdapter;
 import com.example.administrator.myapplication.Adapter.ViewHolder;
 import com.example.administrator.myapplication.R;
+import com.example.administrator.myapplication.activitymi.ShowImageActivity;
 import com.example.administrator.myapplication.entity.Category;
 import com.example.administrator.myapplication.entity.Evaluate;
 import com.example.administrator.myapplication.entity.Housekeeper;
 import com.example.administrator.myapplication.entity.ImageTbl;
+import com.example.administrator.myapplication.util.ListViewItemUtils;
 import com.example.administrator.myapplication.util.StringUtil;
+import com.example.administrator.myapplication.widget.MyGridView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -86,7 +89,7 @@ public class IntroduceActivity extends AppCompatActivity {
     @InjectView(R.id.lv_jie_shao)
     ListView lvJieShao;
     CommonAdapter<Evaluate> evaluateAdapter;
-    int evaluateId;
+   // int evaluateId;
     ImagesInnerGridViewAdapter imagesInnerGridViewAdapter = null;
     @InjectView(R.id.tv_in_sex)
     TextView tvInSex;
@@ -229,7 +232,7 @@ public class IntroduceActivity extends AppCompatActivity {
                         evaluateAdapter = new CommonAdapter<Evaluate>(IntroduceActivity.this, evaluates, R.layout.ay_ping_lun) {
                             @Override
                             public void convert(ViewHolder viewHolder, Evaluate evaluate, int position) {
-                                evaluateId = evaluate.getEvaluate_id();
+                               // evaluateId = evaluate.getEvaluate_id();
                                 //给控件赋值
                                 //用户头像
                                 ImageView ivUser = viewHolder.getViewById(R.id.circle_image_view1);
@@ -255,13 +258,11 @@ public class IntroduceActivity extends AppCompatActivity {
                                 ExpandableTextView etvPingLun = viewHolder.getViewById(R.id.tv_ping_lun_js);
                                 etvPingLun.setText(evaluate.getEvaluate(), position);
                                 //评论图片赋值
-                                GridView mGridView = viewHolder.getViewById(R.id.multi_photo_grid);
-                                if (imagesInnerGridViewAdapter == null) {
-                                    imagesInnerGridViewAdapter = new ImagesInnerGridViewAdapter(getImageData());
-                                    mGridView.setAdapter(imagesInnerGridViewAdapter);
-                                } else {
-                                    imagesInnerGridViewAdapter.notifyDataSetChanged();
-                                }
+                              GridView mGridView = viewHolder.getViewById(R.id.multi_photo_grid);
+                                getImageData(mGridView,evaluate.getEvaluate_id());
+
+
+
 
                                 //评论时间赋值
                                 TextView tvPingLunTime = viewHolder.getViewById(R.id.tv_ping_lun_time);
@@ -269,8 +270,10 @@ public class IntroduceActivity extends AppCompatActivity {
                             }
                         };
                         lvJieShao.setAdapter(evaluateAdapter);
+                        ListViewItemUtils.setListViewHeightBasedOnChildren(lvJieShao);
                     } else {
                         evaluateAdapter.notifyDataSetChanged();
+                        ListViewItemUtils.setListViewHeightBasedOnChildren(lvJieShao);
                     }
                 }
 
@@ -294,10 +297,11 @@ public class IntroduceActivity extends AppCompatActivity {
     }
 
     //获取网络数据（图片地址）
-    private List<String> getImageData() {
+    private void getImageData(final GridView mGridView,int evaluateId) {
         final List<String> datas = new ArrayList<String>();
         RequestParams requestParams = new RequestParams(StringUtil.ip + "/ChaZhaoImageServlet");
         requestParams.addQueryStringParameter("evaluateId", evaluateId + "");
+        Log.i("IntroduceActivity", "getImageData11: "+evaluateId);
         x.http().get(requestParams, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
@@ -313,6 +317,27 @@ public class IntroduceActivity extends AppCompatActivity {
                         datas.add(StringUtil.ip + imageTbls.get(i).getImageAddress());
                         Log.i("Main2Activity", "onSuccess  datas:" + datas);
                     }
+                        mGridView.setAdapter(new CommonAdapter<String>(IntroduceActivity.this,datas,R.layout.lh_image_view) {
+                            @Override
+                            public void convert(ViewHolder viewHolder, String s, final int position) {
+                                ImageView imageView=viewHolder.getViewById(R.id.imageView14);
+                                x.image().bind(imageView,s);
+                                imageView.setTag(position);
+                                imageView.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        int x= (int) v.getTag();
+                                        Intent intent = new Intent(IntroduceActivity.this, SpaceImageDetailActivity.class);
+                                        intent.putStringArrayListExtra("image", (ArrayList<String>) datas);
+                                        intent.putExtra("postion", x);
+                                        startActivity(intent);
+                                        overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
+                                        //Log.i("ImagesInner", "onClick  :" + datas2.get(position));
+                                    }
+                                });
+                            }
+                        });
+
                 }
             }
 
@@ -331,7 +356,7 @@ public class IntroduceActivity extends AppCompatActivity {
 
             }
         });
-        return datas;
+
     }
 
     //给gridview设置适配器
@@ -365,23 +390,7 @@ public class IntroduceActivity extends AppCompatActivity {
             //imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             x.image().bind(imageView, datas2.get(position));
             Log.i("ImagesInner", "getView  datas:" + datas2);
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(IntroduceActivity.this, SpaceImageDetailActivity.class);
-                    intent.putExtra("images", (ArrayList<String>) datas2);
-                    intent.putExtra("position", position);
-//                    int[] location = new int[2];
-//                    imageView.getLocationOnScreen(location);
-//                    intent.putExtra("locationX", location[0]);
-//                    intent.putExtra("locationY", location[1]);
-//                    intent.putExtra("width", imageView.getWidth());
-//                    intent.putExtra("height", imageView.getHeight());
-                    startActivity(intent);
-                   // overridePendingTransition(0, 0);
-                    Log.i("ImagesInner", "onClick  :" + datas2.get(position));
-                }
-            });
+
             return imageView;
         }
 
