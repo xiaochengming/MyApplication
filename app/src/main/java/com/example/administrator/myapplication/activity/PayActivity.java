@@ -33,7 +33,7 @@ import org.xutils.x;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-
+import java.util.Date;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -77,7 +77,7 @@ public class PayActivity extends AppCompatActivity {
     @InjectView(R.id.gopay_pay)
     Button gopayPay;
     private final int REQUEST_EXTERNAL = 2;
-    Timestamp en;
+
     boolean flag = true;
     String orderId;
     @InjectView(R.id.tb_title)
@@ -86,7 +86,6 @@ public class PayActivity extends AppCompatActivity {
     @InjectView(R.id.tv_wufujE)
     TextView tvWufujE;
     ProgressDialog dialog;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -190,9 +189,9 @@ public class PayActivity extends AppCompatActivity {
 
     }
 
-    void zhifu(boolean flag) {
+   void zhifu(boolean flag) {
 
-        showDialog("正在获取订单...");
+       showDialog("正在获取订单...");
         BP.pay(order.getCategory().getName(), "订单编号：" + order.getOrderId(), 0.02, flag, new PListener() {
             @Override
             public void orderId(String s) {
@@ -206,8 +205,9 @@ public class PayActivity extends AppCompatActivity {
                 hideDialog();
                 if (order.getArriveTime() == null) {
                     changeOrderState(order.getOrderId());
-                } else {
+                }else {
                     changeOrderStateByEmergency(order);
+                    Toast.makeText(PayActivity.this, "wozhixingle", Toast.LENGTH_SHORT).show();
                 }
 
                 //queren();
@@ -230,7 +230,7 @@ public class PayActivity extends AppCompatActivity {
         });
     }
 
-    void queren() {
+     void queren() {
         BP.query(orderId, new QListener() {
             @Override
             public void succeed(String s) {
@@ -324,7 +324,6 @@ public class PayActivity extends AppCompatActivity {
         });
 
     }
-
     void showDialog(String message) {
         try {
             if (dialog == null) {
@@ -337,7 +336,6 @@ public class PayActivity extends AppCompatActivity {
             // 在其他线程调用dialog会报错
         }
     }
-
     void hideDialog() {
         if (dialog != null && dialog.isShowing())
             try {

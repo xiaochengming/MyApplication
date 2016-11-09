@@ -166,6 +166,8 @@ public class PersonalInformationActivity extends AppCompatActivity {
             //跳转（电话号码传过去）
             Intent intent = new Intent(PersonalInformationActivity.this, EditActivity.class);
             startActivityForResult(intent,13);
+            //左右滑入
+            overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
         }
         return true;
     }
