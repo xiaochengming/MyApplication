@@ -25,6 +25,7 @@ import com.example.administrator.myapplication.entity.User;
 import com.example.administrator.myapplication.fragment.RemindFragment;
 import com.example.administrator.myapplication.util.StringUtil;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.Set;
 
@@ -108,7 +109,7 @@ public class FastRegistrationActivity extends AppCompatActivity {
                     Toast.makeText(this,"请输入正确的手机号码",Toast.LENGTH_SHORT).show();
                 }else {
                     //获取验证码点击事件（发送请求，短息收到验证码）
-                    BmobSMS.requestSMSCode(FastRegistrationActivity.this, "13024525917", "登录与注册功能", new RequestSMSCodeListener() {
+                    BmobSMS.requestSMSCode(FastRegistrationActivity.this, number, "登录与注册功能", new RequestSMSCodeListener() {
                         @Override
                         public void done(Integer integer, BmobException e) {
                             if (e==null){
@@ -117,7 +118,7 @@ public class FastRegistrationActivity extends AppCompatActivity {
                                 Toast.makeText(FastRegistrationActivity.this,"验证码发送成功，请尽快使用",Toast.LENGTH_SHORT).show();
                                 time.start();
                             }else {
-                                Toast.makeText(FastRegistrationActivity.this,"请输入正确的手机号码",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(FastRegistrationActivity.this,"验证码发送失败",Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -163,7 +164,7 @@ public class FastRegistrationActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Gson gson=new Gson();
+                        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
                         User user=gson.fromJson(response,User.class);
                         Log.d("TAG", "FastRegistrationActivity user="+user);
                         if (user!=null){
@@ -188,10 +189,10 @@ public class FastRegistrationActivity extends AppCompatActivity {
                             myApplication.setFlag(true);
                             myApplication.setUser(user);
                             intent.putExtra("user",user);
-                            setResult(RESULT_CANCELED,intent);
+                            setResult(RESULT_OK,intent);
                             finish();
                             Log.d("TAG", "FastRegistrationActivity id="+user.getUserId()+",FastRegistrationActivity number="+user.getNumber());
-                            Toast.makeText(FastRegistrationActivity.this,"注册成功", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(FastRegistrationActivity.this,"注册成功", Toast.LENGTH_SHORT).show();
                             Log.d("TAG", "FastRegistrationActivity"+response);
                         }else {
                             Toast.makeText(FastRegistrationActivity.this,"注册失败，请检查电话号码是否正确", Toast.LENGTH_SHORT).show();

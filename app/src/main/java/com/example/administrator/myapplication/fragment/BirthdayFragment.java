@@ -21,7 +21,7 @@ import java.util.Date;
  */
 public class BirthdayFragment extends Fragment {
     MyApplication myApplication;
-    String userBirthday;
+    String userBirthday=null;
     View v;
     TextView tvBirthday;
     @Override
@@ -55,9 +55,14 @@ public class BirthdayFragment extends Fragment {
                 userBirthday=dateToString(myApplication.getUser().getBirthday());
             }
         }
-        if (userBirthday!=null&&userBirthday.length()>0){
-            tvBirthday.setText(dateToString(myApplication.getUser().getBirthday()));
-        }else if(userBirthday==null&&userBirthday.length()==0){
+        if (userBirthday!=null){
+            if (userBirthday.equals("")){
+                tvBirthday.setText("还没编辑生日");
+            }else {
+                tvBirthday.setText(dateToString(myApplication.getUser().getBirthday()));
+            }
+
+        }else {
             tvBirthday.setText("还没编辑生日");
         }
     }
@@ -118,9 +123,13 @@ public class BirthdayFragment extends Fragment {
                     userBirthday=dateToString(myApplication.getUser().getBirthday());
                 }
             }
-            if (userBirthday!=null&&userBirthday.length()>0){
-                tvBirthday.setText(dateToString(myApplication.getUser().getBirthday()));
-            }else if(userBirthday==null&&userBirthday.length()==0){
+            if (userBirthday!=null){
+                if (userBirthday.equals("")){
+                    tvBirthday.setText("还没编辑生日");
+                }else {
+                    tvBirthday.setText(dateToString(myApplication.getUser().getBirthday()));
+                }
+            }else {
                 tvBirthday.setText("还没编辑生日");
             }
 
@@ -139,9 +148,13 @@ public class BirthdayFragment extends Fragment {
                 userBirthday=dateToString(myApplication.getUser().getBirthday());
             }
         }
-        if (userBirthday!=null&&userBirthday.length()>0){
-            tvBirthday.setText(dateToString(myApplication.getUser().getBirthday()));
-        }else if(userBirthday==null&&userBirthday.length()==0){
+        if (userBirthday!=null){
+            if (userBirthday.equals("")){
+                tvBirthday.setText("还没编辑生日");
+            }else {
+                tvBirthday.setText(dateToString(myApplication.getUser().getBirthday()));
+            }
+        }else {
             tvBirthday.setText("还没编辑生日");
         }
 

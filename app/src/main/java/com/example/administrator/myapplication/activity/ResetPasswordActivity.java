@@ -25,6 +25,7 @@ import com.example.administrator.myapplication.entity.User;
 import com.example.administrator.myapplication.fragment.RemindFragment;
 import com.example.administrator.myapplication.util.StringUtil;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.Set;
 
@@ -108,7 +109,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
                     Toast.makeText(this,"请输入正确的手机号码",Toast.LENGTH_SHORT).show();
                 }else {
                     //获取验证码点击事件（发送请求，短息收到验证码）
-                    BmobSMS.requestSMSCode(ResetPasswordActivity.this, "13024525917", "登录与注册功能", new RequestSMSCodeListener() {
+                    BmobSMS.requestSMSCode(ResetPasswordActivity.this, number, "登录与注册功能", new RequestSMSCodeListener() {
                         @Override
                         public void done(Integer integer, BmobException e) {
                             if (e==null){
@@ -117,7 +118,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
                                 Toast.makeText(ResetPasswordActivity.this,"验证码发送成功，请尽快使用",Toast.LENGTH_SHORT).show();
                                 time2.start();
                             }else {
-                                Toast.makeText(ResetPasswordActivity.this,"请输入正确的手机号码",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ResetPasswordActivity.this,"验证码发送失败",Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -143,7 +144,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
                         @Override
                         public void done(BmobException e) {
                             if (e==null){
-                                Toast.makeText(ResetPasswordActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ResetPasswordActivity.this,"修改成功",Toast.LENGTH_SHORT).show();
                                 //登录成功，数据保存并且跳转到"我的"界面，显示已经登录
                                 getDate();
                             }else {
@@ -164,7 +165,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Gson gson=new Gson();
+                        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
                         User user=gson.fromJson(response,User.class);
                         Log.d("TAG", "ResetPasswordActivity user"+user);
                         if (user!=null){
@@ -189,9 +190,10 @@ public class ResetPasswordActivity extends AppCompatActivity {
                             myApplication.setFlag(true);
                             myApplication.setUser(user);
                             intent.putExtra("user",user);
-                            setResult(RESULT_FIRST_USER,intent);
+                            setResult(RESULT_OK,intent);
+                            finish();
                             Log.d("TAG", "ResetPasswordActivity id="+user.getUserId()+",ResetPasswordActivity number="+user.getNumber());
-                            Toast.makeText(ResetPasswordActivity.this,"修改成功", Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(ResetPasswordActivity.this,"修改成功", Toast.LENGTH_SHORT).show();
                             Log.d("TAG", "ResetPasswordActivity"+response);
                         }else {
                             Toast.makeText(ResetPasswordActivity.this,"重置失败，请检查电话号码是否正确", Toast.LENGTH_SHORT).show();

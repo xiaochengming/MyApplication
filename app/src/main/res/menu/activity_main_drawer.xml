@@ -17,7 +17,7 @@
         <item
             android:id="@+id/nav_xiao_xi"
             android:icon="@mipmap/xiao_xi"
-            android:title="消息通知"/>
+            android:title="与我相关"/>
         <item
             android:id="@+id/nav_dingdan"
             android:icon="@mipmap/order_on"

@@ -36,13 +36,19 @@ import org.xutils.x;
 
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import io.rong.photoview.log.LoggerDefault;
+
+import static com.mob.tools.utils.R.longToDate;
 
 public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -293,6 +299,7 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
 
     //插入数据库
     public void toMySqlOder() {
+        Log.i("onClick", "onClick: bbb");
         String url = StringUtil.ip + "/EmergencyPlaceAnOrderServlet";
         RequestParams requestParams = new RequestParams(url);
         //发送用户id
@@ -343,14 +350,22 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
 
     @Override
     public void onClick(View view) {
+        Log.i("onClick", "onClick: ");
         switch (view.getId()) {
+
             case R.id.order_goumai:
                 //下单按钮
+                Log.i("onClick", "onClick: aaa");
                 if ("暂无地址，快去添加吧".equals(orderDizhiDetaildizhi.getText().toString())) {
                     Toast.makeText(this, "暂无地址，快去添加吧", Toast.LENGTH_SHORT).show();
 
                 } else {
-                    toMySqlOder();
+                    if (newOrder() != null && arriveTime != null) {
+                        toMySqlOder();
+                    } else {
+                        Toast.makeText(this, "正在加载数据", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
 
                 break;
@@ -376,6 +391,7 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
             if (data != null) {
                 Address address = data.getParcelableExtra("address");
                 addressIsefault = address;
+
                 orderDizhiDetaildizhi.setText(addressIsefault.getAddress());
                 getArriveTime();
             }
@@ -396,13 +412,11 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
         x.http().get(requestParams, new Callback.CacheCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        if (result != null) {
-                            //返回订单id
 
-                            long time = (long) ((int)(Double.parseDouble(result) /60)*60* 1000);
-                            Time addressTime = new Time(time);
-                            arriveTime = addressTime;
-                            orderProdYunfeiMoney.setText(arriveTime + "");
+                        if (result != null) {
+                            //返回订单id)
+                            long time = (long) ((int) (Double.parseDouble(result) / 60) * 60 * 1000)+600000;
+                            timeHandle(time);
 
                         }
 
@@ -431,5 +445,23 @@ public class EmergencyPlaceAnOrderActivity extends AppCompatActivity implements 
 
         );
 
+    }
+
+    //时间处理
+    public void timeHandle(Long time) {
+        if (time == 0 || time < 600000) {
+
+            orderProdYunfeiMoney.setText("00:10:00");
+            arriveTime = Time.valueOf("00:10:00");
+
+        } else {
+
+            Timestamp timestamp = new Timestamp(time-8*60*60*1000);
+            DateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+            String time1 = sdf.format(timestamp);
+
+            arriveTime = Time.valueOf(time1);
+            orderProdYunfeiMoney.setText("" + time1);
+        }
     }
 }

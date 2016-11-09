@@ -20,6 +20,7 @@ import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.entity.User;
 import com.example.administrator.myapplication.util.StringUtil;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.Set;
 
@@ -91,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
-                                Gson gson=new Gson();
+                                Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
                                 User user=gson.fromJson(response,User.class);
                                 Log.i("TAG", "LoginActivity user"+user);
                                 if (user!=null){
@@ -138,14 +139,23 @@ public class LoginActivity extends AppCompatActivity {
             case tv_fast:
                 //跳转到快速注册界面
                 Intent intent=new Intent(LoginActivity.this,FastRegistrationActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,1166);
                 break;
             case R.id.tv_forget:
                 //跳转到密码重置界面
                 Intent intent1=new Intent(LoginActivity.this,ResetPasswordActivity.class);
-                startActivity(intent1);
+                startActivityForResult(intent1,1177);
                 break;
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode==RESULT_OK&&requestCode==1166){
+            finish();
+        }else if (resultCode==RESULT_OK&&requestCode==1177){
+            finish();
+        }
+    }
 }

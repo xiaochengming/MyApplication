@@ -60,7 +60,7 @@
             android:layout_marginRight="5dp"
             android:background="@drawable/shape_red"
             android:gravity="center"
-            android:text="立即购买"
+            android:text="立即预约"
             android:textColor="#ffffff"
             android:textSize="18sp" />
 

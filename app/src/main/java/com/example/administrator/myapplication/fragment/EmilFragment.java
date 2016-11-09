@@ -30,9 +30,14 @@ public class EmilFragment extends Fragment {
             myApplication= (MyApplication) getActivity().getApplication();
             userEmil=myApplication.getUser().getEmail();
             viewEmil= (TextView) v.findViewById(R.id.view_emil);
-            if (userEmil!=null&&userEmil.length()>0){
-                viewEmil.setText(myApplication.getUser().getEmail());
-            }else if (userEmil==null&&userEmil.length()==0){
+            if (userEmil!=null){
+                if (userEmil.equals("")){
+                    viewEmil.setText("还没编辑邮箱");
+                }else {
+                    viewEmil.setText(myApplication.getUser().getEmail());
+                }
+
+            }else {
                 viewEmil.setText("还没编辑邮箱");
             }
             return v;
@@ -42,9 +47,13 @@ public class EmilFragment extends Fragment {
         myApplication= (MyApplication) getActivity().getApplication();
         userEmil=myApplication.getUser().getEmail();
         viewEmil= (TextView) v.findViewById(R.id.view_emil);
-        if (userEmil!=null&&userEmil.length()>0){
-            viewEmil.setText(myApplication.getUser().getEmail());
-        }else if (userEmil==null&&userEmil.length()==0){
+        if (userEmil!=null){
+            if (userEmil.equals("")){
+                viewEmil.setText("还没编辑邮箱");
+            }else {
+                viewEmil.setText(myApplication.getUser().getEmail());
+            }
+        }else {
             viewEmil.setText("还没编辑邮箱");
         }
         return v;
@@ -53,9 +62,14 @@ public class EmilFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        if (userEmil!=null&&userEmil.length()>0){
-            viewEmil.setText(myApplication.getUser().getEmail());
-        }else if (userEmil==null&&userEmil.length()==0){
+        userEmil=myApplication.getUser().getEmail();
+        if (userEmil!=null){
+            if (userEmil.equals("")){
+                viewEmil.setText("还没编辑邮箱");
+            }else {
+                viewEmil.setText(myApplication.getUser().getEmail());
+            }
+        }else {
             viewEmil.setText("还没编辑邮箱");
         }
     }

@@ -447,62 +447,63 @@ public class MainActivity extends AppCompatActivity
                     }
                 }
             }
-        } else if (resultCode == RESULT_CANCELED) {
-            //注册后回调
-            if (myApplication.isFlag() == true) {
-                if (data != null && data.getParcelableExtra("user") != null) {
-                    User user = data.getParcelableExtra("user");
-                    getId = user.getUserId();
-                    if (user.getNumber() != null) {
-                        tvHeader.setText(user.getNumber());
-                    } else {
-                        tvHeader.setText("请登录");
-                    }
-                    if (user.getPhoto() != null) {
-                        //头像赋值
-                        ImageOptions imageOptions = new ImageOptions.Builder()
-                                //设置加载过程的图片
-                                .setLoadingDrawableId(R.mipmap.touxiang)
-                                //设置加载失败后的图片
-                                .setFailureDrawableId(R.mipmap.touxiang)
-                                //设置使用圆形图片
-                                .setCircular(true)
-                                //设置支持gif
-                                .setIgnoreGif(true).build();
-                        userHang = StringUtil.ip + "/" + user.getPhoto();
-                        x.image().bind(ivHeader, userHang, imageOptions);
-                    }
-                }
-            }
-        } else if (resultCode == RESULT_FIRST_USER) {
-            if (myApplication.isFlag() == true) {
-                //修改密码后回调
-                if (data.getParcelableExtra("user") != null) {
-                    User user = data.getParcelableExtra("user");
-                    getId = user.getUserId();
-                    if (user.getNumber() != null) {
-                        tvHeader.setText(user.getNumber());
-                    } else {
-                        tvHeader.setText("请登录");
-                    }
-                    if (user.getPhoto() != null) {
-                        //头像赋值
-                        ImageOptions imageOptions = new ImageOptions.Builder()
-                                //设置加载过程的图片
-                                .setLoadingDrawableId(R.mipmap.touxiang)
-                                //设置加载失败后的图片
-                                .setFailureDrawableId(R.mipmap.touxiang)
-                                //设置使用圆形图片
-                                .setCircular(true)
-                                //设置支持gif
-                                .setIgnoreGif(true).build();
-                        userHang = StringUtil.ip + "/" + user.getPhoto();
-                        x.image().bind(ivHeader, userHang, imageOptions);
-                    }
-                }
-            }
-
         }
+//        else if (resultCode == RESULT_CANCELED) {
+//            //注册后回调
+//            if (myApplication.isFlag() == true) {
+//                if (data != null && data.getParcelableExtra("user") != null) {
+//                    User user = data.getParcelableExtra("user");
+//                    getId = user.getUserId();
+//                    if (user.getNumber() != null) {
+//                        tvHeader.setText(user.getNumber());
+//                    } else {
+//                        tvHeader.setText("请登录");
+//                    }
+//                    if (user.getPhoto() != null) {
+//                        //头像赋值
+//                        ImageOptions imageOptions = new ImageOptions.Builder()
+//                                //设置加载过程的图片
+//                                .setLoadingDrawableId(R.mipmap.touxiang)
+//                                //设置加载失败后的图片
+//                                .setFailureDrawableId(R.mipmap.touxiang)
+//                                //设置使用圆形图片
+//                                .setCircular(true)
+//                                //设置支持gif
+//                                .setIgnoreGif(true).build();
+//                        userHang = StringUtil.ip + "/" + user.getPhoto();
+//                        x.image().bind(ivHeader, userHang, imageOptions);
+//                    }
+//                }
+//            }
+//        } else if (resultCode == RESULT_FIRST_USER) {
+//            if (myApplication.isFlag() == true) {
+//                //修改密码后回调
+//                if (data.getParcelableExtra("user") != null) {
+//                    User user = data.getParcelableExtra("user");
+//                    getId = user.getUserId();
+//                    if (user.getNumber() != null) {
+//                        tvHeader.setText(user.getNumber());
+//                    } else {
+//                        tvHeader.setText("请登录");
+//                    }
+//                    if (user.getPhoto() != null) {
+//                        //头像赋值
+//                        ImageOptions imageOptions = new ImageOptions.Builder()
+//                                //设置加载过程的图片
+//                                .setLoadingDrawableId(R.mipmap.touxiang)
+//                                //设置加载失败后的图片
+//                                .setFailureDrawableId(R.mipmap.touxiang)
+//                                //设置使用圆形图片
+//                                .setCircular(true)
+//                                //设置支持gif
+//                                .setIgnoreGif(true).build();
+//                        userHang = StringUtil.ip + "/" + user.getPhoto();
+//                        x.image().bind(ivHeader, userHang, imageOptions);
+//                    }
+//                }
+//          }
+
+  //      }
     }
     private static final String TAG = "LifeCycleActivity";
     private int param = 1;

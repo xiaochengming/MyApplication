@@ -143,7 +143,7 @@ public class FuwuOrderEvaluateActivity extends AppCompatActivity {
     //初始化控件
     public void initView() {
         if (order.getHousekeeper() != null) {
-            x.image().bind(prodListItemIv, StringUtil.ip + order.getHousekeeper().getHousePhoto());
+            x.image().bind(prodListItemIv, StringUtil.ip + "/"+order.getHousekeeper().getHousePhoto());
             housekeeperName.setText(order.getHousekeeper().getName());
             if (order.getHousekeeper().getSex() == 1) {
                 housekeeperSex.setText("男");

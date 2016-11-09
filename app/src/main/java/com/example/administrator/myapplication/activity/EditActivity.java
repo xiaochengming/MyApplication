@@ -1,7 +1,6 @@
 package com.example.administrator.myapplication.activity;
 
 import android.app.DatePickerDialog;
-import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -16,11 +15,11 @@ import android.text.InputType;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,7 +46,6 @@ import org.xutils.x;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -76,7 +74,7 @@ public class EditActivity extends AppCompatActivity {
     @InjectView(R.id.et_edit_age)
     EditText etEditAge;
     @InjectView(R.id.et_edit_sex)
-    EditText etEditSex;
+    RadioGroup etEditSex;
     @InjectView(R.id.edit_toolbar)
     Toolbar editToolbar;
     @InjectView(R.id.tv_edit_name)
@@ -123,9 +121,14 @@ public class EditActivity extends AppCompatActivity {
     public static final int SELECT_PIC = 11;
     public static final int TAKE_PHOTO = 12;
     public static final int CROP = 13;
+    @InjectView(R.id.rb_nan)
+    RadioButton rbNan;
+    @InjectView(R.id.rb_nv)
+    RadioButton rbNv;
     private File file;
     private Uri imageUri;
     Date data;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -150,37 +153,39 @@ public class EditActivity extends AppCompatActivity {
 
         Log.i("TAG", "onCreate   myApplication.getUser()=" + myApplication.getUser());
         if (myApplication.getUser() != null) {
-            if (myApplication.getUser().getName()!=null){
+            if (myApplication.getUser().getName() != null) {
                 userName = myApplication.getUser().getName();
                 etName.setText(userName);
             }
-            if (myApplication.getUser().getNumber()!=null){
+            if (myApplication.getUser().getNumber() != null) {
                 userPhone = myApplication.getUser().getNumber();
                 etEditPhone.setText(userPhone);
             }
-            if (myApplication.getUser().getAge()>0){
+            if (myApplication.getUser().getAge() > 0) {
                 userAge = myApplication.getUser().getAge() + "";
                 etEditAge.setText(userAge);
             }
 
             if (myApplication.getUser().getSex() == 0) {
-                etEditSex.setText("女");
-            } else if (myApplication.getUser().getSex() == 1){
-                etEditSex.setText("男");
+                // etEditSex.setText("女");
+                rbNv.setChecked(true);
+            } else if (myApplication.getUser().getSex() == 1) {
+                //  etEditSex.setText("男");
+                rbNan.setChecked(true);
             }
-            if (myApplication.getUser().getBirthday()!=null){
-                if (dateToString(myApplication.getUser().getBirthday()).equals("1970-01-01")){
+            if (myApplication.getUser().getBirthday() != null) {
+                if (dateToString(myApplication.getUser().getBirthday()).equals("1970-01-01")) {
                     return;
-                }else {
+                } else {
                     etEditBirthday.setText(dateToString(myApplication.getUser().getBirthday()));
                 }
             }
-            if (myApplication.getUser().getEmail()!=null){
+            if (myApplication.getUser().getEmail() != null) {
                 etEditEmil.setText(myApplication.getUser().getEmail());
             }
-            if (myApplication.getUser().getPhoto()!=null){
+            if (myApplication.getUser().getPhoto() != null) {
                 //头像赋值
-                ImageOptions imageOptions=new ImageOptions.Builder()
+                ImageOptions imageOptions = new ImageOptions.Builder()
                         //设置加载过程的图片
                         .setLoadingDrawableId(R.mipmap.ic_launcher)
                         //设置加载失败后的图片
@@ -189,12 +194,12 @@ public class EditActivity extends AppCompatActivity {
                         .setCircular(true)
                         //设置支持gif
                         .setIgnoreGif(true).build();
-                String photoUrl =StringUtil.ip+"/"+ myApplication.getUser().getPhoto();
-                Log.i("EditActivity", "onCreate  photoUrl:"+photoUrl);
-                x.image().bind(ivEdit,photoUrl,imageOptions);
+                String photoUrl = StringUtil.ip + "/" + myApplication.getUser().getPhoto();
+                Log.i("EditActivity", "onCreate  photoUrl:" + photoUrl);
+                x.image().bind(ivEdit, photoUrl, imageOptions);
             }
         }
-        Log.i("EditActivity", "etEditBirthday: "+etEditBirthday.getText().toString());
+        Log.i("EditActivity", "etEditBirthday: " + etEditBirthday.getText().toString());
         //日期选择
         etEditBirthday.setInputType(InputType.TYPE_NULL);
         final Calendar c = Calendar.getInstance();
@@ -205,9 +210,9 @@ public class EditActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         c.set(year, monthOfYear, dayOfMonth);
-                        data=new Date(c.getTimeInMillis());
-                        Log.i("EditActivity", "onDateSet  data:"+data);
-                        Log.i("EditActivity", "onDateSet  data:"+dateToString(data));
+                        data = new Date(c.getTimeInMillis());
+                        Log.i("EditActivity", "onDateSet  data:" + data);
+                        Log.i("EditActivity", "onDateSet  data:" + dateToString(data));
                         etEditBirthday.setText(DateFormat.format("yyyy-MM-dd", c));
                     }
                 }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
@@ -220,11 +225,13 @@ public class EditActivity extends AppCompatActivity {
             imageUri = Uri.fromFile(file);
         }
     }
+
     //date转换成String
-    public String dateToString(Date date){
-        SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
+    public String dateToString(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return dateFormat.format(date);
     }
+
     public String getPhotoFileName() {
         Date date = new Date(System.currentTimeMillis());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
@@ -260,21 +267,21 @@ public class EditActivity extends AppCompatActivity {
             case R.id.but_edit:
                 //连接数据库
                 //post提交方式
-                StringRequest stringRequest = new StringRequest(Request.Method.POST,StringUtil.ip+"/EditServlet", new Response.Listener<String>() {
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, StringUtil.ip + "/EditServlet", new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.i("EditActivity", "onResponse : "+etEditAge.getText().toString());
+                        Log.i("EditActivity", "onResponse : " + etEditAge.getText().toString());
 
                         //个人信息完善成功
-                        Gson gson=new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+                        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
                         User user = gson.fromJson(response, User.class);
                         if (user != null) {
                             Log.i("TAG", "EditActivity user" + user);
                             //跳转回个人信息界面
                             Intent intent1 = new Intent();
                             myApplication.setUser(user);
-                            intent1.putExtra("user",user);
-                            setResult(RESULT_OK,intent1);
+                            intent1.putExtra("user", user);
+                            setResult(RESULT_OK, intent1);
                             finish();
                             Toast.makeText(EditActivity.this, "完善成功", Toast.LENGTH_LONG).show();
                         } else {
@@ -291,15 +298,20 @@ public class EditActivity extends AppCompatActivity {
                     @Override
                     protected Map<String, String> getParams() throws AuthFailureError {
                         Map<String, String> map = new HashMap<String, String>();
-                        map.put("userId",myApplication.getUser().getUserId()+"");
+                        map.put("userId", myApplication.getUser().getUserId() + "");
                         map.put("name", etName.getText().toString());
                         map.put("number", etEditPhone.getText().toString());
                         map.put("age", etEditAge.getText().toString());
-                        map.put("sex", etEditSex.getText().toString());
-                        if (data!=null){
-                            map.put("birthday",dateToString(data));
-                        }else {
-                            map.put("birthday",etEditBirthday.getText().toString());
+                        if (rbNv.isChecked()){
+                            map.put("sex", rbNv.getText().toString());
+                        }else if (rbNan.isChecked()){
+                            map.put("sex", rbNan.getText().toString());
+                        }
+
+                        if (data != null) {
+                            map.put("birthday", dateToString(data));
+                        } else {
+                            map.put("birthday", etEditBirthday.getText().toString());
                         }
 
                         map.put("emil", etEditEmil.getText().toString());
@@ -311,11 +323,13 @@ public class EditActivity extends AppCompatActivity {
         }
 
     }
+
     //显示图片，上传服务器
     public void showImage(Bitmap bitmap) {
         saveImage(bitmap);
         uploadImage();
     }
+
     //将bitmap保存在文件中
     public void saveImage(Bitmap bitmap) {
         FileOutputStream fos = null;
@@ -345,9 +359,9 @@ public class EditActivity extends AppCompatActivity {
     public void uploadImage() {
         RequestParams requestParams = new RequestParams(StringUtil.ip + "/UploadImageServlet");
         requestParams.setMultipart(true);
-        requestParams.addBodyParameter("userId",myApplication.getUser().getUserId()+"");
+        requestParams.addBodyParameter("userId", myApplication.getUser().getUserId() + "");
         requestParams.addBodyParameter("file", file);
-        Log.i("EditActivity", "uploadImage : "+myApplication.getUser().getUserId());
+        Log.i("EditActivity", "uploadImage : " + myApplication.getUser().getUserId());
         x.http().post(requestParams, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {

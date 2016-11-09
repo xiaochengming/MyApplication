@@ -55,14 +55,14 @@ import butterknife.OnClick;
 /**
  * Created by on 2016/9/19.
  */
-public class PaiHangFragment extends Fragment implements RefreshListView.OnRefreshUploadChangeListener{
+public class PaiHangFragment extends Fragment implements RefreshListView.OnRefreshUploadChangeListener {
 
     String hangName = null;
     int pageNo = 1;
     int pageSize = 7;
     CommonAdapter<Housekeeper> hangAdapter;
     List<Housekeeper> housekeepers = new ArrayList<Housekeeper>();
-    List<String> parentItemArr=new ArrayList<>();
+    List<String> parentItemArr = new ArrayList<>();
     Handler handler = new Handler();
     View tv;
     RadioGroup mRadioGroup;
@@ -70,7 +70,9 @@ public class PaiHangFragment extends Fragment implements RefreshListView.OnRefre
     RefreshListView lvHang;
     RadioButton rb;
     View viewWei;
-    boolean flag=false;
+    boolean flag = false;
+    boolean flag2 = false;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -79,9 +81,10 @@ public class PaiHangFragment extends Fragment implements RefreshListView.OnRefre
             if (v != null) {
                 v.removeView(tv);
             }
-            mRadioGroup = (RadioGroup)tv.findViewById(R.id.radio_group_ph);
+            mRadioGroup = (RadioGroup) tv.findViewById(R.id.radio_group_ph);
             mHorizontalScrollView = (HorizontalScrollView) tv.findViewById(R.id.horizontalscrollview);
-            lvHang= (RefreshListView) tv.findViewById(R.id.lv_rlv_ph);
+            lvHang = (RefreshListView) tv.findViewById(R.id.lv_rlv_ph);
+            flag2 = false;
             init();
             //初始化
 //            getData(null);
@@ -90,11 +93,13 @@ public class PaiHangFragment extends Fragment implements RefreshListView.OnRefre
             Log.i("PaiHangFragment", "onCreateView lvhang " + lvHang);
             return tv;
         }
+        Log.i("PaiHangFragment", "onCreateView ddfdd ");
         tv = inflater.inflate(R.layout.fragment_hang_pai, null);
-        mRadioGroup = (RadioGroup)tv.findViewById(R.id.radio_group_ph);
+        mRadioGroup = (RadioGroup) tv.findViewById(R.id.radio_group_ph);
         mHorizontalScrollView = (HorizontalScrollView) tv.findViewById(R.id.horizontalscrollview);
-        lvHang= (RefreshListView) tv.findViewById(R.id.lv_rlv_ph);
+        lvHang = (RefreshListView) tv.findViewById(R.id.lv_rlv_ph);
         //初始化，hangName=null;
+        flag2 = true;
         init();
         //初始化
 //        getData(null);
@@ -102,8 +107,10 @@ public class PaiHangFragment extends Fragment implements RefreshListView.OnRefre
         Log.i("PaiHangFragment", "onCreateView  ");
         return tv;
     }
+
     //初始化
-    public void init(){
+    public void init() {
+        Log.i("PaiHangFragment", "onCreateView init ");
         parentItemArr.add("热度");
         parentItemArr.add("保洁服务");
         parentItemArr.add("家电清洗");
@@ -117,69 +124,79 @@ public class PaiHangFragment extends Fragment implements RefreshListView.OnRefre
         parentItemArr.add("打蜡服务");
 
         //parentItemArr为商品类别对象集合
-        for (int i =0;i<parentItemArr.size();i++){
+        for (int i = 0; i < parentItemArr.size(); i++) {
             //添加radiobutton及设置参数(方便动态加载radiobutton)
-            rb  = new RadioButton(getActivity());
+            rb = new RadioButton(getActivity());
             //根据下标获取商品类别对象
             String itemArr = parentItemArr.get(i);
             rb.setText(itemArr);
             rb.setTextSize(14);
-            rb.setPadding(0,15,0,15);
+            rb.setPadding(0, 15, 0, 15);
             rb.setGravity(Gravity.CENTER);
             //根据需要设置显示初始标签的个数，这里显示4个
-            rb.setLayoutParams(new ViewGroup.LayoutParams((int)((getScreenWidth(getActivity()))/3.0), ViewGroup.LayoutParams.FILL_PARENT));
+            rb.setLayoutParams(new ViewGroup.LayoutParams((int) ((getScreenWidth(getActivity())) / 3.0), ViewGroup.LayoutParams.FILL_PARENT));
             rb.setBackgroundResource(R.drawable.radiobutton_bg_selector);
             //**原生radiobutton是有小圆点的，要去掉圆点而且最好按以下设置，设置为null的话在4.x.x版本上依然会出现**
             rb.setButtonDrawable(new ColorDrawable(Color.TRANSPARENT));
             rb.setTextColor(getActivity().getResources().getColorStateList(R.color.check_txt_color));
             //向radiogroup中添加radiobutton
             mRadioGroup.addView(rb);
-
             //设置初始check对象（第一个索引从0开始）
-            ((RadioButton)mRadioGroup.getChildAt(0)).setChecked(true);
+
+            Log.i("PaiHangFragment", "init  mRadioGroup:");
+        }
+
+
+        //监听check对象
+        mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, final int checkedId) {
+                final int RadiobuttonId = group.getCheckedRadioButtonId();
+                //获取radiobutton对象
+                final RadioButton bt = (RadioButton) group.findViewById(RadiobuttonId);
+                //获取单个对象中的位置
+                final int index = group.indexOfChild(bt);
+                //设置滚动位置，可使点击radiobutton时，将该radiobutton移动至第二位置
+                mHorizontalScrollView.smoothScrollTo(bt.getLeft() - (int) (getScreenWidth(getActivity()) / 3.0), 0);
+
+                Log.i("MainActivity", "onCheckedChanged  3:" + parentItemArr.get(index));
+                if (parentItemArr.get(index).equals("热度")) {
+                    hangName = null;
+                } else if (parentItemArr.get(index).equals("保洁服务")) {
+                    hangName = "保洁";
+                } else if (parentItemArr.get(index).equals("家电清洗")) {
+                    hangName = "清洗";
+                } else if (parentItemArr.get(index).equals("家具保养")) {
+                    hangName = "保养";
+                } else if (parentItemArr.get(index).equals("保姆")) {
+                    hangName = "保姆";
+                } else if (parentItemArr.get(index).equals("月嫂")) {
+                    hangName = "月嫂";
+                } else if (parentItemArr.get(index).equals("维修服务")) {
+                    hangName = "维修";
+                } else if (parentItemArr.get(index).equals("居家换新")) {
+                    hangName = "居";
+                } else if (parentItemArr.get(index).equals("深度除螨")) {
+                    hangName = "除螨";
+                } else if (parentItemArr.get(index).equals("甲醛检测")) {
+                    hangName = "甲醛";
+                } else if (parentItemArr.get(index).equals("打蜡服务")) {
+                    hangName = "打蜡";
+                }
+                getData(hangName);
+            }
+        });
+        if (flag2) {
+            ((RadioButton) mRadioGroup.getChildAt(0)).setChecked(true);
+        }
+        if (rb.getText().equals("热度")) {
             //初始化
             getData(null);
-            //监听check对象
-            mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(RadioGroup group, final int checkedId) {
-                    final int RadiobuttonId = group.getCheckedRadioButtonId();
-                    //获取radiobutton对象
-                    final RadioButton bt = (RadioButton) group.findViewById(RadiobuttonId);
-                    //获取单个对象中的位置
-                    final int index = group.indexOfChild(bt);
-                    //设置滚动位置，可使点击radiobutton时，将该radiobutton移动至第二位置
-                    mHorizontalScrollView.smoothScrollTo(bt.getLeft() - (int) (getScreenWidth(getActivity()) / 3.0), 0);
-
-                    Log.i("MainActivity", "onCheckedChanged  3:"+parentItemArr.get(index));
-                    if (parentItemArr.get(index).equals("热度")){
-                        hangName=null;
-                    }else if (parentItemArr.get(index).equals("保洁服务")){
-                        hangName="保洁";
-                    }else if (parentItemArr.get(index).equals("家电清洗")){
-                        hangName="清洗";
-                    }else if (parentItemArr.get(index).equals("家具保养")){
-                        hangName="保养";
-                    }else if (parentItemArr.get(index).equals("保姆")){
-                        hangName="保姆";
-                    }else if (parentItemArr.get(index).equals("月嫂")){
-                        hangName="月嫂";
-                    }else if (parentItemArr.get(index).equals("维修服务")){
-                        hangName="维修";
-                    }else if (parentItemArr.get(index).equals("居家换新")){
-                        hangName="居";
-                    }else if (parentItemArr.get(index).equals("深度除螨")){
-                        hangName="除螨";
-                    }else if (parentItemArr.get(index).equals("甲醛检测")){
-                        hangName="甲醛";
-                    }else if (parentItemArr.get(index).equals("打蜡服务")){
-                        hangName="打蜡";
-                    }
-                    getData(hangName);
-                }
-            });
+        } else {
+            getData(hangName);
         }
     }
+
     //获得屏幕宽度
     public static int getScreenWidth(Context context) {
         WindowManager manager = (WindowManager) context
@@ -187,6 +204,7 @@ public class PaiHangFragment extends Fragment implements RefreshListView.OnRefre
         Display display = manager.getDefaultDisplay();
         return display.getWidth();
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -201,7 +219,7 @@ public class PaiHangFragment extends Fragment implements RefreshListView.OnRefre
         requestParams.addQueryStringParameter("hangName", hangName);
         requestParams.addQueryStringParameter("pageNo", pageNo + "");
         requestParams.addQueryStringParameter("pageSize", pageSize + "");
-        Log.i("PaiHangFragment", "url:"+url+",pageNo:"+pageNo+",pageSize:"+pageSize);
+        Log.i("PaiHangFragment", "url:" + url + ",pageNo:" + pageNo + ",pageSize:" + pageSize);
         x.http().get(requestParams, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
@@ -215,16 +233,16 @@ public class PaiHangFragment extends Fragment implements RefreshListView.OnRefre
                 List<Housekeeper> updatehousekeepers = gson.fromJson(result, type);
                 housekeepers.clear();
                 housekeepers.addAll(updatehousekeepers);
-                if (housekeepers.size()==0){
+                if (housekeepers.size() == 0) {
                     lvHang.removeTail();
                     //解析布局文件加载listview尾部
-                    flag=true;
-                    lvHang.setTail(getActivity(),flag);
-                    flag=false;
-                }else {
+                    flag = true;
+                    lvHang.setTail(getActivity(), flag);
+                    flag = false;
+                } else {
                     lvHang.removeTail();
-                   // flag=false;
-                    lvHang.setTail(getActivity(),flag);
+                    // flag=false;
+                    lvHang.setTail(getActivity(), flag);
                     Log.i("PaiHangFragment", "onSuccess  :" + housekeepers);
                     //设置listview的adpter
                     if (hangAdapter == null) {
@@ -399,6 +417,7 @@ public class PaiHangFragment extends Fragment implements RefreshListView.OnRefre
         });
 
     }
+
     //刷新
     @Override
     public void onRefresh() {

@@ -135,6 +135,7 @@ public class OrderActivity extends AppCompatActivity {
         bt1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                myApplication= (MyApplication) getApplication();
                 if (myApplication.getUser().getUserId()>0){
                     //跳转到预约地址界面
                     Intent intent=new Intent(OrderActivity.this,YuYueAddressActivity.class);
@@ -205,7 +206,8 @@ public class OrderActivity extends AppCompatActivity {
     //点击事件 选择服务时间
     public void yuyue(View v) {
         Log.i("OrderActivity", "yuyue:  ");
-        if (address == null) {
+        myApplication= (MyApplication) getApplication();
+        if (myApplication.getUser().getUserId()<=0) {
             Intent intent=new Intent(this,LoginActivity.class);
             startActivityForResult(intent,201);
         } else {

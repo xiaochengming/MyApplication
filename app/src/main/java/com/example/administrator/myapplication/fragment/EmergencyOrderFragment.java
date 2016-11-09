@@ -201,16 +201,19 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
         } else {
             //订单状态为2的时候
             //获取当前时间
-            Date dt = new Date();
-            Long newTime = dt.getTime();//这就是距离1970年1月1日0点0分0秒的毫秒数
+            Timestamp Time1 = new Timestamp(System.currentTimeMillis());
+            long  newTime=Time1.getTime();
             //获得结束时间
             long endTime = order.getEndtime().getTime();
             if (endTime > newTime) {
-                Time remainingTime = new Time(endTime - newTime);
-                textView.setText(remainingTime + "");
+                //Time remainingTime = new Time(endTime - newTime);
+
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                String sdate = sdf.format(endTime - newTime-8*60*60*1000);
+                Time time = Time.valueOf(sdate);
+                textView.setText(time + "");
             } else {
-                Time arriveTime = new Time(0l);
-                textView.setText(arriveTime + "");
+                textView.setText("00:00:00");
             }
 
         }
@@ -643,13 +646,14 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
                         Order order = orders.get(index);
                         if (order.getState() == 2) {
                             //订单状态为2--时间处理
+                            Log.d("order", "handleMessage: ");
                             if (order.getArriveTime().getTime() > 1000) {
                                 isNeedCountTime = true;
                                 isToDownTime(order);
                             } else {
                                 isNeedCountTime = true;
-                                Time arriveTime = new Time(0l);
-                                order.setArriveTime(arriveTime);
+                                Time noTime = Time.valueOf("00:00:00");
+                                order.setArriveTime(noTime);
 
                             }
                         }
@@ -679,19 +683,24 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
 
     public void isToDownTime(Order order) {
         //获取当前时间
-        Date dt = new Date();
-        Long newTime = dt.getTime();//这就是距离1970年1月1日0点0分0秒的毫秒数
+        Timestamp Time1 = new Timestamp(System.currentTimeMillis());
+       long  newTime=Time1.getTime();
         //获得结束时间
         long endTime = order.getEndtime().getTime();
-
-
         if (endTime > newTime) {
             //结束时间大于当前时间可以继续倒计
-            Time arriveTime = new Time((endTime - newTime) - 1000);  //每次减一秒
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+            long shengyushijian=(endTime - newTime) - 1000;
+            String sdate = sdf.format(shengyushijian);
+            Log.d("sdate", "isToDownTime: "+sdate);
+
+            Time arriveTime = Time.valueOf(sdate); //每次减一秒
+            Log.d("isToDownTime: ", "isToDownTime: "+arriveTime);
             order.setArriveTime(arriveTime);
         } else {
-            Time arriveTime = new Time(0l);
-            order.setArriveTime(arriveTime);
+            Time noTime = Time.valueOf("00:00:00");
+
+            order.setArriveTime(noTime);
         }
     }
 
@@ -701,12 +710,16 @@ public class EmergencyOrderFragment extends Fragment implements RefreshListView.
         SharedPreferences pref = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
         String orderId = pref.getString("orderId", "");
         if (!"".equals(orderId) && orderId != null) {
+            String time = pref.getString("en", "");
+            Timestamp en = Timestamp.valueOf(time);//转换时间字符串为Timestamp
             for (int i = 0; i < orders.size(); i++) {
                 Order order = orders.get(i);
                 if (order.getOrderId() == Integer.parseInt(orderId)) {
                     order.setState(2);
+                    order.setEndtime(en);
                 }
-
+                Message message = handler1.obtainMessage(1);     // Message
+                handler1.sendMessageDelayed(message, 1000);
             }
             pref.edit().clear();
         }
